@@ -1,5 +1,5 @@
 <?php
-
+require_once '../app/Views/footer.php';
 class HomeController extends Controller
 {
     public function index()
@@ -15,11 +15,14 @@ class HomeController extends Controller
 
         // Verificar si hay registros en la tabla `Sede`
         $sedeModel = $this->model('Sede');
-        if ($sedeModel->countSedes() == 0) {
+        $sedeCount = $sedeModel->countSedes();
+
+        if ($sedeCount == 0) {
             header('Location: /PIZZA4/public/sede/registro');
             exit();
         }
 
-        echo 'Welcome to the Home Page!';
+        // Incluir la vista del dashboard
+        $this->view('dashboard');
     }
 }

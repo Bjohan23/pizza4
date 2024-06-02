@@ -6,7 +6,10 @@ class AuthController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, [
+                'email' => FILTER_SANITIZE_EMAIL,
+                'contraseña' => FILTER_SANITIZE_STRING
+            ]);
 
             // Get user input
             $data = [
@@ -18,19 +21,26 @@ class AuthController extends Controller
             // Load user model
             $usuarioModel = $this->model('Usuario');
 
+            // Check if email exists
+            if (!$usuarioModel->findUserByEmail($data['email'])) {
+                $data['error'] = 'No se encontró una cuenta con ese correo electrónico.';
+                $this->view('auth/login', $data);
+                return;
+            }
+
             // Attempt to login user
             $loggedInUser = $usuarioModel->login($data['email'], $data['contraseña']);
 
             if ($loggedInUser) {
                 // Create user session
                 Session::init();
-                Session::set('usuario_id', $loggedInUser->id);
-                Session::set('usuario_email', $loggedInUser->email);
-                Session::set('usuario_nombre', $loggedInUser->nombre);
+                Session::set('usuario_id', $loggedInUser['id']);
+                Session::set('usuario_email', $loggedInUser['email']);
+                Session::set('usuario_nombre', $loggedInUser['nombre']);
                 header('Location: /PIZZA4/public/dashboard'); // Redirect to dashboard
             } else {
                 // Load view with error
-                $data['error'] = 'Email o contraseña incorrectos.';
+                $data['error'] = 'Contraseña incorrecta.';
                 $this->view('auth/login', $data);
             }
         } else {

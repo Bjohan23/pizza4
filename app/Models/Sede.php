@@ -6,7 +6,7 @@ class Sede extends Model
     {
         $this->db->query('SELECT COUNT(*) as count FROM Sede');
         $row = $this->db->single();
-        return $row->count;
+        return $row['count'];  // Ajuste: Asegurarse de devolver el valor correcto del array.
     }
 
     public function createSede($data)
@@ -15,5 +15,12 @@ class Sede extends Model
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':direccion', $data['direccion']);
         return $this->db->execute();
+    }
+
+    // Método adicional para obtener sedes y verificar el resultado
+    public function getSedes()
+    {
+        $this->db->query('SELECT * FROM Sede');
+        return $this->db->resultSet();
     }
 }

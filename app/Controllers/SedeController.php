@@ -16,12 +16,12 @@ class SedeController extends Controller
                 'direccion' => trim($_POST['direccion'])
             ];
 
-            // Load Sede model
+            // se instancia el modelo de Sede para registrar la sede
             $sedeModel = $this->model('Sede');
 
-            // Register new Sede
+            // se verifica si se pudo registrar la sede
             if ($sedeModel->createSede($data)) {
-                header('Location: /dashboard'); // Redirect to dashboard after successful registration
+                header('Location: /PIZZA4/public/dashboard');
             } else {
                 $data['error'] = 'Error al registrar la sede.';
             }

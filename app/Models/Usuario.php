@@ -1,16 +1,29 @@
 <?php
 class Usuario extends Model
 {
+    public function findUserByEmail($email)
+    {
+        $this->db->query('SELECT * FROM Usuarios JOIN Personas ON Usuarios.persona_id = Personas.id WHERE Personas.email = :email');
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+        // Check row
+        if ($this->db->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function login($email, $contraseña)
     {
-        $this->db->query('SELECT Usuarios.id, Personas.nombre, Personas.email, Usuarios.contraseña 
-                          FROM Usuarios 
+        $this->db->query('SELECT Usuarios.id, Personas.nombre, Personas.email, Usuarios.contraseña FROM Usuarios 
                           JOIN Personas ON Usuarios.persona_id = Personas.id 
                           WHERE Personas.email = :email');
         $this->db->bind(':email', $email);
         $row = $this->db->single();
 
-        if ($row && password_verify($contraseña, $row->contraseña)) {
+        if ($row && password_verify($contraseña, $row['contraseña'])) {
             return $row;
         } else {
             return false;
