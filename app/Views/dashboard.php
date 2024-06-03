@@ -2,9 +2,8 @@
     <!-- nav -->
     <?php include_once __DIR__ . '/inc/navbar.php'; ?>
     <!-- nav -->
-
     <!-- Sidebar -->
-
+    <?php include_once __DIR__ . '/inc/sidebar.php'; ?>
     <!-- sidebar -->
 
     <main class="p-4 md:ml-64 h-auto pt-20">

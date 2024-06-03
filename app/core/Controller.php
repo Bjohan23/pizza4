@@ -18,6 +18,7 @@ class Controller
         include_once '../app/Views/inc/head.php';
         if (Session::get('usuario_id')) {
             include_once '../app/Views/inc/navbar.php';
+            include_once  '../app/Views/inc/sidebar.php';
         }
         require_once '../app/Views/' . $view . '.php';
         include_once '../app/Views/inc/script.php';
