@@ -1,4 +1,4 @@
-<?php require '../app/views/layout/header.php'; ?>
+
 <h1>Productos</h1>
 <a href="/productos/create">Crear Producto</a>
 <table>
@@ -24,4 +24,3 @@
         </tr>
     <?php endforeach; ?>
 </table>
-<?php require '../app/views/layout/footer.php'; ?>
