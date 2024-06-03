@@ -15,27 +15,35 @@ class Pedido extends Model
 
     public function createPedido($data)
     {
-        $this->db->query('INSERT INTO pedidoscomanda (usuario_id, cliente_id, mesa_id, fecha, estado, total) VALUES (:usuario_id, :cliente_id, :mesa_id, :fecha, :estado, :total)');
-        $this->db->bind(':usuario_id', $data['usuario_id']);
-        $this->db->bind(':cliente_id', $data['cliente_id']);
+        $this->db->query('INSERT INTO pedidoscomanda (mesa_id, cliente_id, usuario_id, estado, total, fecha) VALUES (:mesa_id, :cliente_id, :usuario_id, :estado, :total, :fecha)');
         $this->db->bind(':mesa_id', $data['mesa_id']);
-        $this->db->bind(':fecha', $data['fecha']);
+        $this->db->bind(':cliente_id', $data['cliente_id']);
+        $this->db->bind(':usuario_id', $data['usuario_id']);
         $this->db->bind(':estado', $data['estado']);
         $this->db->bind(':total', $data['total']);
-        if ($this->db->execute()) {
-            $pedidoId = $this->db->lastInsertId();
-            foreach ($data['productos'] as $producto) {
-                $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
-                $this->db->bind(':pedido_id', $pedidoId);
-                $this->db->bind(':producto_id', $producto['id']);
-                $this->db->bind(':cantidad', $producto['cantidad']);
-                $this->db->bind(':precio', $producto['precio']);
-                $this->db->execute();
-            }
-            return true;
-        }
-        return false;
+        $this->db->bind(':fecha', $data['fecha']);
+        $this->db->execute();
+        return $this->db->lastInsertId();
     }
+
+    public function addDetalle($data)
+    {
+        $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio, descripcion) VALUES (:pedido_id, :producto_id, :cantidad, :precio, :descripcion)');
+        $this->db->bind(':pedido_id', $data['pedido_id']);
+        $this->db->bind(':producto_id', $data['producto_id']);
+        $this->db->bind(':cantidad', $data['cantidad']);
+        $this->db->bind(':precio', $data['precio']);
+        $this->db->bind(':descripcion', $data['descripcion']);
+        return $this->db->execute();
+    }
+
+    public function getPedidosByMesa($mesa_id)
+    {
+        $this->db->query('SELECT p.*, d.*, pr.nombre AS producto_nombre, pr.descripcion AS producto_descripcion FROM pedidoscomanda p JOIN detallespedido d ON p.id = d.pedido_id JOIN productos pr ON d.producto_id = pr.id WHERE p.mesa_id = :mesa_id');
+        $this->db->bind(':mesa_id', $mesa_id);
+        return $this->db->resultSet();
+    }
+
 
     public function getPedidoById($id)
     {
@@ -49,11 +57,13 @@ class Pedido extends Model
 
         return $pedido;
     }
+
     public function countPedidos()
     {
         $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda');
         return $this->db->single()['count'];
     }
+
     public function updatePedido($data)
     {
         $this->db->query('UPDATE pedidoscomanda SET usuario_id = :usuario_id, cliente_id = :cliente_id, mesa_id = :mesa_id, fecha = :fecha, estado = :estado, total = :total WHERE id = :id');

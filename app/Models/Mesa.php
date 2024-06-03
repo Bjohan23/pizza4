@@ -28,6 +28,27 @@ class Mesa extends Model
         $this->db->query('SELECT COUNT(*) as count FROM mesas');
         return $this->db->single()['count'];
     }
+    public function getMesasByPiso($piso_id)
+    {
+        $this->db->query('SELECT m.id, m.numero, m.capacidad, m.estado FROM mesas m WHERE m.piso_id = :piso_id');
+        $this->db->bind(':piso_id', $piso_id);
+        return $this->db->resultSet();
+    }
+    public function mesaEstado($id)
+    {
+        $this->db->query('SELECT estado FROM mesas WHERE id = :id');
+        $this->db->bind(':id', $id);
+        return $this->db->single()['estado'];
+    }
+
+    public function updateEstado($id, $estado)
+    {
+        $this->db->query('UPDATE mesas SET estado = :estado WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->bind(':estado', $estado);
+        return $this->db->execute();
+    }
+
 
     public function updateMesa($data)
     {

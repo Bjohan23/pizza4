@@ -1,52 +1,86 @@
-<section class="bg-white dark:bg-gray-900">
-    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Crear Pedido</h2>
-        <form action="/PIZZA4/public/pedidos/create" method="POST" class="space-y-8">
-            <div>
-                <label for="usuario_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Usuario:</label>
-                <select name="usuario_id" id="usuario_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-                    <?php foreach ($data['usuarios'] as $usuario) : ?>
-                        <option value="<?php echo $usuario['id']; ?>"><?php echo $usuario['nombre']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label for="cliente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cliente:</label>
-                <select name="cliente_id" id="cliente_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-                    <?php foreach ($data['clientes'] as $cliente) : ?>
-                        <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['nombre']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label for="mesa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mesa:</label>
-                <select name="mesa_id" id="mesa_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-                    <?php foreach ($data['mesas'] as $mesa) : ?>
-                        <option value="<?php echo $mesa['id']; ?>"><?php echo $mesa['numero']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Estado:</label>
-                <input type="text" name="estado" id="estado" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-            </div>
-            <div>
-                <label for="total" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Total:</label>
-                <input type="text" name="total" id="total" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-            </div>
-            <div>
-                <label for="productos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Productos</label>
-                <?php foreach ($data['productos'] as $producto) : ?>
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" name="productos[<?php echo $producto['id']; ?>][id]" value="<?php echo $producto['id']; ?>" class="mr-2">
-                        <label for="productos[<?php echo $producto['id']; ?>][id]" class="mr-2 text-gray-900 dark:text-gray-300"><?php echo $producto['nombre']; ?></label>
-                        <input type="number" name="productos[<?php echo $producto['id']; ?>][cantidad]" min="1" placeholder="Cantidad" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
-                        <input type="hidden" name="productos[<?php echo $producto['id']; ?>][precio]" value="<?php echo $producto['precio']; ?>">
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <button type="submit" class="py-3 px-5 text-sm font-medium text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transition duration-300 ease-in-out">Crear Pedido</button>
+<!DOCTYPE html>
+<html>
 
-        </form>
-    </div>
-</section>
+<head>
+    <title>Registrar Pedido</title>
+    <link rel="stylesheet" href="/PIZZA4/public/css/tailwind.css">
+    <script>
+        function calcularTotal() {
+            let total = 0;
+            document.querySelectorAll('.producto').forEach(producto => {
+                const cantidad = producto.querySelector('.cantidad').value;
+                const precio = producto.querySelector('.precio').dataset.precio;
+                total += cantidad * precio;
+            });
+            document.getElementById('total').value = total;
+        }
+
+        function buscarProductos() {
+            const filtro = document.getElementById('filtro').value.toLowerCase();
+            document.querySelectorAll('.producto').forEach(producto => {
+                const nombre = producto.querySelector('.nombre').textContent.toLowerCase();
+                const precio = producto.querySelector('.precio').dataset.precio.toLowerCase();
+                const categoria = producto.querySelector('.categoria').textContent.toLowerCase();
+                if (nombre.includes(filtro) || precio.includes(filtro) || categoria.includes(filtro)) {
+                    producto.style.display = '';
+                } else {
+                    producto.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.cantidad').forEach(cantidad => {
+                cantidad.addEventListener('input', calcularTotal);
+            });
+            document.getElementById('filtro').addEventListener('input', buscarProductos);
+        });
+    </script>
+</head>
+
+<body>
+    <main class="p-4 md:ml-64 h-auto pt-20">
+        <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
+            <h1 class="text-2xl font-bold mb-4">Registrar Pedido</h1>
+            <?php if (isset($error)) : ?>
+                <p class="text-red-500"><?php echo $error; ?></p>
+            <?php endif; ?>
+            <form action="/PIZZA4/public/pedidos/create/<?php echo $data['mesa_id']; ?>" method="post">
+                <div class="mb-4">
+                    <label for="cliente_id" class="block text-sm font-medium text-gray-700">Cliente:</label>
+                    <select id="cliente_id" name="cliente_id" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <?php foreach ($data['clientes'] as $cliente) : ?>
+                            <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['nombre']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="filtro" class="block text-sm font-medium text-gray-700">Buscar Productos:</label>
+                    <input type="text" id="filtro" name="filtro" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <?php foreach ($data['productos'] as $producto) : ?>
+                        <div class="producto border-2 border-gray-300 rounded-lg dark:border-gray-600 p-4">
+                            <p class="nombre font-medium text-lg"><?php echo $producto['nombre']; ?></p>
+                            <p class="categoria text-sm text-gray-500"><?php echo $producto['categoria']; ?></p>
+                            <p class="precio text-sm text-gray-500" data-precio="<?php echo $producto['precio']; ?>">Precio: <?php echo $producto['precio']; ?></p>
+                            <input type="number" name="productos[<?php echo $producto['id']; ?>][cantidad]" class="cantidad mt-2 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Cantidad">
+                            <input type="hidden" name="productos[<?php echo $producto['id']; ?>][id]" value="<?php echo $producto['id']; ?>">
+                            <input type="hidden" name="productos[<?php echo $producto['id']; ?>][precio]" value="<?php echo $producto['precio']; ?>">
+                            <input type="hidden" name="productos[<?php echo $producto['id']; ?>][descripcion]" value="<?php echo $producto['descripcion']; ?>">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-4">
+                    <label for="total" class="block text-sm font-medium text-gray-700">Total:</label>
+                    <input type="text" id="total" name="total" class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" readonly>
+                </div>
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Registrar Pedido
+                </button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

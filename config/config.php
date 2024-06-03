@@ -42,6 +42,7 @@ define('TABLE', '/PIZZA4/public/mesas');
 define('TABLE_CREATE', '/PIZZA4/public/mesas/create');
 define('TABLE_EDIT', '/PIZZA4/public/mesas/edit/');
 define('TABLE_DELETE', '/PIZZA4/public/mesas/delete/');
+define('LIBERAR_MESA', '/PIZZA4/public/pedidos/liberarMesa/');
 // categorias
 define('CATEGORY', '/PIZZA4/public/categorias');
 define('CATEGORY_CREATE', '/PIZZA4/public/categorias/create');

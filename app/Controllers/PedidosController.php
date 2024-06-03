@@ -1,122 +1,138 @@
 <?php
+
 class PedidosController extends Controller
 {
     public function index()
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
-        } else {
-            $pedidoModel = $this->model('Pedido');
-            $pedidos = $pedidoModel->getAllPedidos();
-            $this->view('pedidos/index', ['pedidos' => $pedidos]);
         }
+
+        $pisoModel = $this->model('Piso');
+        $pisos = $pisoModel->getPisos();
+        $this->view('pedidos/index', ['pisos' => $pisos]);
     }
 
-    public function create()
+    public function selectMesa($piso_id)
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR);
+            header('Location: ' . SALIR . '');
             exit();
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $data = [
-                    'usuario_id' => trim($_POST['usuario_id']),
-                    'cliente_id' => trim($_POST['cliente_id']),
-                    'mesa_id' => trim($_POST['mesa_id']),
-                    'fecha' => date('Y-m-d H:i:s'),
-                    'estado' => trim($_POST['estado']),
-                    'total' => trim($_POST['total']),
-                    'productos' => $_POST['productos']
-                ];
-                $pedidoModel = $this->model('Pedido');
-                if ($pedidoModel->createPedido($data)) {
-                    header('Location: /PIZZA4/public/pedidos');
-                } else {
-                    die('Error al crear el pedido');
-                }
-            } else {
-                $usuarioModel = $this->model('Usuario');
-                $clienteModel = $this->model('Cliente');
+        }
+
+        $mesaModel = $this->model('Mesa');
+        $mesas = $mesaModel->getMesasByPiso($piso_id);
+        $this->view('pedidos/selectMesa', ['mesas' => $mesas, 'piso_id' => $piso_id]);
+    }
+
+    public function viewMesa($mesa_id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        }
+
+        $pedidoModel = $this->model('Pedido');
+        $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
+        $productoModel = $this->model('Producto');
+        $productos = $productoModel->getAllProductos();
+
+        $mesaModel = $this->model('Mesa');
+        $mesa = $mesaModel->getMesaById($mesa_id);
+
+        $this->view('pedidos/viewMesa', [
+            'mesa_id' => $mesa_id,
+            'pedidos' => $pedidos,
+            'productos' => $productos,
+            'mesa' => $mesa // Pasar los datos de la mesa a la vista
+        ]);
+    }
+
+
+
+
+    public function create($mesa_id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $pedidoData = [
+                'mesa_id' => $mesa_id,
+                'cliente_id' => $_POST['cliente_id'],
+                'usuario_id' => Session::get('usuario_id'),
+                'estado' => 'ocupada',
+                'total' => $_POST['total'],
+                'fecha' => date('Y-m-d H:i:s')
+            ];
+
+            $pedidoModel = $this->model('Pedido');
+            $pedidoId = $pedidoModel->createPedido($pedidoData);
+
+            if ($pedidoId) {
                 $mesaModel = $this->model('Mesa');
-                $productoModel = $this->model('Producto');
-                $usuarios = $usuarioModel->getAllUsuarios();
-                $clientes = $clienteModel->getAllClientes();
-                $mesas = $mesaModel->getAllMesas();
-                $productos = $productoModel->getAllProductos();
-                $this->view('pedidos/create', [
-                    'usuarios' => $usuarios,
-                    'clientes' => $clientes,
-                    'mesas' => $mesas,
-                    'productos' => $productos
-                ]);
-            }
-        }
-    }
+                $mesaModel->updateEstado($mesa_id, 'ocupada');
 
-    public function edit($id)
-    {
-        Session::init();
-        // Verificar si el usuario está autenticado
-        if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
-            exit();
-        } else {
-            $pedidoModel = $this->model('Pedido');
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $data = [
-                    'id' => $id,
-                    'usuario_id' => trim($_POST['usuario_id']),
-                    'cliente_id' => trim($_POST['cliente_id']),
-                    'mesa_id' => trim($_POST['mesa_id']),
-                    'fecha' => trim($_POST['fecha']),
-                    'estado' => trim($_POST['estado']),
-                    'total' => trim($_POST['total']),
-                    'productos' => $_POST['productos']
-                ];
-                if ($pedidoModel->updatePedido($data)) {
-                    header('Location: /pedidos');
-                } else {
-                    die('Error al actualizar el pedido');
+                foreach ($_POST['productos'] as $producto) {
+                    $detalleData = [
+                        'pedido_id' => $pedidoId,
+                        'producto_id' => $producto['id'],
+                        'cantidad' => $producto['cantidad'],
+                        'precio' => $producto['precio'],
+                        'descripcion' => $producto['descripcion']
+                    ];
+                    $pedidoModel->addDetalle($detalleData);
                 }
+
+                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id);
+                exit();
             } else {
-                $pedido = $pedidoModel->getPedidoById($id);
-                $usuarioModel = $this->model('Usuario');
-                $clienteModel = $this->model('Cliente');
-                $mesaModel = $this->model('Mesa');
-                $productoModel = $this->model('Producto');
-                $usuarios = $usuarioModel->getAllUsuarios();
-                $clientes = $clienteModel->getAllClientes();
-                $mesas = $mesaModel->getMesas();
-                $productos = $productoModel->getAllProductos();
-                $this->view('pedidos/edit', [
-                    'pedido' => $pedido,
-                    'usuarios' => $usuarios,
-                    'clientes' => $clientes,
-                    'mesas' => $mesas,
-                    'productos' => $productos
-                ]);
+                $this->view('pedidos/create', ['error' => 'Error al registrar el pedido.', 'mesa_id' => $mesa_id]);
             }
+        } else {
+            $clienteModel = $this->model('Cliente');
+            $clientes = $clienteModel->getAllClientes();
+
+            $productoModel = $this->model('Producto');
+            $productos = $productoModel->getAllProductos();
+
+            $this->view('pedidos/create', [
+                'mesa_id' => $mesa_id,
+                'clientes' => $clientes,
+                'productos' => $productos
+            ]);
         }
     }
-
-    public function delete($id)
+    public function liberarMesa($mesa_id)
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
-        } else {
-            $pedidoModel = $this->model('Pedido');
-            if ($pedidoModel->deletePedido($id)) {
-                header('Location: /pedidos');
-            } else {
-                die('Error al eliminar el pedido');
-            }
         }
+
+        $pedidoModel = $this->model('Pedido');
+
+        // Obtener todos los pedidos asociados a la mesa
+        $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
+
+        // Eliminar cada pedido y sus detalles
+        foreach ($pedidos as $pedido) {
+            $pedidoModel->deletePedido($pedido['id']);
+        }
+
+        // Actualizar el estado de la mesa a 'libre'
+        $mesaModel = $this->model('Mesa');
+        $mesaModel->updateEstado($mesa_id, 'libre');
+
+        header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id);
+        exit();
     }
 }
