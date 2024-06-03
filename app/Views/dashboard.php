@@ -55,7 +55,7 @@
                     <span class="text-4xl mr-4">🏢</span>
                     <div>
                         <p class="text-sm text-gray-500">Pisos</p>
-                        <p class="text-xl font-bold"><?php echo $data['sucursalesCount']; ?></p>
+                        <p class="text-xl font-bold"><?php echo $data['pisoCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -97,8 +97,8 @@
 
         <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
         <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">1#</div>
-            <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">2#</div>
+            <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"></div>
+            <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"></div>
         </div>

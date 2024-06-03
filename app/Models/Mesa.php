@@ -23,6 +23,11 @@ class Mesa extends Model
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+    public function mesasCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM mesas');
+        return $this->db->single()['count'];
+    }
 
     public function updateMesa($data)
     {

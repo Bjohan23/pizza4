@@ -7,4 +7,5 @@ class Rol extends Model
         $this->db->query('SELECT * FROM roles');
         return $this->db->resultSet();
     }
+    
 }

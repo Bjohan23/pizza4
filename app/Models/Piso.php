@@ -18,6 +18,11 @@ class Piso extends Model
         ');
         return $this->db->resultSet();
     }
+    public function pisosCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM piso');
+        return $this->db->single()['count'];
+    }
 
     public function createPiso($data)
     {

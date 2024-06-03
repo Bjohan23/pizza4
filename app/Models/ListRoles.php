@@ -14,4 +14,9 @@ class ListRoles extends Model
             throw new \Exception("Error al asignar el rol");
         }
     }
+    public function rolesCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM listroles');
+        return $this->db->single()['count'];
+    }
 }
