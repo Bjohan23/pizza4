@@ -14,7 +14,7 @@
                     <span class="text-4xl mr-4">👤</span>
                     <div>
                         <p class="text-sm text-gray-500">Usuarios</p>
-                        <p class="text-xl font-bold"><?php echo $data['usuariosCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['usuariosCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -24,17 +24,17 @@
                     <span class="text-4xl mr-4">👥</span>
                     <div>
                         <p class="text-sm text-gray-500">Clientes</p>
-                        <p class="text-xl font-bold"><?php echo $data['clientesCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['clientesCount']; ?></p>
                     </div>
                 </div>
             </a>
             <!-- Pedidos -->
-            <a href="<?php echo ORDER ?>" class="border-2 border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64 flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
+            <a href="<?php echo ORDER_ALL ?>" class="border-2 border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64 flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
                 <div class="flex items-center w-full">
                     <span class="text-4xl mr-4">📦</span>
                     <div>
                         <p class="text-sm text-gray-500">Pedidos</p>
-                        <p class="text-xl font-bold"><?php echo $data['pedidosCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['pedidosCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -44,7 +44,7 @@
                     <span class="text-4xl mr-4">🍕</span>
                     <div>
                         <p class="text-sm text-gray-500">Productos</p>
-                        <p class="text-xl font-bold"><?php echo $data['productosCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['productosCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -54,7 +54,7 @@
                     <span class="text-4xl mr-4">🏢</span>
                     <div>
                         <p class="text-sm text-gray-500">Pisos</p>
-                        <p class="text-xl font-bold"><?php echo $data['pisoCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['pisoCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -65,7 +65,7 @@
                     <span class="text-4xl mr-4">🪑</span>
                     <div>
                         <p class="text-sm text-gray-500">Mesas</p>
-                        <p class="text-xl font-bold"><?php echo $data['mesasCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['mesasCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -75,7 +75,7 @@
                     <span class="text-4xl mr-4">📦</span>
                     <div>
                         <p class="text-sm text-gray-500">Categorías</p>
-                        <p class="text-xl font-bold"><?php echo $data['categoriasCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['categoriasCount']; ?></p>
                     </div>
                 </div>
             </a>
@@ -86,7 +86,7 @@
                     <span class="text-4xl mr-4">🔐</span>
                     <div>
                         <p class="text-sm text-gray-500">Roles</p>
-                        <p class="text-xl font-bold"><?php echo $data['rolesCount']; ?></p>
+                        <p class="text-xl font-bold text-gray-500"><?php echo $data['rolesCount']; ?></p>
                     </div>
                 </div>
             </a>

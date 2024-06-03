@@ -102,4 +102,28 @@ class Pedido extends Model
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+    public function getAllPedidosWithDetails()
+    {
+        $this->db->query('SELECT pedidoscomanda.id, pedidoscomanda.usuario_id, pedidoscomanda.cliente_id, pedidoscomanda.mesa_id, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total, 
+                          personas.nombre AS usuario, clientes.persona_id AS cliente, mesas.numero AS mesa 
+                          FROM pedidoscomanda 
+                          JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id 
+                          JOIN personas ON usuarios.persona_id = personas.id 
+                          JOIN clientes ON pedidoscomanda.cliente_id = clientes.id 
+                          JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
+
+        $pedidos = $this->db->resultSet();
+
+        // Obtener detalles de cada pedido
+        foreach ($pedidos as &$pedido) {
+            $this->db->query('SELECT detallespedido.cantidad, productos.nombre 
+                              FROM detallespedido 
+                              JOIN productos ON detallespedido.producto_id = productos.id 
+                              WHERE detallespedido.pedido_id = :pedido_id');
+            $this->db->bind(':pedido_id', $pedido['id']);
+            $pedido['detalles'] = $this->db->resultSet();
+        }
+
+        return $pedidos;
+    }
 }

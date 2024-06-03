@@ -135,4 +135,21 @@ class PedidosController extends Controller
         header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id);
         exit();
     }
+
+    public function allPedidos()
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+
+            // Obtener todos los pedidos con sus detalles
+            $pedidoModel = $this->model('Pedido');
+            $pedidos = $pedidoModel->getAllPedidosWithDetails();
+
+            // Cargar la vista con los datos de los pedidos
+            $this->view('pedidos/allPedidos', ['pedidos' => $pedidos]);
+        }
+    }
 }

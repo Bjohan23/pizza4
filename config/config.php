@@ -32,6 +32,7 @@ define('ORDER', '/PIZZA4/public/pedidos');
 define('ORDER_CREATE', '/PIZZA4/public/pedidos/create');
 define('ORDER_EDIT', '/PIZZA4/public/pedidos/edit/');
 define('ORDER_DELETE', '/PIZZA4/public/pedidos/delete/');
+define('ORDER_ALL', '/PIZZA4/public/pedidos/allPedidos');
 // clientes
 define('CLIENT', '/PIZZA4/public/clientes');
 define('CLIENT_CREATE', '/PIZZA4/public/clientes/create');
