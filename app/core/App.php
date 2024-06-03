@@ -10,9 +10,13 @@ class App
     {
         $url = $this->parseUrl();
 
-        if (isset($url[0]) && file_exists('../app/controllers/' . ucfirst($url[0]) . 'Controller.php')) {
-            $this->controller = ucfirst($url[0]) . 'Controller';
-            unset($url[0]);
+        // Convertir el primer segmento a CamelCase para coincidir con el nombre del archivo del controlador
+        if (isset($url[0])) {
+            $controllerName = ucfirst($url[0]) . 'Controller';
+            if (file_exists('../app/controllers/' . $controllerName . '.php')) {
+                $this->controller = $controllerName;
+                unset($url[0]);
+            }
         }
 
         require_once '../app/controllers/' . $this->controller . '.php';
@@ -35,6 +39,5 @@ class App
         if (isset($_GET['url'])) {
             return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
-        return [];
     }
 }

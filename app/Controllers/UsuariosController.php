@@ -1,10 +1,13 @@
 <?php
+
 class UsuariosController extends Controller
 {
     public function index()
     {
         $usuarioModel = $this->model('Usuario');
-        $usuarios = $usuarioModel->getAllUsuarios();
+        $usuarios = $usuarioModel->getUsuarios();
+
+
         $this->view('usuarios/index', ['usuarios' => $usuarios]);
     }
 
@@ -12,18 +15,28 @@ class UsuariosController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
-                'nombre' => trim($_POST['nombre']),
-                'email' => trim($_POST['email']),
-                'telefono' => trim($_POST['telefono']),
-                'direccion' => trim($_POST['direccion']),
-                'contraseña' => password_hash(trim($_POST['contraseña']), PASSWORD_DEFAULT),
-                'rol_id' => trim($_POST['rol_id'])
+                'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
+                'email' => isset($_POST['email']) ? $_POST['email'] : null,
+                'telefono' => isset($_POST['telefono']) ? $_POST['telefono'] : null,
+                'direccion' => isset($_POST['direccion']) ? $_POST['direccion'] : null,
+                'contraseña' => password_hash($_POST['contraseña'], PASSWORD_DEFAULT),
+                'rol_id' => $_POST['rol_id']
             ];
+
+            $personaModel = $this->model('Persona');
             $usuarioModel = $this->model('Usuario');
-            if ($usuarioModel->createUsuario($data)) {
-                header('Location: /usuarios');
-            } else {
-                die('Error al crear el usuario');
+            $listRolesModel = $this->model('ListRoles');
+
+            try {
+                $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion']);
+                $usuario_id = $usuarioModel->createUsuario(['persona_id' => $persona_id, 'contraseña' => $data['contraseña']]);
+                $listRolesModel->assignRole($usuario_id, $data['rol_id']);
+                header('Location: /PIZZA4/public/usuarios');
+            } catch (\Exception $e) {
+                $data['error'] = $e->getMessage();
+                $rolModel = $this->model('Rol');
+                $data['roles'] = $rolModel->getAllRoles();
+                $this->view('usuarios/create', $data);
             }
         } else {
             $rolModel = $this->model('Rol');
@@ -38,23 +51,17 @@ class UsuariosController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'id' => $id,
-                'nombre' => trim($_POST['nombre']),
-                'email' => trim($_POST['email']),
-                'telefono' => trim($_POST['telefono']),
-                'direccion' => trim($_POST['direccion']),
-                'contraseña' => password_hash(trim($_POST['contraseña']), PASSWORD_DEFAULT),
-                'rol_id' => trim($_POST['rol_id'])
+                'nombre' => $_POST['nombre'],
+                'email' => $_POST['email'],
+                'telefono' => $_POST['telefono'],
+                'direccion' => $_POST['direccion']
             ];
             if ($usuarioModel->updateUsuario($data)) {
-                header('Location: /usuarios');
-            } else {
-                die('Error al actualizar el usuario');
+                header('Location: /PIZZA4/public/usuarios');
             }
         } else {
             $usuario = $usuarioModel->getUsuarioById($id);
-            $rolModel = $this->model('Rol');
-            $roles = $rolModel->getAllRoles();
-            $this->view('usuarios/edit', ['usuario' => $usuario, 'roles' => $roles]);
+            $this->view('usuarios/edit', ['usuario' => $usuario]);
         }
     }
 
@@ -62,9 +69,7 @@ class UsuariosController extends Controller
     {
         $usuarioModel = $this->model('Usuario');
         if ($usuarioModel->deleteUsuario($id)) {
-            header('Location: /usuarios');
-        } else {
-            die('Error al eliminar el usuario');
+            header('Location: /PIZZA4/public/usuarios');
         }
     }
 }

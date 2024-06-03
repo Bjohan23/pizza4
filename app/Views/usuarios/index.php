@@ -1,39 +1,43 @@
-<!DOCTYPE html>
-<html>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-gray-900">Usuarios</h1>
+        <a href="/PIZZA4/public/usuarios/create" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">Registrar Nuevo Usuario</a>
+    </div>
 
-<head>
-    <title>Usuarios</title>
-    <!-- Agrega tus archivos CSS aquí -->
-</head>
-
-<body>
-    <h1>Usuarios</h1>
-    <a href="/PIZZA4/public/usuarios/create" class="bg-blue-500 text-white p-2 rounded">Registrar Nuevo Usuario</a>
-    <table class="table-auto w-full mt-4">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($usuarios as $usuario) : ?>
+    <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+        <table class="w-full table-auto">
+            <thead class="bg-gray-200">
                 <tr>
-                    <td><?php echo $usuario['id']; ?></td>
-                    <td><?php echo $usuario['nombre']; ?></td>
-                    <td><?php echo $usuario['email']; ?></td>
-                    <td><?php echo $usuario['telefono']; ?></td>
-                    <td>
-                        <a href="/PIZZA4/public/usuarios/edit/<?php echo $usuario['id']; ?>" class="text-blue-500">Editar</a> |
-                        <a href="/PIZZA4/public/usuarios/delete/<?php echo $usuario['id']; ?>" class="text-red-500" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Eliminar</a>
-                    </td>
+                    <th class="px-4 py-2">ID</th>
+                    <th class="px-4 py-2">Nombre</th>
+                    <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">Teléfono</th>
+                    <th class="px-4 py-2">Acciones</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</body>
-
-</html>
+            </thead>
+            <tbody>
+                <?php if (isset($data['usuarios']) && is_array($data['usuarios'])) : ?>
+                    <?php foreach ($data['usuarios'] as $usuario) : ?>
+                        <tr class="hover:bg-gray-100 transition-colors duration-300">
+                            <td class="px-4 py-2 border-b"><?php echo $usuario['id']; ?></td>
+                            <td class="px-4 py-2 border-b"><?php echo $usuario['nombre']; ?></td>
+                            <td class="px-4 py-2 border-b"><?php echo $usuario['email']; ?></td>
+                            <td class="px-4 py-2 border-b"><?php echo $usuario['telefono']; ?></td>
+                            <td class="px-4 py-2 border-b">
+                                <div class="flex items-center space-x-2">
+                                    <a href="/PIZZA4/public/usuarios/edit/<?php echo $usuario['id']; ?>" class="text-blue-500 hover:text-blue-700 transition-colors duration-300">Editar</a>
+                                    <span>|</span>
+                                    <a href="/PIZZA4/public/usuarios/delete/<?php echo $usuario['id']; ?>" class="text-red-500 hover:text-red-700 transition-colors duration-300" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 text-center">No hay usuarios registrados</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

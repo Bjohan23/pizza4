@@ -1,15 +1,14 @@
-    <?php
-    require_once '../config/config.php';
-    require_once '../app/core/App.php';
-    require_once '../app/core/Controller.php';
-    require_once '../app/core/Database.php';
-    require_once '../app/core/Model.php';
-    require_once '../app/core/Session.php';
-    require_once '../app/Views/inc/head.php';
-    require_once '../app/Views/inc/script.php';
-    // Inicializar sesiones
-    Session::init();
+<?php
+require_once '../config/config.php';
+require_once '../app/core/App.php';
+require_once '../app/core/Controller.php';
+require_once '../app/core/Database.php';
+require_once '../app/core/Model.php';
+require_once '../app/core/Session.php';
+require_once '../app/views/inc/head.php';
+require_once '../app/views/inc/script.php';
 
-    $app = new App();
-    ?>
+// Inicializar sesiones
+Session::init();
 
+$app = new App();

@@ -478,7 +478,7 @@
     <main class="p-4 md:ml-64 h-auto pt-20">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <!-- Usuarios -->
-            <a href="/PIZZA4/public/usuarios" class="border-2 border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64 flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
+            <a href="/PIZZA4/public/Usuarios" class="border-2 border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64 flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
                 <div class="flex items-center w-full">
                     <span class="text-4xl mr-4">👤</span>
                     <div>
