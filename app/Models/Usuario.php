@@ -30,6 +30,12 @@ class Usuario extends Model
         $this->db->query('SELECT u.id, p.nombre, p.email, p.telefono FROM usuarios u JOIN personas p ON u.persona_id = p.id');
         return $this->db->resultSet();
     }
+    public function getAllUsuarios()
+    {
+        $this->db->query('SELECT u.id, p.nombre FROM usuarios u JOIN personas p ON u.persona_id = p.id');
+        return $this->db->resultSet();
+    }
+
     public function countUsuarios()
     {
         $this->db->query('SELECT COUNT(*) as count FROM usuarios');
