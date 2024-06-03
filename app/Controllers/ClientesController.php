@@ -32,7 +32,7 @@ class ClientesController extends Controller
                 ];
                 $clienteModel = $this->model('Cliente');
                 if ($clienteModel->createCliente($data)) {
-                    header('Location: /clientes');
+                    header('Location: ' . CLIENT . '');
                 } else {
                     die('Error al crear el cliente');
                 }
@@ -60,7 +60,7 @@ class ClientesController extends Controller
                     'direccion' => trim($_POST['direccion']),
                 ];
                 if ($clienteModel->updateCliente($data)) {
-                    header('Location: /clientes');
+                    header('Location: ' . CLIENT . '');
                 } else {
                     die('Error al actualizar el cliente');
                 }
@@ -81,7 +81,7 @@ class ClientesController extends Controller
         } else {
             $clienteModel = $this->model('Cliente');
             if ($clienteModel->deleteCliente($id)) {
-                header('Location: /clientes');
+                header('Location: ' . CLIENT . '');
             } else {
                 die('Error al eliminar el cliente');
             }
