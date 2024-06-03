@@ -1,4 +1,3 @@
-<?php require '../app/views/layout/header.php'; ?>
 <h1>Clientes</h1>
 <a href="/clientes/create">Crear Cliente</a>
 <table>
@@ -22,4 +21,3 @@
         </tr>
     <?php endforeach; ?>
 </table>
-<?php require '../app/views/layout/footer.php'; ?>
