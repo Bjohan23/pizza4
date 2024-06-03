@@ -1,6 +1,7 @@
 
 
 <?php
+
 class Controller
 {
     public function model($model) // recibe el modelo que se quiere cargar 
@@ -9,9 +10,20 @@ class Controller
         return new $model();
     }
 
+
     public function view($view, $data = []) //recibe la vista y los datos que se quieren enviar a la vista 
     {
+        require_once '../app/core/Session.php';
+        Session::init();
+        include_once '../app/Views/inc/head.php';
+        if (Session::get('usuario_id')) {
+            include_once '../app/Views/inc/navbar.php';
+        }
         require_once '../app/Views/' . $view . '.php';
+        include_once '../app/Views/inc/script.php';
+        if (Session::get('usuario_id')) {
+            include_once '../app/Views/inc/footer.php';
+        }
     }
 }
 

@@ -5,8 +5,6 @@ require_once '../app/core/Controller.php';
 require_once '../app/core/Database.php';
 require_once '../app/core/Model.php';
 require_once '../app/core/Session.php';
-require_once '../app/views/inc/head.php';
-require_once '../app/views/inc/script.php';
 
 // Inicializar sesiones
 Session::init();

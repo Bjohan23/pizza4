@@ -25,11 +25,15 @@ class Usuario extends Model
             return false;
         }
     }
-
     public function getUsuarios()
     {
         $this->db->query('SELECT u.id, p.nombre, p.email, p.telefono FROM usuarios u JOIN personas p ON u.persona_id = p.id');
         return $this->db->resultSet();
+    }
+    public function countUsuarios()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM usuarios');
+        return $this->db->single()['count'];
     }
     public function createUsuario($data)
     {

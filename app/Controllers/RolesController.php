@@ -4,20 +4,34 @@ class RolesController extends Controller
 {
     public function index()
     {
-        $rolModel = $this->model('Rol');
-        $roles = $rolModel->getAllRoles();
-        $this->view('roles/index', ['roles' => $roles]);
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $rolModel = $this->model('Rol');
+            $roles = $rolModel->getAllRoles();
+            $this->view('roles/index', ['roles' => $roles]);
+        }
     }
 
     public function create()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $nombre = $_POST['nombre'];
-            $rolModel = $this->model('Rol');
-            $rolModel->createRol($nombre);
-            header('Location: /PIZZA4/public/roles');
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
         } else {
-            $this->view('roles/create');
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $nombre = $_POST['nombre'];
+                $rolModel = $this->model('Rol');
+                $rolModel->createRol($nombre);
+                header('Location: /PIZZA4/public/roles');
+            } else {
+                $this->view('roles/create');
+            }
         }
     }
 }

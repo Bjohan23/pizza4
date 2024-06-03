@@ -23,7 +23,7 @@ class Pedido extends Model
         if ($this->db->execute()) {
             $pedidoId = $this->db->lastInsertId();
             foreach ($data['productos'] as $producto) {
-                $this->db->query('INSERT INTO DetallesPedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
+                $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
                 $this->db->bind(':pedido_id', $pedidoId);
                 $this->db->bind(':producto_id', $producto['id']);
                 $this->db->bind(':cantidad', $producto['cantidad']);
@@ -41,13 +41,17 @@ class Pedido extends Model
         $this->db->bind(':id', $id);
         $pedido = $this->db->single();
 
-        $this->db->query('SELECT * FROM DetallesPedido WHERE pedido_id = :pedido_id');
+        $this->db->query('SELECT * FROM detallespedido WHERE pedido_id = :pedido_id');
         $this->db->bind(':pedido_id', $id);
         $pedido['productos'] = $this->db->resultSet();
 
         return $pedido;
     }
-
+    public function countPedidos()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda');
+        return $this->db->single()['count'];
+    }
     public function updatePedido($data)
     {
         $this->db->query('UPDATE PedidosComanda SET usuario_id = :usuario_id, cliente_id = :cliente_id, mesa_id = :mesa_id, fecha = :fecha, estado = :estado, total = :total WHERE id = :id');
@@ -59,12 +63,12 @@ class Pedido extends Model
         $this->db->bind(':total', $data['total']);
         $this->db->bind(':id', $data['id']);
         if ($this->db->execute()) {
-            $this->db->query('DELETE FROM DetallesPedido WHERE pedido_id = :pedido_id');
+            $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');
             $this->db->bind(':pedido_id', $data['id']);
             $this->db->execute();
 
             foreach ($data['productos'] as $producto) {
-                $this->db->query('INSERT INTO DetallesPedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
+                $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
                 $this->db->bind(':pedido_id', $data['id']);
                 $this->db->bind(':producto_id', $producto['id']);
                 $this->db->bind(':cantidad', $producto['cantidad']);
@@ -78,7 +82,7 @@ class Pedido extends Model
 
     public function deletePedido($id)
     {
-        $this->db->query('DELETE FROM DetallesPedido WHERE pedido_id = :pedido_id');
+        $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');
         $this->db->bind(':pedido_id', $id);
         $this->db->execute();
 

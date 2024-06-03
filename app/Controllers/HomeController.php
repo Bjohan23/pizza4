@@ -1,4 +1,5 @@
 <?php
+
 class HomeController extends Controller
 {
     public function index()
@@ -21,7 +22,23 @@ class HomeController extends Controller
             exit();
         }
 
-        // Incluir la vista del dashboard
-        $this->view('dashboard');
+        // Obtener las cantidades de las entidades
+        $usuarioModel = $this->model('Usuario');
+        $clienteModel = $this->model('Cliente');
+        $pedidoModel = $this->model('Pedido');
+        $productoModel = $this->model('Producto');
+
+        $usuariosCount = $usuarioModel->countUsuarios();
+        $clientesCount = $clienteModel->countClientes();
+        $pedidosCount = $pedidoModel->countPedidos();
+        $productosCount = $productoModel->countProductos();
+
+        // Pasar los datos a la vista
+        $this->view('dashboard', [
+            'usuariosCount' => $usuariosCount,
+            'clientesCount' => $clientesCount,
+            'pedidosCount' => $pedidosCount,
+            'productosCount' => $productosCount,
+        ]);
     }
 }
