@@ -1,5 +1,4 @@
 <?php
-require_once '../app/Views/footer.php';
 class HomeController extends Controller
 {
     public function index()

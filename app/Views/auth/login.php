@@ -1,17 +1,17 @@
-<div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
-    <?php if (isset($data['error'])) : ?>
-        <p class="text-red-500 mb-4 text-sm"><?php echo $data['error']; ?></p>
-    <?php endif; ?>
-    <form method="post" action="/PIZZA4/public/auth/login" autocomplete="on" class=" flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+<div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900 justify-center">
+    <form method="post" action="/PIZZA4/public/auth/login" autocomplete="on" class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+        <?php if (isset($data['error'])) : ?>
+            <p class="text-red-500 mb-4 text-sm"><?php echo $data['error']; ?></p>
+        <?php endif; ?>
         <div class="flex flex-col overflow-y-auto md:flex-row">
             <div class="h-32 md:h-auto md:w-1/2">
-                <!-- <img aria-hidden="true" class="object-cover w-full h-full dark:hidden" src="../inc/fotos/login-pizza-w.jpg" alt="Office1" /> -->
+
                 <video autoplay loop muted class="object-cover w-full h-full dark:hidden">
-                    <source src="https://videos.pexels.com/video-files/3944334/3944334-hd_1366_720_50fps.mp4" type="video/mp4" />
+                    <source src="https://v7.cdnpk.net/videvo_files/video/partners1347/large_preview/h0fe09de9_203472_039.mp4" type="video/mp4" />
                 </video>
 
                 <video autoplay loop muted class="hidden object-cover w-full h-full dark:block">
-                    <source src="https://videos.pexels.com/video-files/3944334/3944334-hd_1366_720_50fps.mp4" type="video/mp4" />
+                    <source src="https://v6.cdnpk.net/videvo_files/video/partners1008/large_preview/h33175806_V0133_062.mp4" type="video/mp4" />
                 </video>
 
             </div>
