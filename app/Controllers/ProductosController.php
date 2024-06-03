@@ -33,13 +33,13 @@ class ProductosController extends Controller
                 ];
                 $productoModel = $this->model('Producto');
                 if ($productoModel->createProducto($data)) {
-                    header('Location: /productos');
+                    header('Location: ' . PRODUCT . '');
                 } else {
                     die('Error al crear el producto');
                 }
             } else {
                 $categoriaModel = $this->model('Categoria');
-                $categorias = $categoriaModel->getAllCategorias();
+                $categorias = $categoriaModel->getCategorias();
                 $this->view('productos/create', ['categorias' => $categorias]);
             }
         }
@@ -64,14 +64,14 @@ class ProductosController extends Controller
                     'categoria_id' => trim($_POST['categoria_id'])
                 ];
                 if ($productoModel->updateProducto($data)) {
-                    header('Location: /productos');
+                    header('Location: ' . PRODUCT . '');
                 } else {
                     die('Error al actualizar el producto');
                 }
             } else {
                 $producto = $productoModel->getProductoById($id);
                 $categoriaModel = $this->model('Categoria');
-                $categorias = $categoriaModel->getAllCategorias();
+                $categorias = $categoriaModel->getCategorias();
                 $this->view('productos/edit', ['producto' => $producto, 'categorias' => $categorias]);
             }
         }
@@ -87,7 +87,7 @@ class ProductosController extends Controller
         } else {
             $productoModel = $this->model('Producto');
             if ($productoModel->deleteProducto($id)) {
-                header('Location: /productos');
+                header('Location: ' . PRODUCT . '');
             } else {
                 die('Error al eliminar el producto');
             }

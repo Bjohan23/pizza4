@@ -31,14 +31,14 @@ class HomeController extends Controller
         $listRolesModel = $this->model('ListRoles');
         $listMesasModel = $this->model('Mesa');
         $listCategoriasModel = $this->model('Categoria');
-
+        
         $usuariosCount = $usuarioModel->countUsuarios();
         $clientesCount = $clienteModel->countClientes();
         $pedidosCount = $pedidoModel->countPedidos();
         $productosCount = $productoModel->countProductos();
         $pisoCount = $pisoModel->pisosCount();
         $rolesCount = $listRolesModel->rolesCount();
-        $mesasCout = $listMesasModel->mesasCount();
+        $mesasCount = $listMesasModel->mesasCount();
         $categoriasCount = $listCategoriasModel->categoriasCount();
 
         // Pasar los datos a la vista
@@ -49,7 +49,7 @@ class HomeController extends Controller
             'productosCount' => $productosCount,
             'pisoCount' => $pisoCount,
             'rolesCount' => $rolesCount,
-            'mesasCount' => $mesasCout,
+            'mesasCount' => $mesasCount,
             'categoriasCount' => $categoriasCount
         ]);
     }

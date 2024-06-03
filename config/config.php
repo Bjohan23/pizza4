@@ -16,6 +16,7 @@ define('USER', '/PIZZA4/public/usuarios');
 define('USER_CREATE', '/PIZZA4/public/usuarios/create');
 define('USER_EDIT', '/PIZZA4/public/usuarios/edit/');
 define('USER_DELETE', '/PIZZA4/public/usuarios/delete/');
+define('USER_SEARCH', '/PIZZA4/public/usuarios/search');
 // roles
 define('ROL', '/PIZZA4/public/roles');
 define('ROL_CREATE', '/PIZZA4/public/roles/create');

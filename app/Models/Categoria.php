@@ -36,4 +36,11 @@ class Categoria extends Model
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    public function categoriasCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM categoría');
+        $result = $this->db->single();
+        return $result['count'];
+    }
 }

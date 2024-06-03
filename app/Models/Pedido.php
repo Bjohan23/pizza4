@@ -3,17 +3,19 @@ class Pedido extends Model
 {
     public function getAllPedidos()
     {
-        $this->db->query('SELECT PedidosComanda.id, Usuarios.nombre as usuario, Clientes.nombre as cliente, Mesas.numero as mesa, PedidosComanda.fecha, PedidosComanda.estado, PedidosComanda.total 
-                          FROM PedidosComanda 
-                          JOIN Usuarios ON PedidosComanda.usuario_id = Usuarios.id
-                          JOIN Clientes ON PedidosComanda.cliente_id = Clientes.id
-                          JOIN Mesas ON PedidosComanda.mesa_id = Mesas.id');
+        $this->db->query('SELECT pedidoscomanda.id, Personas.nombre as usuario, Personas.nombre as cliente, Mesas.numero as mesa, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total
+                  FROM pedidoscomanda
+                  JOIN Usuarios ON pedidoscomanda.usuario_id = Usuarios.id
+                  JOIN Personas ON Usuarios.persona_id = Personas.id
+                  JOIN Clientes ON pedidoscomanda.cliente_id = Clientes.id
+                  JOIN Personas AS ClientePersona ON Clientes.persona_id = ClientePersona.id
+                  JOIN Mesas ON pedidoscomanda.mesa_id = Mesas.id');
         return $this->db->resultSet();
     }
 
     public function createPedido($data)
     {
-        $this->db->query('INSERT INTO PedidosComanda (usuario_id, cliente_id, mesa_id, fecha, estado, total) VALUES (:usuario_id, :cliente_id, :mesa_id, :fecha, :estado, :total)');
+        $this->db->query('INSERT INTO pedidoscomanda (usuario_id, cliente_id, mesa_id, fecha, estado, total) VALUES (:usuario_id, :cliente_id, :mesa_id, :fecha, :estado, :total)');
         $this->db->bind(':usuario_id', $data['usuario_id']);
         $this->db->bind(':cliente_id', $data['cliente_id']);
         $this->db->bind(':mesa_id', $data['mesa_id']);
@@ -37,7 +39,7 @@ class Pedido extends Model
 
     public function getPedidoById($id)
     {
-        $this->db->query('SELECT * FROM PedidosComanda WHERE id = :id');
+        $this->db->query('SELECT * FROM pedidoscomanda WHERE id = :id');
         $this->db->bind(':id', $id);
         $pedido = $this->db->single();
 
@@ -54,7 +56,7 @@ class Pedido extends Model
     }
     public function updatePedido($data)
     {
-        $this->db->query('UPDATE PedidosComanda SET usuario_id = :usuario_id, cliente_id = :cliente_id, mesa_id = :mesa_id, fecha = :fecha, estado = :estado, total = :total WHERE id = :id');
+        $this->db->query('UPDATE pedidoscomanda SET usuario_id = :usuario_id, cliente_id = :cliente_id, mesa_id = :mesa_id, fecha = :fecha, estado = :estado, total = :total WHERE id = :id');
         $this->db->bind(':usuario_id', $data['usuario_id']);
         $this->db->bind(':cliente_id', $data['cliente_id']);
         $this->db->bind(':mesa_id', $data['mesa_id']);
@@ -86,7 +88,7 @@ class Pedido extends Model
         $this->db->bind(':pedido_id', $id);
         $this->db->execute();
 
-        $this->db->query('DELETE FROM PedidosComanda WHERE id = :id');
+        $this->db->query('DELETE FROM pedidoscomanda WHERE id = :id');
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }

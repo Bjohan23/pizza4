@@ -22,8 +22,10 @@ class Controller
         }
         require_once '../app/Views/' . $view . '.php';
         include_once '../app/Views/inc/script.php';
+        include_once '../app/Views/inc/js/alertas.php';
         if (Session::get('usuario_id')) {
-            include_once '../app/Views/inc/footer.php';
+            // include_once '../app/Views/inc/footer.php';
+
         }
     }
 }

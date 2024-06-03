@@ -3,9 +3,16 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidoModel = $this->model('Pedido');
-        $pedidos = $pedidoModel->getAllPedidos();
-        $this->view('pedidos/index', ['pedidos' => $pedidos]);
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $pedidoModel = $this->model('Pedido');
+            $pedidos = $pedidoModel->getAllPedidos();
+            $this->view('pedidos/index', ['pedidos' => $pedidos]);
+        }
     }
 
     public function create()
@@ -37,13 +44,12 @@ class PedidosController extends Controller
                 $clienteModel = $this->model('Cliente');
                 $mesaModel = $this->model('Mesa');
                 $productoModel = $this->model('Producto');
-                $usuarios = $usuarioModel->getAllUsuarios();
+                $usuarios = $usuarioModel->getUsuarios();
                 $clientes = $clienteModel->getAllClientes();
-                $mesas = $mesaModel->getAllMesas();
+                $mesas = $mesaModel->getMesas();
                 $productos = $productoModel->getAllProductos();
                 $this->view('pedidos/create', [
-                    'usuarios' => $usuarios,
-                    'clientes' => $clientes,
+                    'usuarios' => $usuarios, 'clientes' => $clientes,
                     'mesas' => $mesas,
                     'productos' => $productos
                 ]);

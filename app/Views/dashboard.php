@@ -79,6 +79,7 @@
                     </div>
                 </div>
             </a>
+
             <!-- Roles -->
             <a href="<?php echo ROL ?>" class="border-2 border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64 flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
                 <div class="flex items-center w-full">
@@ -109,5 +110,6 @@
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"></div>
         </div>
 
+        <?php include_once __DIR__ . '/inc/footer.php'; ?>
     </main>
 </div>
