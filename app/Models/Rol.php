@@ -14,4 +14,10 @@ class Rol extends Model
         $this->db->bind(':nombre', $nombre);
         $this->db->execute();
     }
+    public function getRolById($id)
+    {
+        $this->db->query('SELECT * FROM roles WHERE id = :id');
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
 }
