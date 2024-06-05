@@ -19,10 +19,11 @@ class Mesa extends Model
 
     public function getMesaById($id)
     {
-        $this->db->query('SELECT m.id, m.piso_id, m.numero, m.capacidad FROM mesas m WHERE m.id = :id');
+        $this->db->query('SELECT mesas.id, mesas.numero, mesas.capacidad, piso.nombre AS nombre_piso FROM Mesas AS mesas JOIN Piso AS piso ON mesas.piso_id = piso.id WHERE mesas.id = :id');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+
     public function mesasCount()
     {
         $this->db->query('SELECT COUNT(*) as count FROM mesas');

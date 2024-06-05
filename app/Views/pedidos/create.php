@@ -3,8 +3,10 @@
         let total = 0;
         document.querySelectorAll('.producto').forEach(producto => {
             const cantidad = producto.querySelector('.cantidad').value;
-            const precio = producto.querySelector('.precio').dataset.precio;
-            total += cantidad * precio;
+            if (cantidad > 0) {
+                const precio = producto.querySelector('.precio').dataset.precio;
+                total += cantidad * precio;
+            }
         });
         document.getElementById('total').value = total;
     }
@@ -23,11 +25,28 @@
         });
     }
 
+    function validarFormulario(event) {
+        const productosSeleccionados = document.querySelectorAll('.producto .cantidad');
+        let alMenosUnProductoSeleccionado = false;
+
+        productosSeleccionados.forEach(producto => {
+            if (producto.value > 0) {
+                alMenosUnProductoSeleccionado = true;
+            }
+        });
+
+        if (!alMenosUnProductoSeleccionado) {
+            event.preventDefault();
+            alert('Seleccione al menos un producto.');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.cantidad').forEach(cantidad => {
             cantidad.addEventListener('input', calcularTotal);
         });
         document.getElementById('filtro').addEventListener('input', buscarProductos);
+        document.querySelector('form').addEventListener('submit', validarFormulario);
     });
 </script>
 

@@ -1,6 +1,7 @@
 <?php
 class Producto extends Model
 {
+
     public function getAllProductos()
     {
         $this->db->query('SELECT productos.id, productos.nombre, productos.descripcion, productos.precio, productos.disponible, Categoría.nombre as categoria FROM productos 

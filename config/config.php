@@ -29,10 +29,11 @@ define('PRODUCT_EDIT', '/PIZZA4/public/productos/edit/');
 define('PRODUCT_DELETE', '/PIZZA4/public/productos/delete/');
 // pedidos
 define('ORDER', '/PIZZA4/public/pedidos');
-define('ORDER_CREATE', '/PIZZA4/public/pedidos/create');
+define('ORDER_CREATE', '/PIZZA4/public/pedidos/create/');
 define('ORDER_EDIT', '/PIZZA4/public/pedidos/edit/');
 define('ORDER_DELETE', '/PIZZA4/public/pedidos/delete/');
 define('ORDER_ALL', '/PIZZA4/public/pedidos/allPedidos');
+define('ORDER_VIEW', '/PIZZA4/public/pedidos/viewMesa/');
 // clientes
 define('CLIENT', '/PIZZA4/public/clientes');
 define('CLIENT_CREATE', '/PIZZA4/public/clientes/create');
@@ -44,6 +45,7 @@ define('TABLE_CREATE', '/PIZZA4/public/mesas/create');
 define('TABLE_EDIT', '/PIZZA4/public/mesas/edit/');
 define('TABLE_DELETE', '/PIZZA4/public/mesas/delete/');
 define('LIBERAR_MESA', '/PIZZA4/public/pedidos/liberarMesa/');
+define('VIEW_MESA', '/PIZZA4/public/pedidos/viewMesa/');
 // categorias
 define('CATEGORY', '/PIZZA4/public/categorias');
 define('CATEGORY_CREATE', '/PIZZA4/public/categorias/create');
