@@ -61,14 +61,18 @@
                         <p class="text-red-500"><?php echo $error; ?></p>
                     <?php endif; ?>
                     <h2 class="text-xl font-bold mb-4 dark:text-white">Pedidos Existentes</h2>
-                    <form action="/PIZZA4/public/pedidos/update/<?php echo $data['mesa_id']; ?>" method="post">
-                        <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                    <form action="/PIZZA4/public/pedidos/update/<?php echo htmlspecialchars($data['mesa_id']); ?>" method="post">
+                        <input type="hidden" name="pedido_id" value="<?php echo htmlspecialchars($pedido['id']); ?>">
                         <div>
-                            <label for="mesa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mesa:</label>
-                            <?php if (isset($mesa) && isset($mesa->capacidad) && isset($mesa->numero) && isset($mesa->id)) : ?>
+                            <label for="mesa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Mesa: -> <?php echo htmlspecialchars($data['mesa_id']); ?>
+                            </label>
+
+                            <?php if (isset($data['mesa']) && isset($data['mesa']->capacidad) && isset($data['mesa']->numero) && isset($data['mesa']->id)) : ?>
                                 <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    <?php echo $mesa->nombre_piso . ' - ' . $mesa->numero; ?>
-                                    <span class="text-gray-500 ml-2">(ID: <?php echo $mesa->id; ?>)</span>
+                                    <?php echo htmlspecialchars($data['mesa']->nombre_piso) . ' - ' . htmlspecialchars($data['mesa']->numero); ?>
+                                    <span class="text-gray-500 ml-2">(ID: <?php echo htmlspecialchars($data['mesa']->id); ?>)</span>
+                                    <div>Capacidad: <?php echo htmlspecialchars($data['mesa']->capacidad); ?></div>
                                 </div>
                             <?php else : ?>
                                 <div class="text-red-500">No se encontró información de la mesa.</div>
@@ -79,7 +83,7 @@
                             <label for="cliente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cliente:</label>
                             <select name="cliente_id" id="cliente_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
                                 <?php foreach ($data['clientes'] as $cliente) : ?>
-                                    <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['nombre']; ?></option>
+                                    <option value="<?php echo htmlspecialchars($cliente['id']); ?>"><?php echo htmlspecialchars($cliente['nombre']); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -96,14 +100,14 @@
                             <tbody>
                                 <?php foreach ($data['pedidos'] as $pedido) : ?>
                                     <tr class="border-b dark:border-gray-600">
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo $pedido['producto_nombre']; ?></td>
+                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
                                         <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
-                                            <input type="number" name="productos[<?php echo $pedido['producto_id']; ?>][cantidad]" value="<?php echo $pedido['cantidad']; ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light cantidad" required>
+                                            <input type="number" name="productos[<?php echo htmlspecialchars($pedido['producto_id']); ?>][cantidad]" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light cantidad" required>
                                         </td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo $pedido['precio']; ?>">$<?php echo $pedido['precio']; ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo $pedido['producto_descripcion']; ?></td>
+                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>">$<?php echo htmlspecialchars($pedido['precio']); ?></td>
+                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
                                         <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
-                                            <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="eliminarProducto(<?php echo $pedido['producto_id']; ?>)">Eliminar</button>
+                                            <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="eliminarProducto(<?php echo htmlspecialchars($pedido['producto_id']); ?>)">Eliminar</button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -114,7 +118,7 @@
                         </div>
                     </form>
                     <h2 class="text-xl font-bold mb-4 mt-6 dark:text-white">Agregar Nuevo Producto</h2>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo $data['mesa_id']; ?>'">Agregar Nuevo Producto</button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo htmlspecialchars($data['mesa_id']); ?>'">Agregar Nuevo Producto</button>
                 </div>
             </div>
         </div>

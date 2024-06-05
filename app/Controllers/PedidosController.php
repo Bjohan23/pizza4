@@ -34,28 +34,31 @@ class PedidosController extends Controller
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR);
             exit();
-        } else {
-            $pedidoModel = $this->model('Pedido');
-            $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
-            $productoModel = $this->model('Producto');
-            $productos = $productoModel->getAllProductos();
-            $clienteModel = $this->model('Cliente');
-            $clientes = $clienteModel->getAllClientes();
-
-            $mesaModel = $this->model('Mesa');
-            $mesa = $mesaModel->getMesaById($mesa_id);
-            if ($mesa === false) {
-                $mesa = null;
-            }
-            $this->view('pedidos/viewMesa', [
-                'mesa_id' => $mesa_id,
-                'pedidos' => $pedidos,
-                'productos' => $productos,
-                'clientes' => $clientes,
-                'mesa' => $mesa
-            ]);
         }
+
+        $pedidoModel = $this->model('Pedido');
+        $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
+        $productoModel = $this->model('Producto');
+        $productos = $productoModel->getAllProductos();
+        $clienteModel = $this->model('Cliente');
+        $clientes = $clienteModel->getAllClientes();
+
+        $mesaModel = $this->model('Mesa');
+        $mesa = $mesaModel->getMesaById($mesa_id);
+
+        if ($mesa === false) {
+            $mesa = null;
+        }
+
+        $this->view('pedidos/viewMesa', [
+            'mesa_id' => $mesa_id,
+            'pedidos' => $pedidos,
+            'productos' => $productos,
+            'clientes' => $clientes,
+            'mesa' => $mesa
+        ]);
     }
+
 
     public function create($mesa_id)
     {
@@ -126,20 +129,27 @@ class PedidosController extends Controller
 
     public function update($id)
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
+
         $pedidoModel = $this->model('Pedido');
         $mesaModel = $this->model('Mesa');
         $clienteModel = $this->model('Cliente');
         $productoModel = $this->model('Producto');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Procesa el formulario de actualización del pedido
+            $m_id = 1;
             $data = [
                 'id' => $id,
-                'mesa_id' => $_POST['mesa_id'],
+                // 'mesa_id' => $_POST['mesa_id'],
+                'mesa_id' => $m_id,
                 'cliente_id' => $_POST['cliente_id'],
-                'usuario_id' => $_SESSION['user_id'], // asumiendo que el ID del usuario está almacenado en la sesión
+                'usuario_id' => Session::get('usuario_id'),
                 'estado' => $_POST['estado'],
-                'total' => isset($_POST['total']) ? $_POST['total'] : 0.0, // Verifica si 'total' está definido
+                'total' => isset($_POST['total']) ? $_POST['total'] : 0.0,
                 'fecha' => date('Y-m-d H:i:s')
             ];
 
@@ -157,26 +167,26 @@ class PedidosController extends Controller
                     $pedidoModel->addDetalle($detalleData);
                 }
 
-                // Redirige al usuario después de actualizar el pedido
-                header('Location: ' . ORDER_VIEW . $id);
+                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $m_id);
+                exit();
             } else {
                 die('Error al actualizar el pedido');
             }
         } else {
-            // Muestra el formulario de actualización del pedido
             $pedido = $pedidoModel->getPedidoById($id);
-            $mesa_id = $mesaModel->getAllMesas();
+            $mesas = $mesaModel->getAllMesas();
             $productos = $productoModel->getAllProductos();
             $clientes = $clienteModel->getAllClientes();
 
             $this->view('pedidos/update', [
                 'pedido' => $pedido,
-                'mesa_id' => $mesa_id,
+                'mesas' => $mesas,
                 'clientes' => $clientes,
                 'productos' => $productos
             ]);
         }
     }
+
     public function liberarMesa($mesa_id)
     {
         Session::init();

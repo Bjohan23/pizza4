@@ -14,16 +14,12 @@
                     <a href="/PIZZA4/public/pedidos/viewMesa/<?php echo $mesa['id']; ?>" class="mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                         Ver Pedido
                     </a>
-                    <form action=" <?= LIBERAR_MESA . $mesa['id']; ?>" method="post">
+                    <form action="<?= LIBERAR_MESA . $mesa['id']; ?>" method="post">
                         <button type="submit" class="mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 focus:outline-none dark:focus:ring-red-800">
                             Liberar Mesa
                         </button>
                     </form>
-
                 <?php endif; ?>
-
-
-
             </div>
         <?php endforeach; ?>
     </div>

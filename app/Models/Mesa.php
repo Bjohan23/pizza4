@@ -2,11 +2,12 @@
 
 class Mesa extends Model
 {
-    public function getMesas()
+    public function getmesas()
     {
         $this->db->query('SELECT m.id, p.nombre as piso, m.numero, m.capacidad FROM mesas m JOIN piso p ON m.piso_id = p.id');
         return $this->db->resultSet();
     }
+
 
     public function createMesa($data)
     {
@@ -19,17 +20,20 @@ class Mesa extends Model
 
     public function getMesaById($id)
     {
-        $this->db->query('SELECT mesas.id, mesas.numero, mesas.capacidad, piso.nombre AS nombre_piso FROM Mesas AS mesas JOIN Piso AS piso ON mesas.piso_id = piso.id WHERE mesas.id = :id');
+        $this->db->query('SELECT mesas.id, mesas.numero, mesas.capacidad, piso.nombre AS nombre_piso FROM mesas AS mesas JOIN Piso AS piso ON mesas.piso_id = piso.id WHERE mesas.id = :id');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+
+
+
 
     public function mesasCount()
     {
         $this->db->query('SELECT COUNT(*) as count FROM mesas');
         return $this->db->single()['count'];
     }
-    public function getMesasByPiso($piso_id)
+    public function getmesasByPiso($piso_id)
     {
         $this->db->query('SELECT m.id, m.numero, m.capacidad, m.estado FROM mesas m WHERE m.piso_id = :piso_id');
         $this->db->bind(':piso_id', $piso_id);
