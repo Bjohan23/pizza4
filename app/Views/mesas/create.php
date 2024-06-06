@@ -1,28 +1,28 @@
 <main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
-        <h1 class="text-2xl font-bold mb-4">Registrar Nueva Mesa</h1>
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Registrar Nueva Mesa</h1>
         <?php if (isset($error)) : ?>
             <p class="text-red-500"><?php echo $error; ?></p>
         <?php endif; ?>
-        <form action="/PIZZA4/public/mesas/create" method="post">
-            <div class="mb-4">
-                <label for="piso_id" class="block text-sm font-medium text-gray-700">Piso:</label>
-                <select id="piso_id" name="piso_id" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        <form action="/PIZZA4/public/mesas/create" method="post" class="space-y-8">
+            <div>
+                <label for="piso_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Piso:</label>
+                <select id="piso_id" name="piso_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                     <?php foreach ($data['pisos'] as $piso) : ?>
                         <option value="<?php echo $piso['id']; ?>"><?php echo $piso['nombre']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="numero" class="block text-sm font-medium text-gray-700">Número:</label>
-                <input type="text" id="numero" name="numero" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label for="capacidad" class="block text-sm font-medium text-gray-700">Capacidad:</label>
-                <input type="text" id="capacidad" name="capacidad" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div>
+                <label for="numero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Número:</label>
+                <input type="text" id="numero" name="numero" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
             <div>
-                <input type="submit" value="Registrar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                <label for="capacidad" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Capacidad:</label>
+                <input type="text" id="capacidad" name="capacidad" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
+            </div>
+            <div>
+                <input type="submit" value="Registrar" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer">
             </div>
         </form>
     </div>
