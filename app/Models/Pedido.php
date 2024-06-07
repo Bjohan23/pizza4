@@ -97,6 +97,15 @@ class Pedido extends Model
         return $this->db->execute();
     }
 
+    public function deleteDetalle($pedido_id, $producto_id)
+    {
+        $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id AND producto_id = :producto_id');
+        $this->db->bind(':pedido_id', $pedido_id);
+        $this->db->bind(':producto_id', $producto_id);
+        return $this->db->execute();
+    }
+
+
     public function getAllPedidosWithDetails()
     {
         $this->db->query('SELECT pedidoscomanda.id, pedidoscomanda.usuario_id, pedidoscomanda.cliente_id, pedidoscomanda.mesa_id, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total, 

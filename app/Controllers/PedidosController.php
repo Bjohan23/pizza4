@@ -42,22 +42,35 @@ class PedidosController extends Controller
         $productos = $productoModel->getAllProductos();
         $clienteModel = $this->model('Cliente');
         $clientes = $clienteModel->getAllClientes();
+        $usuarioModel = $this->model('Usuario');
+        $usuario = $usuarioModel->getUsuarioById(Session::get('usuario_id'));
+
+        // Convertir a objeto si no es nulo
+        if ($usuario) {
+            $usuario = (object) $usuario;
+        }
 
         $mesaModel = $this->model('Mesa');
         $mesa = $mesaModel->getMesaById($mesa_id);
 
-        if ($mesa === false) {
-            $mesa = null;
+        // Convertir a objeto si no es nulo
+        if ($mesa) {
+            $mesa = (object) $mesa;
         }
+
+        $pedido = isset($pedidos[0]) ? $pedidos[0] : null; // Asegurarse de tener al menos un pedido
 
         $this->view('pedidos/viewMesa', [
             'mesa_id' => $mesa_id,
             'pedidos' => $pedidos,
             'productos' => $productos,
             'clientes' => $clientes,
-            'mesa' => $mesa
+            'mesa' => $mesa,
+            'usuario' => $usuario,
+            'pedido' => $pedido // Pasar el primer pedido a la vista
         ]);
     }
+
 
 
     public function create($mesa_id)
@@ -141,11 +154,8 @@ class PedidosController extends Controller
         $productoModel = $this->model('Producto');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m_id = 1;
             $data = [
-                'id' => $id,
-                // 'mesa_id' => $_POST['mesa_id'],
-                'mesa_id' => $m_id,
+                'mesa_id' => $_POST['mesa_id'],
                 'cliente_id' => $_POST['cliente_id'],
                 'usuario_id' => Session::get('usuario_id'),
                 'estado' => $_POST['estado'],
@@ -156,18 +166,24 @@ class PedidosController extends Controller
             if ($pedidoModel->updatePedido($data)) {
                 $pedidoModel->deleteDetallesByPedido($id);
 
-                foreach ($_POST['detalles'] as $detalle) {
-                    $producto = $productoModel->getProductoById($detalle['producto_id']);
-                    $detalleData = [
-                        'pedido_id' => $id,
-                        'producto_id' => $detalle['producto_id'],
-                        'cantidad' => $detalle['cantidad'],
-                        'precio' => $producto->precio
-                    ];
-                    $pedidoModel->addDetalle($detalleData);
+                if (isset($_POST['productos']) && is_array($_POST['productos'])) {
+                    foreach ($_POST['productos'] as $detalle) {
+                        if (isset($detalle['producto_id']) && isset($detalle['cantidad'])) {
+                            $producto = $productoModel->getProductoById($detalle['producto_id']);
+                            if ($producto) {
+                                $detalleData = [
+                                    'pedido_id' => $id,
+                                    'producto_id' => $detalle['producto_id'],
+                                    'cantidad' => $detalle['cantidad'],
+                                    'precio' => $producto->precio
+                                ];
+                                $pedidoModel->addDetalle($detalleData);
+                            }
+                        }
+                    }
                 }
 
-                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $m_id);
+                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $_POST['mesa_id']);
                 exit();
             } else {
                 die('Error al actualizar el pedido');
@@ -184,6 +200,23 @@ class PedidosController extends Controller
                 'clientes' => $clientes,
                 'productos' => $productos
             ]);
+        }
+    }
+
+    public function eliminarProducto($pedido_id, $producto_id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
+
+        $pedidoModel = $this->model('Pedido');
+        if ($pedidoModel->deleteDetalle($pedido_id, $producto_id)) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit();
+        } else {
+            die('Error al eliminar el producto del pedido');
         }
     }
 
