@@ -8,44 +8,19 @@
         });
         document.getElementById('total').value = total.toFixed(2);
     }
-
-    function buscarProductos() {
-        const filtro = document.getElementById('filtro').value.toLowerCase();
-        document.querySelectorAll('.producto').forEach(producto => {
-            const nombre = producto.querySelector('.nombre').textContent.toLowerCase();
-            const precio = producto.querySelector('.precio').dataset.precio.toLowerCase();
-            const categoria = producto.querySelector('.categoria').textContent.toLowerCase();
-            if (nombre.includes(filtro) || precio.includes(filtro) || categoria.includes(filtro)) {
-                producto.style.display = '';
-            } else {
-                producto.style.display = 'none';
-            }
-        });
-    }
-
-    function validarFormulario(event) {
-        const productosSeleccionados = document.querySelectorAll('.producto .cantidad');
-        let alMenosUnProductoSeleccionado = false;
-
-        productosSeleccionados.forEach(producto => {
-            if (producto.value > 0) {
-                alMenosUnProductoSeleccionado = true;
-            }
-        });
-
-        if (!alMenosUnProductoSeleccionado) {
-            event.preventDefault();
-            alert('Seleccione al menos un producto.');
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
+        // Añadir el evento de input para calcular el total en los campos de cantidad
         document.querySelectorAll('.cantidad').forEach(cantidad => {
             cantidad.addEventListener('input', calcularTotal);
         });
-        document.getElementById('filtro').addEventListener('input', buscarProductos);
+
+        // Calcular el total inicial al cargar la página
+        calcularTotal();
+
+
+
+        // Validar el formulario antes de enviarlo
         document.querySelector('form').addEventListener('submit', validarFormulario);
-        calcularTotal(); // Calcular el total inicial al cargar la página
     });
 </script>
 
@@ -105,10 +80,10 @@
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody class="producto">
+                                <tbody>
                                     <?php foreach ($data['pedidos'] as $pedido) : ?>
-                                        <tr class="border-b dark:border-gray-600">
-                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
+                                        <tr class="border-b dark:border-gray-600 producto">
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white nombre"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
                                                 <input type="number" name="productos[<?php echo htmlspecialchars($pedido['producto_id']); ?>][cantidad]" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light cantidad" required>
                                             </td>
