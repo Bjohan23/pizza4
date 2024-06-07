@@ -54,5 +54,6 @@ class AuthController extends Controller
         Session::init();
         Session::destroy();
         header('Location: /PIZZA4/public/auth/login');
+        
     }
 }
