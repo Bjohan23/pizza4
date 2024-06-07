@@ -50,7 +50,7 @@
     border-radius: 8px;
     transition: background-color 0.3s;
 }
-
+/*ndjnskmdskd*/
 /* Estilo para el hover del cuadro */
 .piso-cuadro:hover {
     transform: scale(1.05); /* Pequeño efecto de agrandamiento */
