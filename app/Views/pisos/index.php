@@ -22,7 +22,7 @@
 
     <!-- Botón para agregar una sala nueva -->
     <div class="flex justify-center mt-8">
-        <a href="<?php echo PISO_CREATE ?>" class="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors duration-300">Agregar Sala Nueva</a>
+        <a href="<?php echo PISO_CREATE ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar Sala Nueva</a>
     </div>
 </main>
 
@@ -49,10 +49,12 @@
     padding: 1rem;
     border-radius: 8px;
     transition: background-color 0.3s;
+    background-color: rgba(0, 0, 0, 0.7);
 }
-/*ndjnskmdskd*/
+
 /* Estilo para el hover del cuadro */
 .piso-cuadro:hover {
     transform: scale(1.05); /* Pequeño efecto de agrandamiento */
 }
+
 </style>
