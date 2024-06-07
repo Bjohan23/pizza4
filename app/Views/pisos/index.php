@@ -6,7 +6,7 @@
             <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-100 transition-colors duration-300 hover:text-green-500">Pizzeria Zarelle</h1>
         </div>
     </div>
-    
+
     <!-- Sección de los cuadros de los pisos centrados -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- pisos -->
@@ -27,32 +27,35 @@
 </main>
 
 <style>
-/* Estilo para los cuadros de los pisos */
-.piso-cuadro {
-    border: 2px solid #ccc;
-    height: 20rem; /* Ajusta la altura según sea necesario */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.3s;
-    border-radius: 10px;
-    overflow: hidden;
-    background-image: url('https://i.pinimg.com/originals/a6/ba/7f/a6ba7f7f6881e49a5f9da0c26dfc9859.jpg');
-}
+    /* Estilo para los cuadros de los pisos */
+    .piso-cuadro {
+        border: 2px solid #ccc;
+        height: 20rem;
+        /* Ajusta la altura según sea necesario */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.3s;
+        border-radius: 10px;
+        overflow: hidden;
+        background-image: url('https://i.pinimg.com/originals/a6/ba/7f/a6ba7f7f6881e49a5f9da0c26dfc9859.jpg');
+    }
 
-/* Estilo para el contenido dentro del cuadro */
-.contenido-cuadro {
-    text-align: center;
-    padding: 1rem;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-}
-/*ndjnskmdskd*/
-/* Estilo para el hover del cuadro */
-.piso-cuadro:hover {
-    transform: scale(1.05); /* Pequeño efecto de agrandamiento */
-}
+    /* Estilo para el contenido dentro del cuadro */
+    .contenido-cuadro {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+
+    /*ndjnskmdskd*/
+    /* Estilo para el hover del cuadro */
+    .piso-cuadro:hover {
+        transform: scale(1.05);
+        /* Pequeño efecto de agrandamiento */
+    }
 </style>
