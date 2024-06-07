@@ -2,10 +2,9 @@
     <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Seleccionar Mesa</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <?php foreach ($data['mesas'] as $mesa) : ?>
-            <div class="border-2 <?php echo $mesa['estado'] == 'ocupada' ? 'border-red-500 bg-red-100' : 'border-green-500 bg-green-100'; ?> rounded-lg h-32 md:h-64 flex flex-col justify-between p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
-                <a href="/PIZZA4/public/pedidos/create/<?php echo $mesa['id']; ?>" class="flex items-center w-full">
-                    <span class="text-4xl mr-4">🍽️</span>
-                    <div>
+            <div class="border-2 piso-cuadro <?php echo $mesa['estado'] == 'ocupada' ? 'border-red-500 bg-red-100' : 'border-green-500 bg-green-100'; ?> rounded-lg h-32 md:h-64 flex flex-col justify-between p-4 transition duration-300 custom-bg-image">
+                <a href="/PIZZA4/public/pedidos/create/<?php echo $mesa['id']; ?>" class="flex items-center justify-center flex-col h-full">
+                    <div class="text-center">
                         <p class="text-sm text-gray-500 text-blue-900 dark:text-white">Mesa <?php echo $mesa['numero']; ?></p>
                         <p class="text-xl font-bold text-gray-900 dark:text-white"><?php echo $mesa['estado'] == 'ocupada' ? 'Ocupada' : 'Libre'; ?></p>
                     </div>
@@ -24,3 +23,15 @@
         <?php endforeach; ?>
     </div>
 </main>
+
+
+<style>
+    .custom-bg-image {
+        background-image: url('https://i.pinimg.com/564x/a2/0c/db/a20cdba311ce765be6c05a60f0b2cf0e.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    .piso-cuadro:hover {
+        transform: scale(1.05); /* Ajusta el valor según tu preferencia */
+    }
+</style>
