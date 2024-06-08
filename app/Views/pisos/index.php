@@ -11,23 +11,27 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- pisos -->
         <?php foreach ($data['pisos'] as $piso) : ?>
-            <a href="/PIZZA4/public/mesas?piso_id=<?php echo $piso['id']; ?>" class="piso-cuadro">
-                <div class="contenido-cuadro bg-gray-800 p-4 rounded-lg text-white">
-                    <p class="text-xl font-bold"><?php echo $piso['nombre']; ?></p>
-                    <p class="text-lg"><?php echo $piso['mesas_count']; ?> mesas</p>
-
+            <div class="piso-cuadro relative">
+                <div class="contenido-cuadro bg-gray-800 bg-opacity-75 p-4 rounded-lg text-white flex flex-col items-center justify-center space-y-2 h-full">
+                    <div class="info-piso text-center">
+                        <p class="text-xl font-bold"><?php echo $piso['nombre']; ?></p>
+                        <p class="text-lg"><?php echo $piso['mesas_count']; ?> mesas</p>
+                    </div>
+                    <a href="/PIZZA4/public/mesas?piso_id=<?php echo $piso['id']; ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Ver mesas
+                    </a>
+                    <!-- link para editar piso -->
+                    <a href="<?php echo PISO_EDIT . $piso['id'] ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
+                        Editar
+                    </a>
                 </div>
-            </a>
-            <!-- falta arreglar -->
-            <h2 class="text-xl font-bold mb-4 mt-6 dark:text-white">Agregar Nuevo Producto</h2>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="window.location.href='<? echo PISO_EDIT . $piso['id']  ?>'">Editar</button>
+            </div>
         <?php endforeach; ?>
-
     </div>
 
     <!-- Botón para agregar una sala nueva -->
     <div class="flex justify-center mt-8">
-        <a href="<?php echo PISO_CREATE ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar Sala Nueva</a>
+        <a href="<?php echo PISO_CREATE; ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar Sala Nueva</a>
     </div>
 </main>
 
@@ -48,15 +52,20 @@
         background-image: url('https://i.pinimg.com/originals/a6/ba/7f/a6ba7f7f6881e49a5f9da0c26dfc9859.jpg');
     }
 
+    .piso-cuadro:hover {
+        transform: scale(1.05);
+    }
+
     .contenido-cuadro {
         text-align: center;
         padding: 1rem;
         border-radius: 8px;
         transition: background-color 0.3s;
         background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .piso-cuadro:hover {
-        transform: scale(1.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
     }
 </style>

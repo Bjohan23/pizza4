@@ -62,5 +62,12 @@ class MesasController extends Controller
             header('Location: /PIZZA4/public/mesas');
         }
     }
+    //mostrar mesas por piso
+    public function mesasPorPiso()
+    {
+        $piso_id = $_GET['piso_id'];
+        $mesaModel = $this->model('Mesa');
+        $mesas = $mesaModel->getMesasByPiso($piso_id);
+        $this->view('mesas/index', ['mesas' => $mesas]);
+    }
 }
-?>
