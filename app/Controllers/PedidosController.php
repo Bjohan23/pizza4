@@ -200,6 +200,32 @@ class PedidosController extends Controller
         }
     }
 
+
+    public function actualizarProducto($pedido_id){
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            Session::init();
+            if (!Session::get('usuario_id')) {
+                header('Location: ' . SALIR);
+                exit();
+            }
+    
+            $pedidoModel = $this->model('Pedido');
+            $data = [
+                "pedido_id" => $pedido_id,
+                "cantidad" => $_POST["cantidad"]
+            ];
+    
+            $success = $pedidoModel->updateDetallePedido($data);
+    
+            if ($success) {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            } else {
+                echo "ERROR"; exit();
+            }
+        }
+    }
+    
+
     public function eliminarProducto($pedido_id, $producto_id)
     {
         Session::init();

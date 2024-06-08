@@ -83,6 +83,13 @@ JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
         $this->db->execute();
     }
 
+    public function updateDetallePedido($data){
+        $this->db->query('UPDATE detallespedido SET cantidad = :cantidad WHERE pedido_id = :pedido_id');
+        $this->db->bind(":cantidad", $data["cantidad"]);
+        $this->db->bind(":pedido_id", $data["pedido_id"]);
+        return $this->db->execute();
+    }
+    
     public function deletePedido($id)
     {
         $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');

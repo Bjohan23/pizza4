@@ -74,7 +74,7 @@
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Precio</th>
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Descripción</th>
-                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Acciones</th>
+                                        <th colspan="2" class="py-2 px-4 border dark:border-gray-600 dark:text-white">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,6 +87,14 @@
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>">$<?php echo htmlspecialchars($pedido['precio']); ?></td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
+                                                <form action="/PIZZA4/public/pedidos/actualizarProducto/<?php echo htmlspecialchars($pedido['pedido_id']); ?>" method="post" class="update-form">
+                                                    <input type="hidden" name="pedido_id" value="<?php echo htmlspecialchars($pedido['pedido_id']); ?>">
+                                                    <input type="hidden" name="producto_id" value="<?php echo htmlspecialchars($pedido['producto_id']); ?>">
+                                                    <input type="hidden" name="cantidad" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="cantidad-input">
+                                                    <input type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded actualizar-link" value="Actualizar">
+                                                </form>
+                                            </td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
                                                 <a href="/PIZZA4/public/pedidos/eliminarProducto/<?php echo htmlspecialchars($pedido['pedido_id']); ?>/<?php echo htmlspecialchars($pedido['producto_id']); ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</a>
                                             </td>
                                         </tr>
@@ -96,7 +104,7 @@
                             <div class="mt-4">
                                 <label for="total" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Total:</label>
                                 <input type="text" id="total" name="total" value="0.00" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" readonly>
-                                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Actualizar Pedido</button>
+                                
                             </div>
                         </form>
                     <?php else : ?>
@@ -109,3 +117,17 @@
         </div>
     </section>
 </main>
+
+
+<script>
+document.querySelectorAll('.actualizar-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const form = this.closest('.update-form');
+        const cantidadInput = form.querySelector('.cantidad-input');
+        const cantidad = form.closest('tr').querySelector('.cantidad').value;
+        cantidadInput.value = cantidad;
+        form.submit();
+    });
+});
+</script>
