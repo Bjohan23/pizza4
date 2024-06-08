@@ -53,6 +53,7 @@
                                         <span> Piso: <?php echo htmlspecialchars($data['mesa']->nombre_piso); ?></span><br>
                                         <span>N° Mesa: <?php echo htmlspecialchars($data['mesa']->numero); ?></span>
                                         <div>Capacidad: <?php echo htmlspecialchars($data['mesa']->capacidad); ?></div>
+                                        <div>ID pedido <?php echo htmlspecialchars($data['pedido']['pedido_id']); ?></div>
                                     </div>
                                 <?php else : ?>
                                     <div class="text-red-500">No se encontró información de la mesa.</div>
@@ -104,9 +105,19 @@
                             <div class="mt-4">
                                 <label for="total" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Total:</label>
                                 <input type="text" id="total" name="total" value="0.00" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" readonly>
-                                
+
                             </div>
                         </form>
+                        <form action="/PIZZA4/public/pedidos/cobrar/<?php echo htmlspecialchars($data['pedido']['pedido_id']); ?>" method="post" class="mt-4">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($data['pedido']['id']); ?>">
+                            <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($data['pedido']['usuario_id']); ?>">
+                            <input type="hidden" name="cliente_id" value="<?php echo htmlspecialchars($data['pedido']['cliente_id']); ?>">
+                            <input type="hidden" name="mesa_id" value="<?php echo htmlspecialchars($data['pedido']['mesa_id']); ?>">
+                            <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($data['pedido']['fecha']); ?>">
+                            <input type="hidden" name="total" value="<?php echo htmlspecialchars($data['pedido']['total']); ?>">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
+                        </form>
+
                     <?php else : ?>
                         <p class="text-red-500">No se encontró información del pedido.</p>
                     <?php endif; ?>
@@ -120,14 +131,14 @@
 
 
 <script>
-document.querySelectorAll('.actualizar-link').forEach(link => {
-    link.addEventListener('click', function(event) {
-        event.preventDefault();
-        const form = this.closest('.update-form');
-        const cantidadInput = form.querySelector('.cantidad-input');
-        const cantidad = form.closest('tr').querySelector('.cantidad').value;
-        cantidadInput.value = cantidad;
-        form.submit();
+    document.querySelectorAll('.actualizar-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = this.closest('.update-form');
+            const cantidadInput = form.querySelector('.cantidad-input');
+            const cantidad = form.closest('tr').querySelector('.cantidad').value;
+            cantidadInput.value = cantidad;
+            form.submit();
+        });
     });
-});
 </script>

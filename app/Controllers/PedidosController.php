@@ -71,8 +71,6 @@ class PedidosController extends Controller
         ]);
     }
 
-
-
     public function create($mesa_id)
     {
         Session::init();
@@ -199,32 +197,32 @@ class PedidosController extends Controller
             ]);
         }
     }
-
-
-    public function actualizarProducto($pedido_id){
+    public function actualizarProducto($pedido_id)
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             Session::init();
             if (!Session::get('usuario_id')) {
                 header('Location: ' . SALIR);
                 exit();
             }
-    
+
             $pedidoModel = $this->model('Pedido');
             $data = [
                 "pedido_id" => $pedido_id,
                 "cantidad" => $_POST["cantidad"]
             ];
-    
+
             $success = $pedidoModel->updateDetallePedido($data);
-    
+
             if ($success) {
                 header("Location: " . $_SERVER["HTTP_REFERER"]);
             } else {
-                echo "ERROR"; exit();
+                echo "ERROR";
+                exit();
             }
         }
     }
-    
+
 
     public function eliminarProducto($pedido_id, $producto_id)
     {
@@ -282,6 +280,74 @@ class PedidosController extends Controller
 
             // Cargar la vista con los datos de los pedidos
             $this->view('pedidos/allPedidos', ['pedidos' => $pedidos]);
+        }
+    }
+    public function cobrar($id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
+
+
+
+        $pedidoModel = $this->model('Pedido');
+        $pedido = $pedidoModel->getPedidoById($id);
+
+        if ($pedido) {
+            // Recoger datos del formulario
+            $pedidoData = [
+                'id' => $_POST['id'],
+                'usuario_id' => $_POST['usuario_id'],
+                'cliente_id' => $_POST['cliente_id'],
+                'mesa_id' => $_POST['mesa_id'],
+                'fecha' => $_POST['fecha'],
+                'estado' => 'pagado',
+                'total' => $_POST['total'],
+                'pedido_id' => $pedido['productos'][0]['pedido_id'],
+            ];
+
+
+            if ($pedidoModel->updatePedido($pedidoData)) {
+                // Verificación adicional
+                $pedidoExistente = $pedidoModel->getPedidoById($pedidoData['id']);
+                if ($pedidoExistente) {
+                    // Registrar el comprobante de venta
+                    $comprobanteModel = $this->model('ComprobanteVenta');
+                    $comprobanteData = [
+
+                        'pedido_id' => $pedidoData['pedido_id'],
+                        'tipo' => 'factura', // Puede ser 'boleta', 'factura', etc.
+                        'monto' => $pedidoData['total'],
+                        'fecha' => date('Y-m-d H:i:s')
+                    ];
+
+
+
+
+                    if ($comprobanteModel->createComprobante($comprobanteData)) {
+                        // Verificar los datos antes de la inserción
+                        error_log('Datos del pedido: ' . print_r($pedidoData, true));
+                        error_log('Datos del comprobante: ' . print_r($comprobanteData, true));
+
+                        // Redirigir a la vista de la mesa
+                        header('Location: /PIZZA4/public/pedidos/viewMesa/' . $pedidoData['mesa_id']);
+                        exit();
+                    } else {
+                        die('Error al registrar el comprobante de venta');
+                    }
+                } else {
+                    error_log('El pedido no existe en la base de datos');
+                    die('El pedido no existe en la base de datos');
+                }
+            } else {
+                error_log('Error al actualizar el estado del pedido');
+                die('Error al actualizar el estado del pedido');
+            }
+        } else {
+            error_log('Error al encontrar el pedido');
+            die('Error al encontrar el pedido');
         }
     }
 }

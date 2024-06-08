@@ -4,6 +4,9 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'piza4');
+// Configurar la zona horaria en PHP
+date_default_timezone_set('America/Lima');
+
 // salir
 define('SALIR', '/PIZZA4/public/auth/login');
 define('APP_URL', 'http://localhost/PIZZA4/');
@@ -61,3 +64,6 @@ define('PISOS', '/PIZZA4/public/pisos');
 define('PISO_CREATE', '/PIZZA4/public/pisos/create');
 define('PISO_EDIT', '/PIZZA4/public/pisos/edit/');
 define('PISO_DELETE', '/PIZZA4/public/pisos/delete/');
+// COBRAR
+define('COBRAR', '/PIZZA4/public/pedidos/cobrar');
+define('COBRAR_PEDIDO', '/PIZZA4/public/pedidos/cobrarPedido/');

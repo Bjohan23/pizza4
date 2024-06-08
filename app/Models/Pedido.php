@@ -4,12 +4,12 @@ class Pedido extends Model
     public function getAllPedidos()
     {
         $this->db->query('SELECT pedidoscomanda.id, personas.nombre as usuario, cliente_persona.nombre as cliente, mesas.numero as mesa, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total
-FROM pedidoscomanda
-JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
-JOIN personas ON usuarios.persona_id = personas.id
-JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
-JOIN personas AS cliente_persona ON clientes.persona_id = cliente_persona.id
-JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
+        FROM pedidoscomanda
+        JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
+        JOIN personas ON usuarios.persona_id = personas.id
+        JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
+        JOIN personas AS cliente_persona ON clientes.persona_id = cliente_persona.id
+        JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
         return $this->db->resultSet();
     }
 
@@ -70,6 +70,14 @@ JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
         return $this->db->single()['count'];
     }
 
+    public function updateDetallePedido($data)
+    {
+        $this->db->query('UPDATE detallespedido SET cantidad = :cantidad WHERE pedido_id = :pedido_id');
+        $this->db->bind(":cantidad", $data["cantidad"]);
+        $this->db->bind(":pedido_id", $data["pedido_id"]);
+        return $this->db->execute();
+    }
+
     public function updatePedido($data)
     {
         $this->db->query('UPDATE pedidoscomanda SET usuario_id = :usuario_id, cliente_id = :cliente_id, mesa_id = :mesa_id, fecha = :fecha, estado = :estado, total = :total WHERE id = :id');
@@ -80,16 +88,10 @@ JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
         $this->db->bind(':estado', $data['estado']);
         $this->db->bind(':total', $data['total']);
         $this->db->bind(':id', $data['id']);
-        $this->db->execute();
-    }
-
-    public function updateDetallePedido($data){
-        $this->db->query('UPDATE detallespedido SET cantidad = :cantidad WHERE pedido_id = :pedido_id');
-        $this->db->bind(":cantidad", $data["cantidad"]);
-        $this->db->bind(":pedido_id", $data["pedido_id"]);
         return $this->db->execute();
     }
-    
+
+
     public function deletePedido($id)
     {
         $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');

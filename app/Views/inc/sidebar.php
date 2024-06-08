@@ -36,13 +36,13 @@
                         <a href="<?php echo ORDER ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Atender</a>
                     </li>
                     <li>
+                        <a href="<?php echo APP_URL ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Cobrar</a>
+                    </li>
+                    <li>
                         <a href="<?php echo ORDER_ALL ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pedidos</a>
                     </li>
                     <li>
                         <a href="<?php echo PRODUCT ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Productos</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo APP_URL ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Facturación</a>
                     </li>
                     <li>
                         <a href="<?php echo CATEGORY ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Categorias</a>
