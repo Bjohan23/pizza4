@@ -16,9 +16,6 @@
 
         // Calcular el total inicial al cargar la página
         calcularTotal();
-
-
-
         // Validar el formulario antes de enviarlo
         document.querySelector('form').addEventListener('submit', validarFormulario);
     });
