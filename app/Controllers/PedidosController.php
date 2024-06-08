@@ -155,31 +155,28 @@ class PedidosController extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
+                'id' => $id,
                 'mesa_id' => $_POST['mesa_id'],
                 'cliente_id' => $_POST['cliente_id'],
                 'usuario_id' => Session::get('usuario_id'),
                 'estado' => $_POST['estado'],
-                'total' => isset($_POST['total']) ? $_POST['total'] : 0.0,
+                'total' => $_POST['total'],
                 'fecha' => date('Y-m-d H:i:s')
             ];
 
             if ($pedidoModel->updatePedido($data)) {
                 $pedidoModel->deleteDetallesByPedido($id);
 
-                if (isset($_POST['productos']) && is_array($_POST['productos'])) {
-                    foreach ($_POST['productos'] as $detalle) {
-                        if (isset($detalle['producto_id']) && isset($detalle['cantidad'])) {
-                            $producto = $productoModel->getProductoById($detalle['producto_id']);
-                            if ($producto) {
-                                $detalleData = [
-                                    'pedido_id' => $id,
-                                    'producto_id' => $detalle['producto_id'],
-                                    'cantidad' => $detalle['cantidad'],
-                                    'precio' => $producto->precio
-                                ];
-                                $pedidoModel->addDetalle($detalleData);
-                            }
-                        }
+                foreach ($_POST['productos'] as $producto_id => $detalle) {
+                    if ($detalle['cantidad'] > 0) {
+                        $producto = $productoModel->getProductoById($producto_id);
+                        $detalleData = [
+                            'pedido_id' => $id,
+                            'producto_id' => $producto_id,
+                            'cantidad' => $detalle['cantidad'],
+                            'precio' => $producto->precio
+                        ];
+                        $pedidoModel->addDetalle($detalleData);
                     }
                 }
 
