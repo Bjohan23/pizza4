@@ -28,16 +28,16 @@ class HomeController extends Controller
         $pedidoModel = $this->model('Pedido');
         $productoModel = $this->model('Producto');
         $pisoModel = $this->model('Piso');
-        $listRolesModel = $this->model('ListRoles');
+        $rolModel = $this->model('Rol');
         $listMesasModel = $this->model('Mesa');
         $listCategoriasModel = $this->model('Categoria');
-        
+
         $usuariosCount = $usuarioModel->countUsuarios();
         $clientesCount = $clienteModel->countClientes();
         $pedidosCount = $pedidoModel->countPedidos();
         $productosCount = $productoModel->countProductos();
         $pisoCount = $pisoModel->pisosCount();
-        $rolesCount = $listRolesModel->rolesCount();
+        $rolesCount = $rolModel->contadorDeRoles();
         $mesasCount = $listMesasModel->mesasCount();
         $categoriasCount = $listCategoriasModel->categoriasCount();
 

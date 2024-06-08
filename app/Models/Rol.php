@@ -20,4 +20,16 @@ class Rol extends Model
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+    public function contadorDeRoles()
+    {
+        $this->db->query('SELECT COUNT(*) as total FROM roles');
+        return $this->db->single()['total'];
+    }
+    public function updateRol($id, $nombre)
+    {
+        $this->db->query('UPDATE roles SET nombre = :nombre WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->bind(':nombre', $nombre);
+        $this->db->execute();
+    }
 }
