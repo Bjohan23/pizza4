@@ -15,9 +15,14 @@
                 <div class="contenido-cuadro bg-gray-800 p-4 rounded-lg text-white">
                     <p class="text-xl font-bold"><?php echo $piso['nombre']; ?></p>
                     <p class="text-lg"><?php echo $piso['mesas_count']; ?> mesas</p>
+
                 </div>
             </a>
+            <!-- falta arreglar -->
+            <h2 class="text-xl font-bold mb-4 mt-6 dark:text-white">Agregar Nuevo Producto</h2>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="window.location.href='<? echo PISO_EDIT . $piso['id']  ?>'">Editar</button>
         <?php endforeach; ?>
+
     </div>
 
     <!-- Botón para agregar una sala nueva -->
@@ -42,16 +47,16 @@
         overflow: hidden;
         background-image: url('https://i.pinimg.com/originals/a6/ba/7f/a6ba7f7f6881e49a5f9da0c26dfc9859.jpg');
     }
-.contenido-cuadro {
-    text-align: center;
-    padding: 1rem;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-    background-color: rgba(0, 0, 0, 0.7);
-}
 
-.piso-cuadro:hover {
-    transform: scale(1.05);
-}
+    .contenido-cuadro {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
+    .piso-cuadro:hover {
+        transform: scale(1.05);
+    }
 </style>
