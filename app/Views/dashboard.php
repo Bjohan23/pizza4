@@ -9,13 +9,13 @@
     <main class="p-4 md:ml-64 h-auto pt-20">
         <!-- Título del Dashboard -->
         <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Dashboard</h1>
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Panel</h1>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <!-- Usuarios -->
             <div class="col-lg-3 col-6">
-            <div class="small-box bg-purple-400 dark:bg-purple-600 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
+                <div class="small-box bg-purple-400 dark:bg-purple-600 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="text-white">
@@ -93,8 +93,8 @@
                 </div>
             </div>
 
-           
-           <!-- Pisos -->
+
+            <!-- Pisos -->
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-orange-500 dark:bg-orange-450 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
                     <div class="p-6">
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-           <!-- Mesas -->
+            <!-- Mesas -->
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-red-500 dark:bg-red-700 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
                     <div class="p-6">
@@ -136,7 +136,7 @@
             </div>
 
 
-          <!-- Categorías -->
+            <!-- Categorías -->
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-yellow-300 dark:bg-yellow-600 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
                     <div class="p-6">
@@ -155,8 +155,8 @@
                     </a>
                 </div>
             </div>
-            
-          <!-- Roles -->
+
+            <!-- Roles -->
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-gray-300 dark:bg-gray-600 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
                     <div class="p-6">
@@ -175,12 +175,13 @@
                     </a>
                 </div>
             </div>
-
-
-
         </div>
 
-        <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg"></div>
+        <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
+            <h2 class="text-center text-xl font-bold mt-4">Total de Pedidos por Estado</h2>
+            <canvas id="pedidosChart" class="p-4"></canvas>
+        </div>
+
         <div class="grid grid-cols-2 gap-6 mb-6">
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
@@ -198,3 +199,34 @@
         <?php include_once __DIR__ . '/inc/footer.php'; ?>
     </main>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const totalPedidosPorEstado = <?php echo json_encode($data['totalPedidosPorEstado']); ?>;
+        const labels = totalPedidosPorEstado.map(item => item.estado);
+        const totals = totalPedidosPorEstado.map(item => item.total);
+
+        const ctx = document.getElementById('pedidosChart').getContext('2d');
+        const pedidosChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total de Pedidos',
+                    data: totals,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>

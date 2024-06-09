@@ -64,11 +64,6 @@ class Pedido extends Model
         return $pedido;
     }
 
-    public function countPedidos()
-    {
-        $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda');
-        return $this->db->single()['count'];
-    }
 
     public function updateDetallePedido($data)
     {
@@ -91,7 +86,6 @@ class Pedido extends Model
         return $this->db->execute();
     }
 
-
     public function deletePedido($id)
     {
         $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');
@@ -106,21 +100,21 @@ class Pedido extends Model
     public function getAllPedidosWithDetails()
     {
         $this->db->query('SELECT pedidoscomanda.id, pedidoscomanda.usuario_id, pedidoscomanda.cliente_id, pedidoscomanda.mesa_id, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total,
-personas.nombre AS usuario, clientes.persona_id AS cliente, mesas.numero AS mesa
-FROM pedidoscomanda
-JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
-JOIN personas ON usuarios.persona_id = personas.id
-JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
-JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
+        personas.nombre AS usuario, clientes.persona_id AS cliente, mesas.numero AS mesa
+        FROM pedidoscomanda
+        JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
+        JOIN personas ON usuarios.persona_id = personas.id
+        JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
+        JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
 
         $pedidos = $this->db->resultSet();
 
         // Obtener detalles de cada pedido
         foreach ($pedidos as &$pedido) {
             $this->db->query('SELECT detallespedido.cantidad, productos.nombre
-FROM detallespedido
-JOIN productos ON detallespedido.producto_id = productos.id
-WHERE detallespedido.pedido_id = :pedido_id');
+            FROM detallespedido
+            JOIN productos ON detallespedido.producto_id = productos.id
+            WHERE detallespedido.pedido_id = :pedido_id');
             $this->db->bind(':pedido_id', $pedido['id']);
             $pedido['detalles'] = $this->db->resultSet();
         }
@@ -133,5 +127,17 @@ WHERE detallespedido.pedido_id = :pedido_id');
         $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');
         $this->db->bind(':pedido_id', $pedido_id);
         return $this->db->execute();
+    }
+
+    public function countPedidos()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda');
+        return $this->db->single()['count'];
+    }
+
+    public function getTotalPedidosPorEstado()
+    {
+        $this->db->query('SELECT estado, COUNT(*) as total FROM pedidoscomanda GROUP BY estado');
+        return $this->db->resultSet();
     }
 }

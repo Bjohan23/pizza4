@@ -40,6 +40,7 @@ class HomeController extends Controller
         $rolesCount = $rolModel->contadorDeRoles();
         $mesasCount = $listMesasModel->mesasCount();
         $categoriasCount = $listCategoriasModel->categoriasCount();
+        $totalPedidosPorEstado = $pedidoModel->getTotalPedidosPorEstado();
 
         // Pasar los datos a la vista
         $this->view('dashboard', [
@@ -50,7 +51,8 @@ class HomeController extends Controller
             'pisoCount' => $pisoCount,
             'rolesCount' => $rolesCount,
             'mesasCount' => $mesasCount,
-            'categoriasCount' => $categoriasCount
+            'categoriasCount' => $categoriasCount,
+            'totalPedidosPorEstado' => $totalPedidosPorEstado // Pasar los datos como array asociativo
         ]);
     }
 }
