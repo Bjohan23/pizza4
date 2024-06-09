@@ -82,4 +82,18 @@ class PisosController extends Controller
             header('Location: /PIZZA4/public/pisos');
         }
     }
+    public function mesas($id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        }
+
+        $pisoModel = $this->model('Piso');
+        $piso = $pisoModel->getPisoById($id);
+        $mesaModel = $this->model('Mesa');
+        $mesas = $mesaModel->getMesasByPisoId($id);
+        $this->view('pisos/mesas', ['piso' => $piso, 'mesas' => $mesas]);
+    }
 }

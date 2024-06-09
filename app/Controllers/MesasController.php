@@ -22,7 +22,7 @@ class MesasController extends Controller
             ];
             $mesaModel = $this->model('Mesa');
             if ($mesaModel->createMesa($data)) {
-                header('Location: /PIZZA4/public/mesas');
+                header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
             } else {
                 $this->view('mesas/create', ['error' => 'Error al registrar la mesa.', 'pisos' => $pisos]);
             }
@@ -45,7 +45,7 @@ class MesasController extends Controller
                 'capacidad' => $_POST['capacidad']
             ];
             if ($mesaModel->updateMesa($data)) {
-                header('Location: /PIZZA4/public/mesas');
+                header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
             } else {
                 $this->view('mesas/edit', ['mesa' => $data, 'error' => 'Error al actualizar la mesa.', 'pisos' => $pisos]);
             }
@@ -58,16 +58,9 @@ class MesasController extends Controller
     public function delete($id)
     {
         $mesaModel = $this->model('Mesa');
+        $piso_id = $mesaModel->getMesaById($id);
         if ($mesaModel->deleteMesa($id)) {
-            header('Location: /PIZZA4/public/mesas');
+            header('Location: /PIZZA4/public/pisos/mesas/' . $piso_id['piso_id']);
         }
-    }
-    //mostrar mesas por piso
-    public function mesasPorPiso()
-    {
-        $piso_id = $_GET['piso_id'];
-        $mesaModel = $this->model('Mesa');
-        $mesas = $mesaModel->getMesasByPiso($piso_id);
-        $this->view('mesas/index', ['mesas' => $mesas]);
     }
 }
