@@ -1,25 +1,27 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
-        <h1 class="text-2xl font-bold mb-4">Editar Piso</h1>
+html
+Copiar código
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Editar Piso</h2>
         <?php if (isset($error)) : ?>
             <p class="text-red-500"><?php echo $error; ?></p>
         <?php endif; ?>
-        <form action="/PIZZA4/public/pisos/edit/<?php echo $data['piso']['id']; ?>" method="post">
-            <div class="mb-4">
-                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo $data['piso']['nombre']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        <form action="/PIZZA4/public/pisos/edit/<?php echo $data['piso']['id']; ?>" method="post" class="space-y-8">
+            <div>
+                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo $data['piso']['nombre']; ?>" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
-            <div class="mb-4">
-                <label for="sede_id" class="block text-sm font-medium text-gray-700">Sede:</label>
-                <select id="sede_id" name="sede_id" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div>
+                <label for="sede_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sede:</label>
+                <select id="sede_id" name="sede_id" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
                     <?php foreach ($data['sedes'] as $sede) : ?>
                         <option value="<?php echo $sede['id']; ?>" <?php if ($data['piso']['sede_id'] == $sede['id']) echo 'selected'; ?>><?php echo $sede['nombre']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div>
-                <input type="submit" value="Actualizar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Actualizar</button>
             </div>
         </form>
     </div>
-</main>
+</section>

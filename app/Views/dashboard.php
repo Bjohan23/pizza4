@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo PISOS ?>" class="block text-white bg-purple-500 dark:bg-purple-700 text-center py-2 rounded-b-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition duration-200">
+                    <a href="<?php echo USER ?>" class="block text-white bg-purple-500 dark:bg-purple-700 text-center py-2 rounded-b-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition duration-200">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
