@@ -1,30 +1,32 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-8">
-        <h1 class="text-2xl font-bold mb-6">Registrar Nuevo Cliente</h1>
+html
+Copiar código
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Registrar Nuevo Cliente</h2>
         <?php if (isset($error)) : ?>
-            <p class="text-red-500 mb-6"><?php echo $error; ?></p>
+            <p class="text-red-500"><?php echo $error; ?></p>
         <?php endif; ?>
-        <form action="<?php echo CLIENT_CREATE ?>" method="post" class="space-y-6">
+        <form action="<?php echo CLIENT_CREATE ?>" method="post" class="space-y-8">
             <div>
-                <label for="nombre" class="block font-bold mb-2">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required class="border border-gray-300 rounded-md px-4 py-3 w-full">
+                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
             <div>
-                <label for="email" class="block font-bold mb-2">Email:</label>
-                <input type="email" id="email" name="email" required class="border border-gray-300 rounded-md px-4 py-3 w-full">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email:</label>
+                <input type="email" id="email" name="email" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
             <div>
-                <label for="telefono" class="block font-bold mb-2">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" required class="border border-gray-300 rounded-md px-4 py-3 w-full">
+                <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
             <div>
-                <label for="direccion" class="block font-bold mb-2">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" required class="border border-gray-300 rounded-md px-4 py-3 w-full">
+                <label for="direccion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
-            <div class="text-right">
-                <input type="submit" value="Registrar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+            <div>
+                <button type="submit" class="w-full py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Registrar</button>
             </div>
         </form>
+        <a href="<?php echo CLIENT ?>" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
     </div>
-</main>
-<!-- </div> -->
+</section>

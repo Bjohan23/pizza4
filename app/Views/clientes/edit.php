@@ -1,30 +1,32 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
-        <h1 class="text-2xl font-bold mb-4">Editar Cliente</h1>
+html
+Copiar código
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Editar Cliente</h2>
         <?php if (isset($error)) : ?>
             <p class="text-red-500"><?php echo $error; ?></p>
         <?php endif; ?>
-        <form action="/PIZZA4/public/clientes/edit/<?php echo $data['cliente']['id']; ?>" method="post">
-            <div class="mb-4">
-                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo $data['cliente']['nombre']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                <input type="email" id="email" name="email" value="<?php echo $data['cliente']['email']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" value="<?php echo $data['cliente']['telefono']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" value="<?php echo $data['cliente']['direccion']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        <form action="/PIZZA4/public/clientes/edit/<?php echo $data['cliente']['id']; ?>" method="post" class="space-y-8">
+            <div>
+                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo $data['cliente']['nombre']; ?>" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
             </div>
             <div>
-                <input type="submit" value="Actualizar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo $data['cliente']['email']; ?>" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
+            </div>
+            <div>
+                <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" value="<?php echo $data['cliente']['telefono']; ?>" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
+            </div>
+            <div>
+                <label for="direccion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" value="<?php echo $data['cliente']['direccion']; ?>" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
+            </div>
+            <div>
+                <button type="submit" class="w-full py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Actualizar</button>
             </div>
         </form>
+        <a href="<?php echo CLIENT ?>" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
     </div>
-</main>
-</div>
+</section>
