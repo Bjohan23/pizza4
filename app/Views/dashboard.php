@@ -12,6 +12,7 @@
             <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Panel</h1>
         </div>
 
+        <!-- Cuadros -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <!-- Usuarios -->
             <div class="col-lg-3 col-6">
@@ -23,12 +24,12 @@
                                 <p>Usuarios</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-person-add text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="Usuarios" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo USER ?>" class="block text-white bg-purple-500 dark:bg-purple-700 text-center py-2 rounded-b-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -43,12 +44,12 @@
                                 <p>Clientes</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-person-stalker text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" alt="Clientes" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo CLIENT ?>" class="block text-white bg-blue-500 dark:bg-blue-700 text-center py-2 rounded-b-lg hover:bg-blue-600 dark:hover:bg-blue-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                      Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -63,12 +64,12 @@
                                 <p>Pedidos</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-cube text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Pedidos" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo ORDER_ALL ?>" class="block text-white bg-green-500 dark:bg-green-700 text-center py-2 rounded-b-lg hover:bg-green-600 dark:hover:bg-green-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -83,16 +84,15 @@
                                 <p>Productos</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-pizza text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/box.png" alt="Productos" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo PRODUCT ?>" class="block text-white bg-red-500 dark:bg-red-700 text-center py-2 rounded-b-lg hover:bg-red-600 dark:hover:bg-red-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
-
 
             <!-- Pisos -->
             <div class="col-lg-3 col-6">
@@ -104,12 +104,12 @@
                                 <p>Pisos</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-home text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/building.png" alt="Pisos" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo PISOS ?>" class="block text-white bg-orange-500 dark:bg-orange-700 text-center py-2 rounded-b-lg hover:bg-orange-700 dark:hover:bg-orange-900 hover:text-orange-900 dark:hover:text-orange-300 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                         Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -124,17 +124,15 @@
                                 <p>Mesas</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-chair text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/table.png" alt="Mesas" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo TABLE ?>" class="block text-white bg-red-700 dark:bg-red-700 text-center py-2 rounded-b-lg hover:bg-orange-600 dark:hover:bg-orange-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
-
                 </div>
-            </div>
-
+            </div>  
 
             <!-- Categorías -->
             <div class="col-lg-3 col-6">
@@ -146,12 +144,12 @@
                                 <p>Categorías</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-cube text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/list.png" alt="Categorías" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo CATEGORY ?>" class="block text-white bg-yellow-400 dark:bg-yellow-400 text-center py-2 rounded-b-lg hover:bg-teal-600 dark:hover:bg-teal-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                         Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -166,20 +164,23 @@
                                 <p>Roles</p>
                             </div>
                             <div class="ml-auto">
-                                <i class="ion ion-key text-white text-4xl"></i>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/key.png" alt="Roles" class="icon-size">
                             </div>
                         </div>
                     </div>
                     <a href="<?php echo ROL ?>" class="block text-white bg-gray-400 dark:bg-gray-700 text-center py-2 rounded-b-lg hover:bg-gray-600 dark:hover:bg-gray-800 transition duration-200">
-                        More info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
         </div>
 
+        <br>
+        
+
+        <!-- Gráfica "Total de Pedidos por Estado" -->
         <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
-            <h2 class="text-center text-xl font-bold mt-4">Total de Pedidos por Estado</h2>
-            <canvas id="pedidosChart" class="p-4"></canvas>
+            <canvas id="pedidosChart"></canvas>
         </div>
 
         <div class="grid grid-cols-2 gap-6 mb-6">
