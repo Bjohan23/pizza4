@@ -26,12 +26,13 @@ DB_USER=tu_usuario
 DB_PASS=tu_contraseña
 DB_NAME=pizza4
 
-Importar la base de datos:
-```
+````
+3. Importar la base de datos:
+````
 CREATE DATABASE pizza4;
 USE pizza4;
-
 ````
+
 
  Insertar el código SQL proporcionado anteriormente para crear las tablas y registrar un usuario administrador
 

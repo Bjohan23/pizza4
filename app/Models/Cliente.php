@@ -38,16 +38,15 @@ class Cliente extends Model
 
     public function updateCliente($data)
     {
+
         $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion WHERE id = (SELECT persona_id FROM clientes WHERE id = :id)');
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':telefono', $data['telefono']);
         $this->db->bind(':direccion', $data['direccion']);
         $this->db->bind(':id', $data['id']);
-        if ($this->db->execute()) {
-            return true;
-        }
-        return false;
+        
+        return $this->db->execute();
     }
 
     public function deleteCliente($id)

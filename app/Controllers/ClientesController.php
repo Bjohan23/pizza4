@@ -45,9 +45,8 @@ class ClientesController extends Controller
     public function edit($id)
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
         } else {
             $clienteModel = $this->model('Cliente');
@@ -59,8 +58,13 @@ class ClientesController extends Controller
                     'telefono' => trim($_POST['telefono']),
                     'direccion' => trim($_POST['direccion']),
                 ];
+                echo "<pre>";
+                print_r($data);
+                echo "</pre>";
+                exit();
                 if ($clienteModel->updateCliente($data)) {
-                    header('Location: ' . CLIENT . '');
+
+                    header('Location: ' . CLIENT);
                 } else {
                     die('Error al actualizar el cliente');
                 }
@@ -70,6 +74,7 @@ class ClientesController extends Controller
             }
         }
     }
+
 
     public function delete($id)
     {
