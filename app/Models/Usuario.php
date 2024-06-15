@@ -59,13 +59,22 @@ class Usuario extends Model
         $this->db->bind(':contraseña', $data['contraseña']);
         return $this->db->execute();
     }
-
+    // Modelo Usuario
     public function getUsuarioById($id)
     {
-        $this->db->query('SELECT u.id, p.nombre, p.email, p.telefono, p.direccion FROM usuarios u JOIN personas p ON u.persona_id = p.id WHERE u.id = :id');
+        $this->db->query('
+        SELECT u.id, p.nombre, p.email, p.telefono, p.direccion, GROUP_CONCAT(r.nombre SEPARATOR ", ") AS roles 
+        FROM usuarios u 
+        JOIN personas p ON u.persona_id = p.id 
+        JOIN listroles lr ON u.id = lr.usuario_id
+        JOIN roles r ON lr.rol_id = r.id
+        WHERE u.id = :id
+        GROUP BY u.id
+    ');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+
 
     public function updateUsuario($data)
     {

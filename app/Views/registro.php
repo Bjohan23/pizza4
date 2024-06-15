@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
-</head>
-
-<body>
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold underline">Registro de Usuario</h1>
         <?php if (isset($error)) : ?>
@@ -43,6 +34,4 @@
             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Registrar</button>
         </form>
     </div>
-</body>
-
-</html>
+</main>

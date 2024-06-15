@@ -100,5 +100,20 @@ class UsuariosController extends Controller
             }
         }
     }
-    
+
+    // Controlador Usuarios
+    public function cuentaUsuario($id)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $usuarioModel = $this->model('Usuario');
+            $usuario = $usuarioModel->getUsuarioById($id);
+            if ($usuario) {
+                $this->view('cuenta/index', ['usuario' => $usuario]);
+            }
+        }
+    }
 }

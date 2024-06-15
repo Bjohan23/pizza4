@@ -1,4 +1,4 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <section class="bg-white dark:bg-gray-900">
         <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
             <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-gray-300">Crear Usuario</h1>
@@ -43,61 +43,61 @@
 
 <style>
     /* Estilos para el formulario */
-form {
-    max-width: 500px;
-    margin: 0 auto;
-}
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
 
-/* Estilos para los campos de entrada */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 0.375rem;
-    transition: border-color 0.3s ease;
-}
+    /* Estilos para los campos de entrada */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        transition: border-color 0.3s ease;
+    }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus {
-    outline: none;
-    border-color: #2563eb;
-}
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
 
-/* Estilos para el botón */
-button[type="submit"] {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #2563eb;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    /* Estilos para el botón */
+    button[type="submit"] {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        background-color: #2563eb;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-button[type="submit"]:hover {
-    background-color: #1e4bb4;
-}
+    button[type="submit"]:hover {
+        background-color: #1e4bb4;
+    }
 
-/* Estilos para el enlace de regresar */
-a {
-    display: block;
-    text-align: center;
-    color: #2563eb;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
+    /* Estilos para el enlace de regresar */
+    a {
+        display: block;
+        text-align: center;
+        color: #2563eb;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-a:hover {
-    color: #1e4bb4;
-}
+    a:hover {
+        color: #1e4bb4;
+    }
 </style>
