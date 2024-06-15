@@ -9,7 +9,7 @@ class HomeController extends Controller
 
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            header('Location: /PIZZA4/public/auth/login');
+            header('Location: ' . SALIR);
             exit();
         }
 
@@ -41,7 +41,9 @@ class HomeController extends Controller
         $mesasCount = $listMesasModel->mesasCount();
         $categoriasCount = $listCategoriasModel->categoriasCount();
         $totalPedidosPorEstado = $pedidoModel->getTotalPedidosPorEstado();
-
+        // obtenemos los datos del usuario autenticado para mostrar en el dashboard
+        $usuarioId = Session::get('usuario_id');
+        $usuario = $usuarioModel->getUsuarioById($usuarioId);
         // Pasar los datos a la vista
         $this->view('dashboard', [
             'usuariosCount' => $usuariosCount,
@@ -52,7 +54,8 @@ class HomeController extends Controller
             'rolesCount' => $rolesCount,
             'mesasCount' => $mesasCount,
             'categoriasCount' => $categoriasCount,
-            'totalPedidosPorEstado' => $totalPedidosPorEstado // Pasar los datos como array asociativo
+            'totalPedidosPorEstado' => $totalPedidosPorEstado, // Pasar los datos como array asociativo
+            'usuario' => $usuario,
         ]);
     }
 }

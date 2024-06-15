@@ -11,7 +11,7 @@ date_default_timezone_set('America/Lima');
 define('SALIR', '/PIZZA4/public/auth/login');
 define('APP_URL', 'http://localhost/PIZZA4/');
 define('FORM_URL', '/PIZZA4/public/');
-define('APP_NAME', 'PIZZA4');
+define('APP_NAME', 'PIZZERIA ZARELLE');
 define('APP_PATH', realpath(dirname(__FILE__, 2)) . '/'); // obtiene la ruta del proyecto en el servidor local o en el servidor de produccion
 // usuarios
 define('USER', '/PIZZA4/public/usuarios');
