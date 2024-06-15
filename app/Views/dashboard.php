@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo PISOS ?>" class="block text-white bg-orange-500 dark:bg-orange-700 text-center py-2 rounded-b-lg hover:bg-orange-700 dark:hover:bg-orange-900 hover:text-orange-900 dark:hover:text-orange-300 transition duration-200">
+                    <a href="<?php echo PISOS ?>" class="block text-white bg-orange-400 dark:bg-orange-700 text-center py-2 rounded-b-lg hover:bg-orange-600 dark:hover:bg-orange-700 hover:text-orange-800 dark:hover:text-orange-800 transition duration-200">
                          Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -128,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo TABLE ?>" class="block text-white bg-red-700 dark:bg-red-700 text-center py-2 rounded-b-lg hover:bg-orange-600 dark:hover:bg-orange-800 transition duration-200">
+                    <a href="<?php echo TABLE ?>" class="block text-white bg-red-700 dark:bg-red-700 text-center py-2 rounded-b-lg hover:bg-red-600 dark:hover:bg-red-800 transition duration-200">
                         Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -148,8 +148,8 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo CATEGORY ?>" class="block text-white bg-yellow-400 dark:bg-yellow-400 text-center py-2 rounded-b-lg hover:bg-teal-600 dark:hover:bg-teal-800 transition duration-200">
-                         Más info <i class="fas fa-arrow-circle-right"></i>
+                    <a href="<?php echo ORDER_ALL ?>" class="block text-white bg-yellow-400 dark:bg-green-700 text-center py-2 rounded-b-lg hover:bg-yellow-600 dark:hover:bg-yellow-600 transition duration-200">
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>

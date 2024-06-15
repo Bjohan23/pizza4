@@ -1,4 +1,4 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
         <div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
             <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
@@ -6,7 +6,7 @@
                     <h1 class="text-2xl font-bold mb-4 dark:text-white">Mesas</h1>
                     <a href="/PIZZA4/public/mesas/create" class="bg-primary-700 hover:bg-primary-800 text-white font-bold py-2 px-4 rounded mb-4 inline-block dark:bg-primary-600 dark:hover:bg-primary-700">Crear Mesa</a>
                 </div>
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto bg-blue-500 dark:bg-gray-800">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>

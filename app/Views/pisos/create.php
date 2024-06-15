@@ -1,5 +1,5 @@
-<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900">
-    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-8 bg-white dark:bg-gray-800 shadow-lg">
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-8 bg-white dark:bg-gray-800 shadow-lg max-w-lg mx-auto">
         <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Registrar Nuevo Piso</h1>
         <?php if (isset($error)) : ?>
             <p class="text-red-500 mb-4"><?php echo $error; ?></p>
@@ -23,3 +23,4 @@
         </form>
     </div>
 </main>
+
