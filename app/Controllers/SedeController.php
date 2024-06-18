@@ -2,6 +2,36 @@
 
 class SedeController extends Controller
 {
+    public function index()
+    {
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $sedeModel = $this->model('Sede');
+            $sedes = $sedeModel->getSedes();
+
+            $this->view('sede/index', ['sedes' => $sedes]);
+        }
+    }
+    // mostrar sede por id  
+    public function mostrar($id)
+    {
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $sedeModel = $this->model('Sede');
+            $sede = $sedeModel->getSedeById($id);
+
+            $this->view('sede/mostrar', ['sede' => $sede]);
+        }
+    }
+
     public function registro()
     {
         Session::init();

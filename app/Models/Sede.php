@@ -23,4 +23,12 @@ class Sede extends Model
         $this->db->query('SELECT * FROM Sede');
         return $this->db->resultSet();
     }
+    // mostrar los datos de la sede
+    public function getSedeById($id)
+    {
+        $this->db->query('SELECT * FROM Sede WHERE id = :id');
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
 }
+// si funciona
