@@ -5,14 +5,12 @@ class SedeController extends Controller
     public function index()
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
         } else {
             $sedeModel = $this->model('Sede');
-            $sedes = $sedeModel->getSedes();
-
+            $sedes = $sedeModel->getAllSedes();
             $this->view('sede/index', ['sedes' => $sedes]);
         }
     }

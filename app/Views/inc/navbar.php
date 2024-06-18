@@ -254,7 +254,7 @@
                             <a href="<?= CUENTA_EDIT . $usuario_ID ?>" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My perfil</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">SEDE</a>
+                            <a href="<?php echo SEDE ?>" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">SEDE</a>
                         </li>
                     </ul>
 

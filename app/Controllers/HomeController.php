@@ -31,6 +31,8 @@ class HomeController extends Controller
         $rolModel = $this->model('Rol');
         $listMesasModel = $this->model('Mesa');
         $listCategoriasModel = $this->model('Categoria');
+        // obtener los datos de la sede para mostrar en el dashboard
+        $sede = $sedeModel->getSedeById(Session::get('sede_id'));
 
         $usuariosCount = $usuarioModel->countUsuarios();
         $clientesCount = $clienteModel->countClientes();

@@ -13,9 +13,9 @@
             <!-- INICIO -->
             <li>
                 <a href="<?php echo APP_URL ?>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H3a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h6l5.315-5.316a2 2 0 0 1 2.827 0l5.316 5.316a2 2 0 0 1 0 2.827L15 15m0 0H9m6 0l2.658-2.658a2 2 0 0 1 2.829 0l2.657 2.658a2 2 0 0 1 0 2.829L15 21M9 9L5.342 5.342a2 2 0 0 1 0-2.829L7.658 0a2 2 0 0 1 2.829 0L15 7m0 0v6m0-6l2.658 2.658a2 2 0 0 1 0 2.829L16.342 24a2 2 0 0 1-2.829 0L9 17"></path>
-                </svg>
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H3a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h6l5.315-5.316a2 2 0 0 1 2.827 0l5.316 5.316a2 2 0 0 1 0 2.827L15 15m0 0H9m6 0l2.658-2.658a2 2 0 0 1 2.829 0l2.657 2.658a2 2 0 0 1 0 2.829L15 21M9 9L5.342 5.342a2 2 0 0 1 0-2.829L7.658 0a2 2 0 0 1 2.829 0L15 7m0 0v6m0-6l2.658 2.658a2 2 0 0 1 0 2.829L16.342 24a2 2 0 0 1-2.829 0L9 17"></path>
+                    </svg>
 
                     <span class="ms-3">Inicio</span>
                 </a>
@@ -97,7 +97,7 @@
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="productos-menu" data-collapse-toggle="productos-menu">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM9.293 9.293a1 1 0 0 1 1.414 0l.793.793.793-.793a1 1 0 0 1 1.414 1.414l-.793.793.793.793a1 1 0 0 1-1.414 1.414l-.793-.793-.793.793a1 1 0 0 1-1.414-1.414l.793-.793-.793-.793a1 1 0 0 1 0-1.414zM9.293 14.707l.793-.793.793.793a1 1 0 0 1-1.414 1.414l-.793-.793-.793.793a1 1 0 0 1-1.414-1.414l.793-.793-.793-.793a1 1 0 1 1 1.414-1.414l.793.793z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM9.293 9.293a1 1 0 0 1 1.414 0l.793.793.793-.793a1 1 0 0 1 1.414 1.414l-.793.793.793.793a1 1 0 0 1-1.414 1.414l-.793-.793-.793.793a1 1 0 0 1-1.414-1.414l.793-.793-.793-.793a1 1 0 0 1 0-1.414zM9.293 14.707l.793-.793.793.793a1 1 0 0 1-1.414 1.414l-.793-.793-.793.793a1 1 0 0 1-1.414-1.414l.793-.793-.793-.793a1 1 0 1 1 1.414-1.414l.793.793z" />
                     </svg>
 
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Productos</span>
@@ -117,9 +117,9 @@
             <!-- gestión de pisos Menu -->
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="pisos-menu" data-collapse-toggle="pisos-menu">
-                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M2 1a1 1 0 0 0-1 1v16a2 2 0 0 0 2 2h16a1 1 0 0 0 0-2H4V2a1 1 0 0 0-1-1zm10 6v10h4V7h-4zM8 7v10h4V7H8zM4 7h2v10H4V7z" clip-rule="evenodd" />
-                </svg>
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M2 1a1 1 0 0 0-1 1v16a2 2 0 0 0 2 2h16a1 1 0 0 0 0-2H4V2a1 1 0 0 0-1-1zm10 6v10h4V7h-4zM8 7v10h4V7H8zM4 7h2v10H4V7z" clip-rule="evenodd" />
+                    </svg>
 
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Pisos</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -135,9 +135,9 @@
             <!-- gestión de mesas Menu -->
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="mesas-menu" data-collapse-toggle="mesas-menu">
-                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M3 6h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm14 8H3a1 1 0 0 1-1-1v-1h16v1a1 1 0 0 1-1 1z"/>
-                </svg>
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3 6h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm14 8H3a1 1 0 0 1-1-1v-1h16v1a1 1 0 0 1-1 1z" />
+                    </svg>
 
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Mesas</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -151,18 +151,16 @@
                 </ul>
             </li>
             <!-- Gestión de Categorías Menu -->
-                <li>
-                    <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="categorias-menu" data-collapse-toggle="categorias-menu">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V1a1 1 0 0 1 1-1zm8 9a1 1 0 0 0-1 1v7H3V10a1 1 0 0 0-2 0v8a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V10a1 1 0 0 0-1-1zm-5 4a1 1 0 0 0-2 0v6a1 1 0 0 0 2 0v-6zm-6-4a1 1 0 0 0-2 0v10a1 1 0 0 0 2 0V9zm4 4a1 1 0 0 0-2 0v6a1 1 0 0 0 2 0v-6z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Categorías</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                        </svg>
-                    </button>
-                </li>
-
+            <li>
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="categorias-menu" data-collapse-toggle="categorias-menu">
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V1a1 1 0 0 1 1-1zm8 9a1 1 0 0 0-1 1v7H3V10a1 1 0 0 0-2 0v8a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V10a1 1 0 0 0-1-1zm-5 4a1 1 0 0 0-2 0v6a1 1 0 0 0 2 0v-6zm-6-4a1 1 0 0 0-2 0v10a1 1 0 0 0 2 0V9zm4 4a1 1 0 0 0-2 0v6a1 1 0 0 0 2 0v-6z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Categorías</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
                 <ul id="categorias-menu" class="hidden py-2 space-y-2">
                     <li>
                         <a href="/PIZZA4/public/categorias" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Categorias</a>
@@ -171,7 +169,31 @@
                         <a href="/PIZZA4/public/categorias/create" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Categoria</a>
                     </li>
                 </ul>
+
             </li>
+            <!-- gentión de sedes menu -->
+            <li>
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="sedes-menu" data-collapse-toggle="sedes-menu">
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10-10-4.477-10-10 4.477-10 10-10zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm-1 4h2v6h-2V8z" />
+                    </svg>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Sedes</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul id="sedes-menu" class="hidden py-2 space-y-2">
+                    <li>
+                        <a href="<?php echo SEDE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Sedes</a>
+
+                    </li>
+                    <li>
+                        <a href="<?php echo SEDE_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Sede</a>
+                    </li>
+                </ul>
+            </li>
+
+
+
     </div>
 </aside>
-
