@@ -1,13 +1,11 @@
 <?php
-
 class Usuario extends Model
 {
     public function findUserByEmail($email)
     {
         $this->db->query('SELECT * FROM usuarios JOIN personas ON usuarios.persona_id = personas.id WHERE personas.email = :email');
         $this->db->bind(':email', $email);
-        $row = $this->db->single();
-
+        $this->db->single();
         return $this->db->rowCount() > 0;
     }
 
@@ -25,11 +23,13 @@ class Usuario extends Model
             return false;
         }
     }
+
     public function getUsuarios()
     {
         $this->db->query('SELECT u.id, p.nombre, p.email, p.telefono FROM usuarios u JOIN personas p ON u.persona_id = p.id');
         return $this->db->resultSet();
     }
+
     public function getAllUsuarios()
     {
         $this->db->query('SELECT u.id, p.nombre FROM usuarios u JOIN personas p ON u.persona_id = p.id');
@@ -41,40 +41,29 @@ class Usuario extends Model
         $this->db->query('SELECT COUNT(*) as count FROM usuarios');
         return $this->db->single()['count'];
     }
+
     public function createUsuario($data)
     {
-        // Primero insertar la persona
-        $this->db->query('INSERT INTO personas (nombre, email, telefono, direccion) VALUES (:nombre, :email, :telefono, :direccion)');
-        $this->db->bind(':nombre', $data['nombre']);
-        $this->db->bind(':email', $data['email']);
-        $this->db->bind(':telefono', $data['telefono']);
-        $this->db->bind(':direccion', $data['direccion']);
-        $this->db->execute();
-
-        $persona_id = $this->db->lastInsertId();
-
-        // Luego insertar el usuario
         $this->db->query('INSERT INTO usuarios (persona_id, contraseña) VALUES (:persona_id, :contraseña)');
-        $this->db->bind(':persona_id', $persona_id);
+        $this->db->bind(':persona_id', $data['persona_id']);
         $this->db->bind(':contraseña', $data['contraseña']);
         return $this->db->execute();
     }
-    // Modelo Usuario
+
     public function getUsuarioById($id)
     {
         $this->db->query('
-        SELECT u.id, p.nombre, p.email, p.telefono, p.direccion, GROUP_CONCAT(r.nombre SEPARATOR ", ") AS roles 
-        FROM usuarios u 
-        JOIN personas p ON u.persona_id = p.id 
-        JOIN listroles lr ON u.id = lr.usuario_id
-        JOIN roles r ON lr.rol_id = r.id
-        WHERE u.id = :id
-        GROUP BY u.id
-    ');
+            SELECT u.id, p.nombre, p.email, p.telefono, p.direccion, GROUP_CONCAT(r.nombre SEPARATOR ", ") AS roles 
+            FROM usuarios u 
+            JOIN personas p ON u.persona_id = p.id 
+            JOIN listroles lr ON u.id = lr.usuario_id
+            JOIN roles r ON lr.rol_id = r.id
+            WHERE u.id = :id
+            GROUP BY u.id
+        ');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
-
 
     public function updateUsuario($data)
     {
