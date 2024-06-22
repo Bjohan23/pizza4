@@ -15,6 +15,9 @@ class Persona extends Model
         $this->db->bind(':direccion', $direccion);
 
 
+
+
+
         if ($this->db->execute()) {
             return $this->db->lastInsertId();
         } else {

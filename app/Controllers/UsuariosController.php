@@ -23,7 +23,7 @@ class UsuariosController extends Controller
             exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                
+
                 $data = [
                     'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
                     'email' => isset($_POST['email']) ? $_POST['email'] : null,
@@ -44,12 +44,24 @@ class UsuariosController extends Controller
                     $this->view('usuarios/create', $data);
                     return;
                 }
-
                 try {
                     $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion']);
+
                     $data['persona_id'] = $persona_id;
-                    $usuario_id = $usuarioModel->createUsuario($data);
+                    $data2 = [
+                        'persona_id' => $persona_id,
+                        'contraseña' => $data['contraseña']
+                    ];
+
+                    $usuario_id = $usuarioModel->createUsuario($data2);
+                    echo "<pre>";
+                    print_r($usuario_id, $data['rol_id']);
+                    echo "</pre>";
+                    exit();
+
+
                     $listRolesModel->assignRole($usuario_id, $data['rol_id']);
+
                     header('Location: /PIZZA4/public/usuarios');
                 } catch (Exception $e) {
                     $data['error'] = $e->getMessage();

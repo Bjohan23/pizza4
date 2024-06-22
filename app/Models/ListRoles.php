@@ -8,6 +8,7 @@ class ListRoles extends Model
         $this->db->bind(':usuario_id', $usuarioId);
         $this->db->bind(':rol_id', $rolId);
 
+
         if ($this->db->execute()) {
             return true;
         } else {
