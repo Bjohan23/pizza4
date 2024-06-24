@@ -31,7 +31,7 @@
 
     <!-- Botón para agregar una sala nueva -->
     <div class="flex justify-center mt-8">
-        <a href="<?php echo PISO_CREATE; ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar Sala Nueva</a>
+        <a href="<?php echo PISO_CREATE; ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar piso nuevo </a>
     </div>
 </main>
 
@@ -51,11 +51,9 @@
         overflow: hidden;
         background-image: url('https://i.pinimg.com/originals/a6/ba/7f/a6ba7f7f6881e49a5f9da0c26dfc9859.jpg');
     }
-
     .piso-cuadro:hover {
         transform: scale(1.05);
     }
-
     .contenido-cuadro {
         text-align: center;
         padding: 1rem;
@@ -68,4 +66,5 @@
         height: 100%;
         width: 100%;
     }
+
 </style>

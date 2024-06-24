@@ -28,19 +28,18 @@ class PisosController extends Controller
                 'nombre' => $_POST['nombre'],
                 'sede_id' => $_POST['sede_id']
             ];
-            $pisoModel = $this->model('Piso');
-            if ($pisoModel->createPiso($data)) {
+            $pisoModel = $this->model('Piso'); 
+            if ($pisoModel->createPiso($data)) { 
                 header('Location: /PIZZA4/public/pisos');
             } else {
                 $this->view('pisos/create', ['error' => 'Error al registrar el piso.']);
             }
         } else {
-            $sedeModel = $this->model('Sede');
-            $sedes = $sedeModel->getSedes();
+            $sedeModel = $this->model('Sede'); 
+            $sedes = $sedeModel->getAllSedes(); 
             $this->view('pisos/create', ['sedes' => $sedes]);
         }
     }
-
     public function edit($id)
     {
         Session::init();
@@ -48,8 +47,18 @@ class PisosController extends Controller
             header('Location: ' . SALIR . '');
             exit();
         }
-
+    
         $pisoModel = $this->model('Piso');
+        $piso = $pisoModel->getPisoById($id); // Obtener los detalles del piso
+    
+        if (!$piso) {
+            // Manejar el caso donde el piso no existe
+            // Esto puede ser una redirección, mostrar un mensaje de error, etc.
+            // Por ejemplo:
+            // header('Location: /PIZZA4/public/error404');
+            // exit();
+        }
+    
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'id' => $id,
@@ -58,16 +67,19 @@ class PisosController extends Controller
             ];
             if ($pisoModel->updatePiso($data)) {
                 header('Location: /PIZZA4/public/pisos');
+                exit();
             } else {
-                $this->view('pisos/edit', ['piso' => $data, 'error' => 'Error al actualizar el piso.']);
+                $this->view('pisos/edit', ['piso' => $piso, 'error' => 'Error al actualizar el piso.']);
+                exit();
             }
-        } else {
-            $piso = $pisoModel->getPisoById($id);
-            $sedeModel = $this->model('Sede');
-            $sedes = $sedeModel->getSedes();
-            $this->view('pisos/edit', ['piso' => $piso, 'sedes' => $sedes]);
         }
+    
+        // Solo obtenemos las sedes si estamos mostrando el formulario de edición
+        $sedeModel = $this->model('Sede');
+        $sedes = $sedeModel->getAllSedes(); 
+        $this->view('pisos/edit', ['piso' => $piso, 'sedes' => $sedes]);
     }
+    
 
     public function delete($id)
     {
