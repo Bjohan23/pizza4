@@ -1,6 +1,6 @@
-<main class="p-4 md:ml-64 h-auto pt-20">
-    <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Seleccionar Mesa</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+<main class="main class=p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">&nbsp;Seleccionar Mesa</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 ml-4"> <!-- Ajuste aquí -->
         <?php foreach ($data['mesas'] as $mesa) : ?>
             <div class="border-2 piso-cuadro <?php echo $mesa['estado'] == 'ocupada' ? 'border-red-500 bg-red-100' : 'border-green-500 bg-green-100'; ?> rounded-lg h-32 md:h-64 flex flex-col justify-between p-4 transition duration-300 custom-bg-image">
                 <a href="/PIZZA4/public/pedidos/create/<?php echo $mesa['id']; ?>" class="flex items-center justify-center flex-col h-full">
@@ -23,7 +23,6 @@
         <?php endforeach; ?>
     </div>
 </main>
-
 
 <style>
     .custom-bg-image {
