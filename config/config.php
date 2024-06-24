@@ -58,10 +58,10 @@ define('CATEGORY_EDIT', '/PIZZA4/public/categorias/edit/');
 define('CATEGORY_DELETE', '/PIZZA4/public/categorias/delete/');
 
 // sedes
-define('SEDE', '/PIZZA4/public/sedes');
-define('SEDE_CREATE', '/PIZZA4/public/sedes/create');
-define('SEDE_EDIT', '/PIZZA4/public/sedes/edit/');
-define('SEDE_DELETE', '/PIZZA4/public/sedes/delete/');
+define('SEDE', '/PIZZA4/public/sede');
+define('SEDE_CREATE', '/PIZZA4/public/sede/create');
+define('SEDE_EDIT', '/PIZZA4/public/sede/edit/');
+define('SEDE_DELETE', '/PIZZA4/public/sede/delete/');
 // PISO
 define('PISOS', '/PIZZA4/public/pisos');
 define('PISO_CREATE', '/PIZZA4/public/pisos/create');

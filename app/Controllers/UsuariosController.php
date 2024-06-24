@@ -5,15 +5,12 @@ class UsuariosController extends Controller
     public function index()
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
         } else {
-
             $usuarioModel = $this->model('Usuario');
             $usuarios = $usuarioModel->getUsuarios();
-
             $this->view('usuarios/index', ['usuarios' => $usuarios]);
         }
     }
@@ -21,12 +18,12 @@ class UsuariosController extends Controller
     public function create()
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
                 $data = [
                     'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
                     'email' => isset($_POST['email']) ? $_POST['email'] : null,
@@ -40,12 +37,33 @@ class UsuariosController extends Controller
                 $usuarioModel = $this->model('Usuario');
                 $listRolesModel = $this->model('ListRoles');
 
+                if ($usuarioModel->findUserByEmail($data['email'])) {
+                    $data['error'] = 'El correo electrónico ya está registrado.';
+                    $rolModel = $this->model('Rol');
+                    $data['roles'] = $rolModel->getAllRoles();
+                    $this->view('usuarios/create', $data);
+                    return;
+                }
                 try {
                     $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion']);
-                    $usuario_id = $usuarioModel->createUsuario(['persona_id' => $persona_id, 'contraseña' => $data['contraseña']]);
+
+                    $data['persona_id'] = $persona_id;
+                    $data2 = [
+                        'persona_id' => $persona_id,
+                        'contraseña' => $data['contraseña']
+                    ];
+
+                    $usuario_id = $usuarioModel->createUsuario($data2);
+                    echo "<pre>";
+                    print_r($usuario_id, $data['rol_id']);
+                    echo "</pre>";
+                    exit();
+
+
                     $listRolesModel->assignRole($usuario_id, $data['rol_id']);
+
                     header('Location: /PIZZA4/public/usuarios');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $data['error'] = $e->getMessage();
                     $rolModel = $this->model('Rol');
                     $data['roles'] = $rolModel->getAllRoles();
@@ -62,13 +80,13 @@ class UsuariosController extends Controller
     public function edit($id)
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
         } else {
             $usuarioModel = $this->model('Usuario');
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
                 $data = [
                     'id' => $id,
                     'nombre' => $_POST['nombre'],
@@ -76,6 +94,7 @@ class UsuariosController extends Controller
                     'telefono' => $_POST['telefono'],
                     'direccion' => $_POST['direccion']
                 ];
+
                 if ($usuarioModel->updateUsuario($data)) {
                     header('Location: /PIZZA4/public/usuarios');
                 }
@@ -89,7 +108,6 @@ class UsuariosController extends Controller
     public function delete($id)
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
@@ -101,7 +119,6 @@ class UsuariosController extends Controller
         }
     }
 
-    // Controlador Usuarios
     public function cuentaUsuario($id)
     {
         Session::init();

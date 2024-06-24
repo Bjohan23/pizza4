@@ -4,15 +4,19 @@ class Persona extends Model
 {
     public function create($nombre, $email, $telefono, $direccion)
     {
-        if ($this->emailExists($email)) {
-            throw new \Exception("El email ya existe");
-        }
+        // if ($this->emailExists($email)) {
+        //     throw new \Exception("El email ya existe");
+        // }
 
         $this->db->query("INSERT INTO personas (nombre, email, telefono, direccion) VALUES (:nombre, :email, :telefono, :direccion)");
         $this->db->bind(':nombre', $nombre);
         $this->db->bind(':email', $email);
         $this->db->bind(':telefono', $telefono);
         $this->db->bind(':direccion', $direccion);
+
+
+
+
 
         if ($this->db->execute()) {
             return $this->db->lastInsertId();
