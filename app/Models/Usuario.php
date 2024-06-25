@@ -9,15 +9,15 @@ class Usuario extends Model
         return $this->db->rowCount() > 0;
     }
 
-    public function login($email, $contraseña)
+    public function login($email, $contrasena)
     {
-        $this->db->query('SELECT usuarios.id, personas.nombre, personas.email, usuarios.contraseña FROM usuarios 
+        $this->db->query('SELECT usuarios.id, personas.nombre, personas.email, usuarios.contrasena FROM usuarios 
                           JOIN personas ON usuarios.persona_id = personas.id 
                           WHERE personas.email = :email');
         $this->db->bind(':email', $email);
         $row = $this->db->single();
 
-        if ($row && password_verify($contraseña, $row['contraseña'])) {
+        if ($row && password_verify($contrasena, $row['contrasena'])) {
             return $row;
         } else {
             return false;
@@ -44,11 +44,10 @@ class Usuario extends Model
 
     public function createUsuario($data)
     {
-        return $data['persona_id'];
-        $this->db->query('INSERT INTO usuarios (persona_id, contraseña) VALUES (:persona_id, :contraseña)');
+        
+        $this->db->query('INSERT INTO usuarios (persona_id, contrasena) VALUES (:persona_id, :contrasena)');
         $this->db->bind(':persona_id', $data['persona_id']);
-        $this->db->bind(':contraseña', $data['contraseña']);
-
+        $this->db->bind(':contrasena', $data['contrasena']);
         // Ejecutar la consulta y devolver el resultado
         return $this->db->execute();
     }
