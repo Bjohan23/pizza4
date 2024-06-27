@@ -12,5 +12,5 @@
             <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-green-800 sm:w-fit hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800">Guardar Cambios</button>
         </form>
     </div>
+    <?php include_once '../app/Views/inc/footer.php'; ?>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>

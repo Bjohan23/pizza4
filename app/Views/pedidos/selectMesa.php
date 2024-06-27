@@ -22,8 +22,9 @@
             </div>
         <?php endforeach; ?>
     </div>
+    <?php include_once '../app/Views/inc/footer.php'; ?>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 
 <style>
     .custom-bg-image {

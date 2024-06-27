@@ -11,8 +11,9 @@
             </a>
         <?php endforeach; ?>
     </div>
+    <?php include_once '../app/Views/inc/footer.php'; ?>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 
 <style>
     /* Estilo para los cuadros de los pisos */

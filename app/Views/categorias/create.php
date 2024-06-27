@@ -1,3 +1,4 @@
+<main>
 <section class="bg-gray-100 dark:bg-gray-900 min-h-screen flex justify-center items-center">
     <div class="container mx-auto flex justify-center items-center">
         <div class="max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex items-center">
@@ -23,6 +24,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 </section>
 <?php include_once '../app/Views/inc/footer.php'; ?>
+</main>
