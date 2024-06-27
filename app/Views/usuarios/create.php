@@ -41,6 +41,7 @@
     </section>
 </main>
 
+<?php include_once '../app/Views/inc/footer.php'; ?>
 <style>
     /* Estilos para el formulario */
     form {

@@ -23,6 +23,7 @@
         <?php endforeach; ?>
     </div>
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>
 
 <style>
     .custom-bg-image {
@@ -30,7 +31,9 @@
         background-size: cover;
         background-position: center;
     }
+
     .piso-cuadro:hover {
-        transform: scale(1.05); /* Ajusta el valor según tu preferencia */
+        transform: scale(1.05);
+        /* Ajusta el valor según tu preferencia */
     }
 </style>

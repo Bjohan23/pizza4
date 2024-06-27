@@ -17,11 +17,10 @@
                     <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H3a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h6l5.315-5.316a2 2 0 0 1 2.827 0l5.316 5.316a2 2 0 0 1 0 2.827L15 15m0 0H9m6 0l2.658-2.658a2 2 0 0 1 2.829 0l2.657 2.658a2 2 0 0 1 0 2.829L15 21M9 9L5.342 5.342a2 2 0 0 1 0-2.829L7.658 0a2 2 0 0 1 2.829 0L15 7m0 0v6m0-6l2.658 2.658a2 2 0 0 1 0 2.829L16.342 24a2 2 0 0 1-2.829 0L9 17"></path>
                     </svg>
-
                     <span class="ms-3">Inicio</span>
                 </a>
             </li>
-          
+
             <!-- Ventas Menu -->
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="venta-menu" data-collapse-toggle="venta-menu">
@@ -72,6 +71,26 @@
                     <!-- buscar usuario -->
                     <li>
                         <a href="<?php echo USER_SEARCH ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Buscar Usuario</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- gestión de clientes -->
+            <li>
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="clientes-menu" data-collapse-toggle="clientes-menu">
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6s-8 4.5-8 9.5a3.5 3.5 0 0 0 7 0c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5a3.5 3.5 0 0 0 7 0c0-5-8-9.5-8-9.5z" />
+                    </svg>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Clientes</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul id="clientes-menu" class="hidden py-2 space-y-2">
+                    <li>
+                        <a href="<?php echo CLIENT ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Clientes</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo CLIENT_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Clientes</a>
                     </li>
                 </ul>
             </li>
@@ -194,8 +213,5 @@
                     </li>
                 </ul>
             </li>
-
-
-
     </div>
 </aside>

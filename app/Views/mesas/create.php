@@ -27,3 +27,4 @@
         </form>
     </div>
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>

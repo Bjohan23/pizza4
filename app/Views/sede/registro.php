@@ -13,3 +13,5 @@
     </label>
     <button type="submit">Registrar Sede</button>
 </form>
+
+<?php include_once '../app/Views/inc/footer.php'; ?>
