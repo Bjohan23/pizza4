@@ -39,8 +39,8 @@
             <a href="/PIZZA4/public/usuarios" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
         </div>
     </section>
-    <?php include_once '../app/Views/inc/footer.php'; ?>
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>
 
 
 <style>

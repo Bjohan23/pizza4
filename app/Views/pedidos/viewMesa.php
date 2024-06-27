@@ -127,9 +127,9 @@
             </div>
         </div>
     </section>
-    
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>
 
 <script>
     document.querySelectorAll('.actualizar-link').forEach(link => {

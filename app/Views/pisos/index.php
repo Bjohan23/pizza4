@@ -33,8 +33,8 @@
     <div class="flex justify-center mt-8">
         <a href="<?php echo PISO_CREATE; ?>" class="bg-gradient-to-r from-red-600 to-yellow-400 text-white py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors duration-300">Agregar piso nuevo </a>
     </div>
-    <?php include_once '../app/Views/inc/footer.php'; ?>
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>
 
 <style>
     /* Estilo para los cuadros de los pisos */
