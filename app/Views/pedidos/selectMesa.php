@@ -6,25 +6,27 @@
                 <a href="/PIZZA4/public/pedidos/create/<?php echo $mesa['id']; ?>" class="flex items-center justify-center flex-col h-full">
                     <div class="text-center">
                         <p class="text-sm text-gray-500 text-blue-900 dark:text-white">Mesa <?php echo $mesa['numero']; ?></p>
-                        <p class="text-xl font-bold text-gray-900 dark:text-white"><?php echo $mesa['estado'] == 'ocupada' ? 'Ocupada' : 'Libre'; ?></p>
+                        <?php if ($mesa['estado'] == 'ocupada') : ?>
+                            <p class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900"> ocupada </p>
+                        <?php else : ?>
+                            <p class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"> libre</p>
+                        <?php endif; ?>
                     </div>
                 </a>
                 <?php if ($mesa['estado'] == 'ocupada') : ?>
-                    <a href="/PIZZA4/public/pedidos/viewMesa/<?php echo $mesa['id']; ?>" class="mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                        Ver Pedido
-                    </a>
-                    <form action="<?= LIBERAR_MESA . $mesa['id']; ?>" method="post">
-                        <button type="submit" class="mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 focus:outline-none dark:focus:ring-red-800">
-                            Liberar Mesa
-                        </button>
-                    </form>
+                    <div class="flex space-x-2 mt-4">
+                        <a id="btn-pedido" href="/PIZZA4/public/pedidos/viewMesa/<?php echo $mesa['id']; ?>" class="flex items-center justify-center px-1 py-1 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                            <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full text-sm px-2 py-2 text-center me-1 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">ver pedido</button>
+                        </a>
+                        <form id="liberar-mesa-form" action="<?= LIBERAR_MESA . $mesa['id']; ?>" method="post">
+                            <button type="button" id="liberar-mesa-button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-2 py-2 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Liberar mesa</button>
+                        </form>
+                    </div>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
-
 
 <style>
     .custom-bg-image {
@@ -37,4 +39,27 @@
         transform: scale(1.05);
         /* Ajusta el valor según tu preferencia */
     }
+
+    /* ver pedido boton  */
 </style>
+<?php include_once '../app/Views/inc/footer.php'; ?>
+
+
+<script>
+    document.getElementById('liberar-mesa-button').addEventListener('click', function() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Se eliminará el pedido al liberar la mesa.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, liberar mesa',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('liberar-mesa-form').submit();
+            }
+        })
+    });
+</script>

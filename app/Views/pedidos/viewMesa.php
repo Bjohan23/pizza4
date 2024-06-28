@@ -25,13 +25,12 @@
         <div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
             <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                 <div class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
-                    <h1 class="text-2xl font-bold mb-4 dark:text-white">Pedidos de la Mesa </h1>
+                    <h1 class="text-2xl font-bold mb-4 dark:text-white">Pedidos Existentes en la Mesa </h1>
                 </div>
                 <div class="px-4 py-3">
                     <?php if (isset($error)) : ?>
                         <p class="text-red-500"><?php echo $error; ?></p>
                     <?php endif; ?>
-                    <h2 class="text-xl font-bold mb-4 dark:text-white">Pedidos Existentes</h2>
                     <?php if (isset($data['pedido'])) : ?>
                         <form action="/PIZZA4/public/pedidos/update/<?php echo htmlspecialchars($data['mesa_id']); ?>" method="post">
                             <input type="hidden" name="pedido_id" value="<?php echo htmlspecialchars($data['pedido']['id']); ?>">
@@ -42,39 +41,30 @@
                             <div>
                                 <!-- mostrar usuario  -->
                                 <label for="usuario_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    Usuario Id: <?php echo htmlspecialchars($data['usuario']->id); ?> <br>
                                     Usuario: <?php echo htmlspecialchars($data['usuario']->nombre); ?>
                                 </label>
-
                                 <?php if (isset($data['mesa']) && isset($data['mesa']->capacidad) && isset($data['mesa']->numero) && isset($data['mesa']->id)) : ?>
-                                    <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                        <span>Mesa ID: <?php echo htmlspecialchars($data['mesa']->id); ?></span><br>
-                                        <span> Piso: <?php echo htmlspecialchars($data['mesa']->nombre_piso); ?></span><br>
-                                        <span>N° Mesa: <?php echo htmlspecialchars($data['mesa']->numero); ?></span>
-                                        <div>Capacidad: <?php echo htmlspecialchars($data['mesa']->capacidad); ?></div>
-                                        <div>ID pedido <?php echo htmlspecialchars($data['pedido']['pedido_id']); ?></div>
+                                    <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 m-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                                        <span> Piso: <?php echo htmlspecialchars($data['mesa']->nombre_piso); ?></span> -
+                                        <span>N° Mesa: <?php echo htmlspecialchars($data['mesa']->numero); ?></span> -
+                                        <span>Capacidad: <?php echo htmlspecialchars($data['mesa']->capacidad); ?></span>
                                     </div>
+
                                 <?php else : ?>
                                     <div class="text-red-500">No se encontró información de la mesa.</div>
                                 <?php endif; ?>
                             </div>
 
-                            <div class="mt-4 p-1">
-                                <label for="cliente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cliente:</label>
-                                <select name="cliente_id" id="cliente_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-                                    <?php foreach ($data['clientes'] as $cliente) : ?>
-                                        <option value="<?php echo htmlspecialchars($cliente['id']); ?>"><?php echo htmlspecialchars($cliente['nombre']); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+
                             <table class="min-w-full bg-white border dark:bg-gray-800">
                                 <thead class="bg-gray-200 dark:bg-gray-700">
                                     <tr>
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Producto</th>
-                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Precio</th>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
                                         <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Descripción</th>
-                                        <th colspan="2" class="py-2 px-4 border dark:border-gray-600 dark:text-white">Acciones</th>
+                                        <th colspan="1" class="py-2 px-4 border dark:border-gray-600 dark:text-white">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,14 +102,16 @@
                             <input type="hidden" name="mesa_id" value="<?php echo htmlspecialchars($data['pedido']['mesa_id']); ?>">
                             <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($data['pedido']['fecha']); ?>">
                             <input type="hidden" name="total" value="<?php echo htmlspecialchars($data['pedido']['total']); ?>">
-
                             <button type="button" id="cobrar-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
+                            <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo htmlspecialchars($data['mesa_id']); ?>'">Agregar Nuevo Producto</a>
                         </form>
+
                     <?php else : ?>
                         <p class="text-red-500">No se encontró información del pedido.</p>
+                        <br>
+                        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo htmlspecialchars($data['mesa_id']); ?>'">Agregar Producto</a>
                     <?php endif; ?>
-                    <h2 class="text-xl font-bold mb-4 mt-6 dark:text-white">Agregar Nuevo Producto</h2>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo htmlspecialchars($data['mesa_id']); ?>'">Agregar Nuevo Producto</button>
+
                 </div>
             </div>
         </div>
@@ -144,6 +136,14 @@
                         <input type="text" id="nombre" name="nombre" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <button type="button" id="btn-register-client" class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Registrar Cliente</button>
                     </div>
+                </div>
+                <div class="mt-4 p-1">
+                    <label for="cliente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cliente:</label>
+                    <select name="cliente_id" id="cliente_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
+                        <?php foreach ($data['clientes'] as $cliente) : ?>
+                            <option value="<?php echo htmlspecialchars($cliente['id']); ?>"><?php echo htmlspecialchars($cliente['nombre']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300">Método de Pago</label>
