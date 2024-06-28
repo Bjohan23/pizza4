@@ -256,16 +256,18 @@ class PedidosController extends Controller
         // Obtener todos los pedidos asociados a la mesa
         $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
 
-        // Eliminar cada pedido y sus detalles
-        foreach ($pedidos as $pedido) {
-            $pedidoModel->deletePedido($pedido['id']);
-        }
+        $data = [
+            'detalle_id' => $pedidos[0]['id'],
+            'comanda_id' => $pedidos[0]['pedido_id'],
+        ];
 
+
+        $pedidoModel->deletePedido($data);
         // Actualizar el estado de la mesa a 'libre'
         $mesaModel = $this->model('Mesa');
         $mesaModel->updateEstado($mesa_id, 'libre');
 
-        header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id);
+        header('Location: ' . ORDER);
         exit();
     }
 
@@ -334,7 +336,7 @@ class PedidosController extends Controller
                         error_log('Datos del comprobante: ' . print_r($comprobanteData, true));
 
                         // Redirigir a la vista de la mesa
-                        header('Location: /PIZZA4/public/pedidos/viewMesa/' . $pedidoData['mesa_id']);
+                        header('Location: ' . VIEW_MESA . $pedidoData['mesa_id']);
                         exit();
                     } else {
                         die('Error al registrar el comprobante de venta');

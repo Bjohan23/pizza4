@@ -160,6 +160,7 @@
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300">Monto Total</label>
                     <input type="number" id="total-amount" value="20" readonly class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300">Vuelto</label>
