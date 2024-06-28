@@ -44,7 +44,7 @@ class Usuario extends Model
 
     public function createUsuario($data)
     {
-        
+
         $this->db->query('INSERT INTO usuarios (persona_id, contrasena) VALUES (:persona_id, :contrasena)');
         $this->db->bind(':persona_id', $data['persona_id']);
         $this->db->bind(':contrasena', $data['contrasena']);
@@ -71,7 +71,10 @@ class Usuario extends Model
 
     public function updateUsuario($data)
     {
-        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion WHERE id = (SELECT persona_id FROM usuarios WHERE id = :id)');
+        echo $data['id'];
+        exit();
+        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion 
+        WHERE id = (SELECT persona_id FROM usuarios WHERE id = :id)');
         $this->db->bind(':id', $data['id']);
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);

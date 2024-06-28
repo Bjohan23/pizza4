@@ -23,7 +23,7 @@ class UsuariosController extends Controller
             exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
                 $data = [
                     'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
                     'email' => isset($_POST['email']) ? $_POST['email'] : null,
@@ -32,11 +32,11 @@ class UsuariosController extends Controller
                     'contrasena' => password_hash($_POST['contrasena'], PASSWORD_DEFAULT),
                     'rol_id' => $_POST['rol_id']
                 ];
-    
+
                 $personaModel = $this->model('Persona');
                 $usuarioModel = $this->model('Usuario');
                 $listRolesModel = $this->model('ListRoles');
-    
+
                 if ($usuarioModel->findUserByEmail($data['email'])) {
                     $data['error'] = 'El correo electrónico ya está registrado.';
                     $rolModel = $this->model('Rol');
@@ -46,21 +46,20 @@ class UsuariosController extends Controller
                 }
                 try {
                     $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion']);
-    
+
                     $data['persona_id'] = $persona_id;
                     $data2 = [
                         'persona_id' => $persona_id,
                         'contrasena' => $data['contrasena']
                     ];
-    
+
                     $usuario_id = $usuarioModel->createUsuario($data2);
-    
+
                     // Redireccionar a la lista de usuarios
                     header('Location: /PIZZA4/public/usuarios');
                     return;
-    
+
                     $listRolesModel->assignRole($usuario_id, $data['rol_id']);
-    
                 } catch (Exception $e) {
                     $data['error'] = $e->getMessage();
                     $rolModel = $this->model('Rol');
@@ -74,7 +73,7 @@ class UsuariosController extends Controller
             }
         }
     }
-    
+
     public function edit($id)
     {
         Session::init();
@@ -83,7 +82,7 @@ class UsuariosController extends Controller
             exit();
         } else {
             $usuarioModel = $this->model('Usuario');
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') { // si se envió el formulario de edición de usuario 
 
                 $data = [
                     'id' => $id,

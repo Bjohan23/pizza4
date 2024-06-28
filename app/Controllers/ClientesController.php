@@ -53,17 +53,13 @@ class ClientesController extends Controller
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $data = [
                     'id' => $id,
-                    'nombre' => trim($_POST['nombre']),
-                    'email' => trim($_POST['email']),
-                    'telefono' => trim($_POST['telefono']),
-                    'direccion' => trim($_POST['direccion']),
+                    'nombre' => $_POST['nombre'],
+                    'email' => $_POST['email'],
+                    'telefono' => $_POST['telefono'],
+                    'direccion' => $_POST['direccion'],
                 ];
-                echo "<pre>";
-                print_r($data);
-                echo "</pre>";
-                exit();
-                if ($clienteModel->updateCliente($data)) {
 
+                if ($clienteModel->updateCliente($data)) {
                     header('Location: ' . CLIENT);
                 } else {
                     die('Error al actualizar el cliente');
@@ -74,7 +70,6 @@ class ClientesController extends Controller
             }
         }
     }
-
 
     public function delete($id)
     {

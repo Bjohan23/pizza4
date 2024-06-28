@@ -26,7 +26,9 @@ class Cliente extends Model
 
     public function getClienteById($id)
     {
-        $this->db->query('SELECT * FROM clientes JOIN personas ON clientes.persona_id = personas.id WHERE clientes.id = :id');
+
+        $this->db->query('SELECT clientes.id , personas.nombre , personas.telefono ,personas.direccion ,personas.email FROM clientes JOIN personas ON clientes.persona_id = personas.id 
+        WHERE clientes.id = :id');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
@@ -39,15 +41,24 @@ class Cliente extends Model
     public function updateCliente($data)
     {
 
-        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion WHERE id = (SELECT persona_id FROM clientes WHERE id = :id)');
+        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion
+         WHERE id = (SELECT persona_id FROM clientes WHERE id = :id)
+    ');
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':telefono', $data['telefono']);
         $this->db->bind(':direccion', $data['direccion']);
         $this->db->bind(':id', $data['id']);
-        
-        return $this->db->execute();
+
+        if ($this->db->execute()) {
+            error_log('Actualización exitosa para el cliente ID: ' . $data['id']);
+            return true;
+        } else {
+            error_log('Error al actualizar el cliente ID: ' . $data['id']);
+            return false;
+        }
     }
+
 
     public function deleteCliente($id)
     {
