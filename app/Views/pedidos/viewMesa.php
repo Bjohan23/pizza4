@@ -20,8 +20,7 @@
         document.querySelector('form').addEventListener('submit', validarFormulario);
     });
 </script>
-
-<main class="p-4 md:ml-64 h-auto pt-20">
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
         <div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
             <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
@@ -108,16 +107,15 @@
 
                             </div>
                         </form>
-                        <form action="/PIZZA4/public/pedidos/cobrar/<?php echo htmlspecialchars($data['pedido']['pedido_id']); ?>" method="post" class="mt-4">
+                        <form id="cobrar-form" class="mt-4">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($data['pedido']['id']); ?>">
                             <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($data['pedido']['usuario_id']); ?>">
                             <input type="hidden" name="cliente_id" value="<?php echo htmlspecialchars($data['pedido']['cliente_id']); ?>">
                             <input type="hidden" name="mesa_id" value="<?php echo htmlspecialchars($data['pedido']['mesa_id']); ?>">
                             <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($data['pedido']['fecha']); ?>">
                             <input type="hidden" name="total" value="<?php echo htmlspecialchars($data['pedido']['total']); ?>">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
+                            <button type="button" id="cobrar-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
                         </form>
-
                     <?php else : ?>
                         <p class="text-red-500">No se encontró información del pedido.</p>
                     <?php endif; ?>
@@ -128,18 +126,139 @@
         </div>
     </section>
 
+    <section id="form-pago" class="hidden bg-white dark:bg-gray-900">
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Pago de Pedido</h2>
+            <form id="paymentForm" class="space-y-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300">Buscar Cliente</label>
+                    <div class="flex">
+                        <input type="text" id="search-client" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <button type="button" id="btn-search-client" class="ml-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 flex items-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4-4m0 0A7.5 7.5 0 1117.5 3.5 7.5 7.5 0 0121 17.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="client-info" class="mt-4 hidden">
+                        <label class="block text-gray-700 dark:text-gray-300">Nombre y Apellido:</label>
+                        <input type="text" id="nombre" name="nombre" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <button type="button" id="btn-register-client" class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Registrar Cliente</button>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300">Método de Pago</label>
+                    <select id="payment-method" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="efectivo">Efectivo</option>
+                        <option value="yape">Yape</option>
+                        <option value="tarjeta">Tarjeta</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300">Cantidad con la que Paga</label>
+                    <input type="number" id="payment-amount" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300">Monto Total</label>
+                    <input type="number" id="total-amount" value="20" readonly class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300">Vuelto</label>
+                    <input type="number" id="change-amount" readonly class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm">Pagar</button>
+            </form>
+        </div>
+    </section>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
 
 <script>
-    document.querySelectorAll('.actualizar-link').forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            const form = this.closest('.update-form');
-            const cantidadInput = form.querySelector('.cantidad-input');
-            const cantidad = form.closest('tr').querySelector('.cantidad').value;
-            cantidadInput.value = cantidad;
-            form.submit();
-        });
+    const TOKEN = <?php echo json_encode(TOKEN) ?>;
+
+    toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: true,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+    };
+
+    const getAjaxByToken = async (url, token) => {
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return await response.json();
+        } catch (error) {
+            toastr.error("Error en la consulta", "Error");
+        }
+    };
+
+    $("#btn-search").on("click", async () => {
+        const dni = $("#dni").val();
+        if (!dni || dni.length !== 8) {
+            return toastr.warning("Ingrese un número de DNI válido", "Advertencia");
+        }
+
+        const response = await getAjaxByToken(`http://apiconsultas.lyracorp.pro/api/dni/${dni}`, TOKEN);
+        if (response && response.data) {
+            const data = response.data;
+            $("#nombre").val(data.nombre_completo);
+        } else {
+            toastr.error("No se encontraron datos para el DNI ingresado", "Error");
+        }
     });
+
+    $("#cobrar-button").on("click", function() {
+        $("#form-pago").toggleClass("hidden");
+    });
+
+    $("#btn-search-client").on("click", async () => {
+        const query = $("#search-client").val();
+        if (!query) {
+            return toastr.warning("Ingrese un valor de búsqueda", "Advertencia");
+        }
+
+        // Reemplaza esto con tu ruta de búsqueda de clientes
+        const response = await getAjaxByToken(`/PIZZA4/public/clientes/buscar?query=${query}`, TOKEN);
+        if (response && response.data) {
+            const data = response.data;
+            $("#client-info").removeClass("hidden");
+            $("#nombre").val(data.nombre_completo || `${data.nombres} ${data.apellido_paterno} ${data.apellido_materno}`);
+        } else {
+            toastr.error("No se encontraron datos para el cliente ingresado", "Error");
+            $("#client-info").addClass("hidden");
+        }
+    });
+
+    document
+        .getElementById("payment-amount")
+        .addEventListener("input", calculateChange);
+    document
+        .getElementById("total-amount")
+        .addEventListener("input", calculateChange);
+
+    function calculateChange() {
+        const paymentAmount =
+            parseFloat(document.getElementById("payment-amount").value) || 0;
+        const totalAmount =
+            parseFloat(document.getElementById("total-amount").value) || 0;
+        const change = paymentAmount - totalAmount;
+        document.getElementById("change-amount").value =
+            change >= 0 ? change : 0;
+    }
 </script>

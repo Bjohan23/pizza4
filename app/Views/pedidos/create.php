@@ -50,7 +50,8 @@
     });
 </script>
 
-<main class="p-4 md:ml-64 h-auto pt-20">
+
+<main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
         <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Registrar Pedido</h1>
         <?php if (isset($error)) : ?>
