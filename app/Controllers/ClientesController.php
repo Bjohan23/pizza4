@@ -58,6 +58,7 @@ class ClientesController extends Controller
                     'email' => $_POST['email'],
                     'telefono' => $_POST['telefono'],
                     'direccion' => $_POST['direccion'],
+                    'dni' => $_POST['dni'],
                 ];
 
                 if ($clienteModel->updateCliente($data)) {
@@ -67,6 +68,7 @@ class ClientesController extends Controller
                 }
             } else {
                 $cliente = $clienteModel->getClienteById($id);
+
                 $this->view('clientes/edit', ['cliente' => $cliente]);
             }
         }
