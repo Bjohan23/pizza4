@@ -19,6 +19,7 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">Nombre</th>
+                                <th scope="col" class="px-4 py-3">DNI</th>
                                 <th scope="col" class="px-4 py-3">Email</th>
                                 <th scope="col" class="px-4 py-3">Teléfono</th>
                                 <th scope="col" class="px-4 py-3">Dirección</th>
@@ -30,14 +31,24 @@
                                 <?php foreach ($data['clientes'] as $cliente) : ?>
                                     <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td class="px-4 py-3"><?php echo $cliente['nombre']; ?></td>
+                                        <td class="px-4 py-3"><?php echo $cliente['dni']; ?></td>
                                         <td class="px-4 py-3"><?php echo $cliente['email']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $cliente['telefono']; ?></td>
+                                        <td class="px-4 py-3"><a href="tel:+51<?php echo $cliente['telefono']; ?>"><?php echo $cliente['telefono']; ?></a></td>
                                         <td class="px-4 py-3"><?php echo $cliente['direccion']; ?></td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center space-x-2">
-                                                <a href="<?= CLIENT_EDIT . $cliente['id'] ?>" class="text-blue-500 hover:text-blue-700 transition-colors duration-300">Editar</a>
+                                                <a href="<?= CLIENT_EDIT . $cliente['id'] ?>" class="text-blue-500 hover:text-blue-700 transition-colors duration-300">
+                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="2" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
+                                                    </svg>
+                                                </a>
                                                 <span>|</span>
-                                                <a href="<?= CLIENT_DELETE . $cliente['id']; ?>" onclick="return confirm('¿Estás seguro de eliminar este cliente?');" class="text-red-500 hover:text-red-700 transition-colors duration-300">Eliminar</a>
+                                                <a href="<?= CLIENT_DELETE . $cliente['id']; ?>" class="text-red-500 hover:text-red-700 transition-colors duration-300 delete-client-btn">
+                                                    <svg class="w-[35px] h-[35px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12h4M4 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    </svg>
+
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -55,3 +66,28 @@
     </section>
 </main>
 <?php include_once '../app/Views/inc/footer.php'; ?>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        $(".delete-client-btn").on("click", function(e) {
+            e.preventDefault();
+            const href = $(this).attr("href");
+
+            Swal.fire({
+                title: '¿Estás seguro de eliminar este cliente?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'piza4');
 // Configurar la zona horaria en PHP
 date_default_timezone_set('America/Lima');
+define('TOKEN', 'lyra-token-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkZW1vMUBnbWFpbC5jb20iLCJpYXQiOjE3MTQ4Nzc2NDZ9.0agfoqCO6enLProlL9jyc5GrDgtxtfSerOsRbwN3Pkw');
 
 // salir
 define('SALIR', '/PIZZA4/public/auth/login');

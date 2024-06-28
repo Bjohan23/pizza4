@@ -3,18 +3,19 @@ class Cliente extends Model
 {
     public function getAllclientes()
     {
-        $this->db->query('SELECT clientes.id, personas.nombre, personas.email, personas.telefono, personas.direccion FROM clientes 
+        $this->db->query('SELECT clientes.id, personas.nombre, personas.email, personas.telefono, personas.direccion ,personas.dni FROM clientes 
                           JOIN personas ON clientes.persona_id = personas.id');
         return $this->db->resultSet();
     }
 
     public function createCliente($data)
     {
-        $this->db->query('INSERT INTO personas (nombre, email, telefono, direccion) VALUES (:nombre, :email, :telefono, :direccion)');
+        $this->db->query('INSERT INTO personas (nombre, email, telefono, direccion ,dni) VALUES (:nombre, :email, :telefono, :direccion , :dni)');
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':telefono', $data['telefono']);
         $this->db->bind(':direccion', $data['direccion']);
+        $this->db->bind(':dni', $data['dni']);
         if ($this->db->execute()) {
             $personaId = $this->db->lastInsertId();
             $this->db->query('INSERT INTO clientes (persona_id) VALUES (:persona_id)');
@@ -27,7 +28,7 @@ class Cliente extends Model
     public function getClienteById($id)
     {
 
-        $this->db->query('SELECT clientes.id , personas.nombre , personas.telefono ,personas.direccion ,personas.email FROM clientes JOIN personas ON clientes.persona_id = personas.id 
+        $this->db->query('SELECT clientes.id , personas.nombre , personas.telefono ,personas.direccion ,personas.email ,personas.dni FROM clientes JOIN personas ON clientes.persona_id = personas.id 
         WHERE clientes.id = :id');
         $this->db->bind(':id', $id);
         return $this->db->single();
@@ -41,13 +42,14 @@ class Cliente extends Model
     public function updateCliente($data)
     {
 
-        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion
+        $this->db->query('UPDATE personas SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion ,dni = :dni
          WHERE id = (SELECT persona_id FROM clientes WHERE id = :id)
     ');
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':telefono', $data['telefono']);
         $this->db->bind(':direccion', $data['direccion']);
+        $this->db->bind(':dni', $data['dni']);
         $this->db->bind(':id', $data['id']);
 
         if ($this->db->execute()) {

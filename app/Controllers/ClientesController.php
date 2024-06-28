@@ -29,6 +29,7 @@ class ClientesController extends Controller
                     'email' => trim($_POST['email']),
                     'telefono' => trim($_POST['telefono']),
                     'direccion' => trim($_POST['direccion']),
+                    'dni' => trim($_POST['dni'])
                 ];
                 $clienteModel = $this->model('Cliente');
                 if ($clienteModel->createCliente($data)) {
