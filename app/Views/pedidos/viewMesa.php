@@ -81,19 +81,17 @@
                                     <?php foreach ($data['pedidos'] as $pedido) : ?>
                                         <tr class="border-b dark:border-gray-600 producto">
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white nombre"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
-                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
-                                                <input type="number" name="productos[<?php echo htmlspecialchars($pedido['producto_id']); ?>][cantidad]" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light cantidad" required>
-                                            </td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>">$<?php echo htmlspecialchars($pedido['precio']); ?></td>
-                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
-                                                <form action="/PIZZA4/public/pedidos/actualizarProducto/<?php echo htmlspecialchars($pedido['pedido_id']); ?>" method="post" class="update-form">
+                                                <form action="/PIZZA4/public/pedidos/actualizarProducto/<?php echo htmlspecialchars($pedido['pedido_id']); ?>" method="post" autocomplete="off" class="update-form">
                                                     <input type="hidden" name="pedido_id" value="<?php echo htmlspecialchars($pedido['pedido_id']); ?>">
                                                     <input type="hidden" name="producto_id" value="<?php echo htmlspecialchars($pedido['producto_id']); ?>">
-                                                    <input type="hidden" name="cantidad" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="cantidad-input">
-                                                    <input type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded actualizar-link" value="Actualizar">
+                                                    <input type="number" name="cantidad" value="<?php echo htmlspecialchars($pedido['cantidad']); ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light cantidad" required>
+                                                    <input type="hidden" name="precio" value="<?php echo htmlspecialchars($pedido['precio']); ?>">
+                                                    <input type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 m-2 rounded " value="Actualizar">
                                                 </form>
                                             </td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
                                             <td class="py-2 px-4 border dark:border-gray-600 dark:text-white">
                                                 <a href="/PIZZA4/public/pedidos/eliminarProducto/<?php echo htmlspecialchars($pedido['pedido_id']); ?>/<?php echo htmlspecialchars($pedido['producto_id']); ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</a>
                                             </td>
@@ -114,6 +112,7 @@
                             <input type="hidden" name="mesa_id" value="<?php echo htmlspecialchars($data['pedido']['mesa_id']); ?>">
                             <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($data['pedido']['fecha']); ?>">
                             <input type="hidden" name="total" value="<?php echo htmlspecialchars($data['pedido']['total']); ?>">
+
                             <button type="button" id="cobrar-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
                         </form>
                     <?php else : ?>

@@ -151,6 +151,8 @@ class PedidosController extends Controller
         $clienteModel = $this->model('Cliente');
         $productoModel = $this->model('Producto');
 
+
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'id' => $id,
