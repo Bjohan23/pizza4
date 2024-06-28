@@ -19,6 +19,8 @@
                             <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full text-sm px-2 py-2 text-center me-1 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">ver pedido</button>
                         </a>
                         <form id="liberar-mesa-form" action="<?= LIBERAR_MESA . $mesa['id']; ?>" method="post">
+                            <!-- enviamos el id del piso -->
+                            <input type="hidden" name="id" value="<?php echo $data['piso_id']; ?>">
                             <button type="button" id="liberar-mesa-button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-2 py-2 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Liberar mesa</button>
                         </form>
                     </div>

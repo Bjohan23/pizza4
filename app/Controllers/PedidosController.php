@@ -260,14 +260,12 @@ class PedidosController extends Controller
             'detalle_id' => $pedidos[0]['id'],
             'comanda_id' => $pedidos[0]['pedido_id'],
         ];
-
-
         $pedidoModel->deletePedido($data);
         // Actualizar el estado de la mesa a 'libre'
         $mesaModel = $this->model('Mesa');
         $mesaModel->updateEstado($mesa_id, 'libre');
 
-        header('Location: ' . ORDER);
+        header('Location: ' . ORDER_SELECTMESA . $_POST['id']);
         exit();
     }
 
