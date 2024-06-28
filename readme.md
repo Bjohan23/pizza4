@@ -18,22 +18,29 @@ cd pizza4
 ```
 
 2. Instalar dependencias con Composer:
+ ```bash
    composer install
-
-````Configurar el archivo .env con las credenciales de tu base de datos:
+   ```
+3.Configurar el archivo config.php con las credenciales de tu base de datos:
+````bash
 DB_HOST=localhost
 DB_USER=tu_usuario
 DB_PASS=tu_contraseña
 DB_NAME=pizza4
 
 ````
-3. Importar la base de datos:
+4. Importar la base de datos:
 ````
 CREATE DATABASE pizza4;
 USE pizza4;
 ````
-
-
  Insertar el código SQL proporcionado anteriormente para crear las tablas y registrar un usuario administrador
+ 
+4. crear archivo .env y agregar token de api de consultas reniec 
+````
+TOKEN= 'ingresar token de api'
+````
+
+
 
 
