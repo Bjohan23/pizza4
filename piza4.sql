@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2024 a las 06:48:16
+-- Tiempo de generación: 30-06-2024 a las 23:34:32
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,10 +58,10 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `persona_id`) VALUES
-(101, NULL),
 (1, 13),
 (2, 15),
-(4, 17);
+(105, 94),
+(106, 95);
 
 -- --------------------------------------------------------
 
@@ -82,9 +82,15 @@ CREATE TABLE `comprobanteventa` (
 --
 
 INSERT INTO `comprobanteventa` (`id`, `pedido_id`, `tipo`, `monto`, `fecha`) VALUES
-(1, 30, 'factura', 50.00, '2024-06-12 17:35:38'),
-(2, 32, 'factura', 2.00, '2024-06-23 23:36:06'),
-(3, 37, 'factura', 37.50, '2024-06-23 23:38:45');
+(17, 45, 'factura', 17.00, '2024-06-08 12:44:18'),
+(18, 45, 'factura', 17.00, '2024-06-08 12:44:20'),
+(19, 45, 'factura', 17.00, '2024-06-08 12:44:46'),
+(20, 44, 'factura', 63.50, '2024-06-08 18:29:31'),
+(21, 46, 'factura', 20.00, '2024-06-21 15:35:59'),
+(22, 46, 'factura', 20.00, '2024-06-27 22:43:00'),
+(23, 46, 'factura', 20.00, '2024-06-27 22:57:27'),
+(24, 46, 'factura', 20.00, '2024-06-27 23:16:28'),
+(25, 46, 'factura', 20.00, '2024-06-27 23:23:27');
 
 -- --------------------------------------------------------
 
@@ -106,18 +112,7 @@ CREATE TABLE `detallespedido` (
 --
 
 INSERT INTO `detallespedido` (`id`, `pedido_id`, `producto_id`, `cantidad`, `precio`, `descripcion`) VALUES
-(141, 30, 2, 2, 10.00, NULL),
-(142, 31, 2, 2, 10.00, NULL),
-(143, 32, 10, 1, 2.00, NULL),
-(144, 33, 1, 1, 20.00, NULL),
-(145, 34, 1, 1, 20.00, NULL),
-(146, 35, 5, 1, 8.50, NULL),
-(147, 35, 6, 1, 9.00, NULL),
-(148, 35, 12, 1, 4.50, NULL),
-(149, 36, 1, 4, 20.00, NULL),
-(150, 37, 1, 1, 20.00, NULL),
-(151, 37, 5, 1, 8.50, NULL),
-(152, 37, 6, 1, 9.00, NULL);
+(194, 64, 1, 123, 20.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -138,7 +133,8 @@ CREATE TABLE `listroles` (
 --
 
 INSERT INTO `listroles` (`id`, `usuario_id`, `rol_id`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, 1, '2024-06-02 13:18:19', NULL);
+(1, 1, 1, '2024-06-02 13:18:19', NULL),
+(3, 4, 2, '2024-06-22 17:04:01', '2024-06-30 10:04:01');
 
 -- --------------------------------------------------------
 
@@ -159,13 +155,14 @@ CREATE TABLE `mesas` (
 --
 
 INSERT INTO `mesas` (`id`, `piso_id`, `numero`, `capacidad`, `estado`) VALUES
-(1, 1, 1, 4, 'ocupada'),
+(1, 1, 1, 6, 'ocupada'),
 (2, 1, 2, 6, 'libre'),
-(3, 1, 3, 5, 'libre'),
-(4, 1, 1, 5, 'libre'),
-(5, 1, 1, 2, 'libre'),
-(6, 1, 2, 5, 'libre'),
-(7, 3, 1, 4, 'libre');
+(3, 2, 3, 5, 'libre'),
+(4, 1, 3, 6, 'libre'),
+(12, 1, 3, 12, 'libre'),
+(13, 2, 3, 11, 'libre'),
+(14, 1, 1, 12, 'libre'),
+(15, 1, 1, 1, 'libre');
 
 -- --------------------------------------------------------
 
@@ -179,7 +176,7 @@ CREATE TABLE `pedidoscomanda` (
   `cliente_id` int(11) DEFAULT NULL,
   `mesa_id` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
-  `estado` varchar(50) NOT NULL,
+  `estado` enum('pendiente','preparando','listo','servido','cancelado') DEFAULT NULL,
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -188,16 +185,17 @@ CREATE TABLE `pedidoscomanda` (
 --
 
 INSERT INTO `pedidoscomanda` (`id`, `usuario_id`, `cliente_id`, `mesa_id`, `fecha`, `estado`, `total`) VALUES
-(28, 1, 4, 1, '2024-06-05 12:00:00', 'pendiente', 50.00),
-(29, 1, 4, 2, '2024-06-05 12:00:00', 'pendiente', 50.00),
-(30, 1, 4, 2, '2024-06-05 12:00:00', 'pendiente', 50.00),
-(31, 1, 4, 2, '2024-06-05 12:00:00', 'pendiente', 50.00),
-(32, 1, 1, 1, '2024-06-05 18:38:10', 'ocupada', 2.00),
-(33, 1, 1, 3, '2024-06-05 18:39:50', 'ocupada', 20.00),
-(34, 1, 1, 1, '2024-06-07 22:18:46', 'ocupada', 20.00),
-(35, 1, 1, 2, '2024-06-07 22:49:14', 'ocupada', 22.00),
-(36, 1, 1, 1, '2024-06-23 23:36:18', 'ocupada', 40.00),
-(37, 1, 1, 7, '2024-06-23 23:38:20', 'ocupada', 37.50);
+(44, 1, 1, 1, '2024-06-08 05:44:38', 'preparando', 63.50),
+(45, 1, 1, 3, '2024-06-08 19:41:24', 'listo', 17.00),
+(46, 1, 1, 1, '2024-06-13 21:30:24', '', 20.00),
+(56, 1, 1, 3, '2024-06-28 03:38:53', '', 135.00),
+(64, 1, NULL, 1, '2024-06-28 11:26:44', '', 2460.00),
+(65, 1, NULL, 1, '2024-06-28 11:33:04', '', 40.00),
+(66, 1, NULL, 1, '2024-06-28 15:45:34', '', 5.00),
+(67, 1, NULL, 1, '2024-06-28 15:46:04', '', 5.00),
+(68, 1, NULL, 1, '2024-06-28 15:47:36', '', 20.00),
+(69, 1, NULL, 1, '2024-06-28 15:48:10', '', 5.00),
+(70, 1, NULL, 1, '2024-06-28 15:48:15', '', 5.00);
 
 -- --------------------------------------------------------
 
@@ -208,32 +206,30 @@ INSERT INTO `pedidoscomanda` (`id`, `usuario_id`, `cliente_id`, `mesa_id`, `fech
 CREATE TABLE `personas` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `telefono` varchar(15) DEFAULT NULL,
-  `direccion` text DEFAULT NULL
+  `direccion` text DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `dni` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `personas`
 --
 
-INSERT INTO `personas` (`id`, `nombre`, `email`, `telefono`, `direccion`) VALUES
-(1, 'Admin', 'admin@example.com', '123456789', '123 Admin St.'),
-(5, 'luis', 'becerrajohan6@gmail.com', '123456789', 'porvenir 455'),
-(7, 'luis', 'becerrajohan7@gmail.com', '123456789', 'porvenir 455'),
-(8, 'johan3', 'admin22@example.com', '998113374', 'porvenir 548'),
-(9, 'johan', 'cmacojuniore@uss.edu.pe', '998113374', 'porvenir 548'),
-(10, 'johan', 'cmacojuniore3@uss.edu.pe', '998113374', 'porvenir 548'),
-(11, 'johan', 'cmacojuniore33@uss.edu.pe', '998113374', 'porvenir 548'),
-(12, 'johan', 'ejemplo2@gamil.com', '12333333332222', 'porvenir 548222'),
-(13, 'johan', 'becerrajohan633@gmail.com', '998113374', 'porvenir 548'),
-(15, 'johan', 'becerrajohan6111@gmail.com', '998113374', 'porvenir 548'),
-(16, 'johan', 'becerrajohan6111333@gmail.com', '998113374', 'porvenir 548'),
-(17, '123', 'becerrajohan633333333332@gmail.com', '998113374', 'porvenir 548'),
-(68, 'larita', 'larita@gmail.com', '147523658', 'La caravela 155'),
-(69, 'naru', 'narumi09@gmail.com', '123456788', 'Las torres 128'),
-(70, 'ANA', 'ana@gmail.com', '972641232', 'las damelas 350'),
-(71, 'Marcelo', 'Marcelo@gmail.com', '965810224', 'Los quipus 145');
+INSERT INTO `personas` (`id`, `nombre`, `telefono`, `direccion`, `email`, `dni`) VALUES
+(1, 'Admin', '980957418', '123 Admin St.1', 'admin@example.com', NULL),
+(13, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(15, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'admin6@gmail.com', '29265381'),
+(17, '123', '998113374', 'porvenir 548', NULL, NULL),
+(76, 'Nequ', '123456789', 'Voluptatum sunt dolo', 'lyhozugy@mailinator.com1', NULL),
+(88, 'Sit iusto pariatur', 'Blanditiis occa', 'Quia eiusmod nobis e', 'gacupyba@mailinator.com', NULL),
+(89, 'Consequatur iste un', 'Quaerat ratione', '12212121', 'lusox@mailinator.com', NULL),
+(90, 'Mollitia neque volup', 'Aut ducimus tem', 'Adipisicing Nam amet', 'webi@mailinator.com', NULL),
+(91, 'Veniam sunt perspic', '123123', 'Non aliquip ipsum e', 'qubawuw@mailinator.com', NULL),
+(92, 'Recusandae Proident', '861231231231231', 'Consequat Incidunt', 'zulo@mailinator.com', NULL),
+(93, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', NULL),
+(94, 'BECERRA VENTURA JOHAN JHERLI', '123456789', 'Omnis voluptas volup', 'qijy@mailinator.com', '77349472'),
+(95, 'CRUZ VASQUEZ JESUS AARON', '922810391', 'Manuel Artiaga-168', 'yisusvasquez.21@gmail.com', '75959504');
 
 -- --------------------------------------------------------
 
@@ -252,11 +248,8 @@ CREATE TABLE `piso` (
 --
 
 INSERT INTO `piso` (`id`, `sede_id`, `nombre`) VALUES
-(1, 6, 'PISO 1'),
-(2, 6, 'PISO 2'),
-(3, 6, 'PISO 4'),
-(4, 6, 'PISO 5'),
-(5, 6, 'PISO 6');
+(1, 6, 'piso 1'),
+(2, 6, 'piso 2');
 
 -- --------------------------------------------------------
 
@@ -320,9 +313,7 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `nombre`) VALUES
 (1, 'Administrador'),
 (2, 'mozo '),
-(3, 'Cajero'),
-(4, '4'),
-(5, '5');
+(3, 'gerente ');
 
 -- --------------------------------------------------------
 
@@ -361,11 +352,9 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `persona_id`, `contrasena`) VALUES
 (1, 1, '$2y$10$QCluU3aIyg.nbWIbFRgnUebrCCCWwVgbNjPwT782QcuBf0j9n/RFS'),
-(2, 5, '$2y$10$QCluU3aIyg.nbWIbFRgnUebrCCCWwVgbNjPwT782QcuBf0j9n/RFS'),
-(4, 68, '$2y$10$hUSC2sO0khGzPzAbF7yMoem6wVqsePPfP4vrzT3cUVTdf0VPhW7sC'),
-(5, 69, '$2y$10$wiYFQrJznqfKIGCXQLB7suM1PbEryLF3IkwzXkeNARWsYwobJKF5m'),
-(6, 70, '$2y$10$SyA.OYlLmR48X93lsiEVvuvP4PS4/pohl2BgTH5db1G8yfFBY2taa'),
-(7, 71, '$2y$10$B.Y08sW26yxBvQ6BheVdD.JBwZSCUQzJhp7OvR5edX8/U1HUPh1t2');
+(4, 76, '$2y$10$4tmjTqJwrWE44tQ/IWtAGezrtRTNmO.W5EHSDELXY3yE3VQ8ZBtS6'),
+(6, 89, '$2y$10$qErc5VY21eHD6cW6mrvvYuF52GcckRbv8rzWZjZq55b4SghMJFHZi'),
+(7, 90, '$2y$10$JCMjBd2LmddJTowUfOCs.OkKx0eaIgTyv.0lW1YmstHs1vU0ucXZG');
 
 --
 -- Índices para tablas volcadas
@@ -396,8 +385,8 @@ ALTER TABLE `comprobanteventa`
 --
 ALTER TABLE `detallespedido`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `pedido_id` (`pedido_id`),
-  ADD KEY `producto_id` (`producto_id`);
+  ADD KEY `producto_id` (`producto_id`),
+  ADD KEY `idx_detallespedido_pedido_id` (`pedido_id`);
 
 --
 -- Indices de la tabla `listroles`
@@ -421,7 +410,8 @@ ALTER TABLE `pedidoscomanda`
   ADD PRIMARY KEY (`id`),
   ADD KEY `usuario_id` (`usuario_id`),
   ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `mesa_id` (`mesa_id`);
+  ADD KEY `mesa_id` (`mesa_id`),
+  ADD KEY `idx_pedidoscomanda_estado` (`estado`);
 
 --
 -- Indices de la tabla `personas`
@@ -477,55 +467,55 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categoría`
 --
 ALTER TABLE `categoría`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobanteventa`
 --
 ALTER TABLE `comprobanteventa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `detallespedido`
 --
 ALTER TABLE `detallespedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
 -- AUTO_INCREMENT de la tabla `listroles`
 --
 ALTER TABLE `listroles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `mesas`
 --
 ALTER TABLE `mesas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidoscomanda`
 --
 ALTER TABLE `pedidoscomanda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `piso`
 --
 ALTER TABLE `piso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `presentación`
@@ -543,7 +533,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `sede`
