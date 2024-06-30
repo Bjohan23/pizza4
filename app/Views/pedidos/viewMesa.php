@@ -171,8 +171,29 @@
         </div>
     </section>
 </main>
+<?php include_once '../app/Views/inc/footer.php'; ?>
 
 <script>
+    document.querySelectorAll('a[href^="/PIZZA4/public/pedidos/eliminarProducto/"]').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const href = this.getAttribute('href');
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se eliminará el producto del pedido.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = href;
+                }
+            })
+        });
+    });
     const TOKEN = <?php echo json_encode(TOKEN) ?>;
 
     toastr.options = {

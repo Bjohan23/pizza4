@@ -37,7 +37,11 @@
 
         if (!alMenosUnProductoSeleccionado) {
             event.preventDefault();
-            alert('Seleccione al menos un producto.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debes seleccionar al menos un producto',
+            });
         }
     }
 
