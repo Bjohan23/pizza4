@@ -45,7 +45,6 @@ class PedidosController extends Controller
         $usuarioModel = $this->model('Usuario');
         $usuario = $usuarioModel->getUsuarioById(Session::get('usuario_id'));
 
-        // Convertir a objeto si no es nulo
         if ($usuario) {
             $usuario = (object) $usuario;
         }
@@ -53,12 +52,12 @@ class PedidosController extends Controller
         $mesaModel = $this->model('Mesa');
         $mesa = $mesaModel->getMesaById($mesa_id);
 
-        // Convertir a objeto si no es nulo
         if ($mesa) {
             $mesa = (object) $mesa;
         }
 
-        $pedido = isset($pedidos[0]) ? $pedidos[0] : null; // Asegurarse de tener al menos un pedido
+
+        $pedido = isset($pedidos[0]) ? $pedidos[0] : null;
 
         $this->view('pedidos/viewMesa', [
             'mesa_id' => $mesa_id,
@@ -67,9 +66,10 @@ class PedidosController extends Controller
             'clientes' => $clientes,
             'mesa' => $mesa,
             'usuario' => $usuario,
-            'pedido' => $pedido // Pasar el primer pedido a la vista
+            'pedido' => $pedido
         ]);
     }
+
 
     public function create($mesa_id)
     {
@@ -88,7 +88,6 @@ class PedidosController extends Controller
                 'total' => $_POST['total'],
                 'fecha' => date('Y-m-d H:i:s')
             ];
-
             $pedidoModel = $this->model('Pedido');
             $pedidoId = $pedidoModel->createPedido($pedidoData);
 
@@ -103,7 +102,8 @@ class PedidosController extends Controller
                                 'pedido_id' => $pedidoId,
                                 'producto_id' => $producto['id'],
                                 'cantidad' => $producto['cantidad'],
-                                'precio' => $producto['precio']
+                                'precio' => $producto['precio'],
+                                'descripcion' => $producto['descripcion2']
                             ];
                             $pedidoModel->addDetalle($detalleData);
                         }

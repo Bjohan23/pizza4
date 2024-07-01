@@ -28,11 +28,12 @@ class Pedido extends Model
 
     public function addDetalle($data)
     {
-        $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio) VALUES (:pedido_id, :producto_id, :cantidad, :precio)');
+        $this->db->query('INSERT INTO detallespedido (pedido_id, producto_id, cantidad, precio ,descripcion) VALUES (:pedido_id, :producto_id, :cantidad, :precio, :descripcion)');
         $this->db->bind(':pedido_id', $data['pedido_id']);
         $this->db->bind(':producto_id', $data['producto_id']);
         $this->db->bind(':cantidad', $data['cantidad']);
         $this->db->bind(':precio', $data['precio']);
+        $this->db->bind(':descripcion', $data['descripcion']);
         return $this->db->execute();
     }
 

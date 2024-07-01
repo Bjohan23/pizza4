@@ -10,7 +10,7 @@ class Cliente extends Model
 
     public function createCliente($data)
     {
-        $this->db->query('INSERT INTO personas (nombre, email, telefono, direccion ,dni) VALUES (:nombre, :email, :telefono, :direccion , :dni)');
+        $this->db->query('INSERT INTO personas (nombre, email, telefono, direccion, dni) VALUES (:nombre, :email, :telefono, :direccion, :dni)');
         $this->db->bind(':nombre', $data['nombre']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':telefono', $data['telefono']);
@@ -20,7 +20,9 @@ class Cliente extends Model
             $personaId = $this->db->lastInsertId();
             $this->db->query('INSERT INTO clientes (persona_id) VALUES (:persona_id)');
             $this->db->bind(':persona_id', $personaId);
-            return $this->db->execute();
+            if ($this->db->execute()) {
+                return $personaId;  // Retornamos el ID de la persona/cliente
+            }
         }
         return false;
     }

@@ -20,27 +20,39 @@ class ClientesController extends Controller
         Session::init();
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
             exit();
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $data = [
-                    'nombre' => trim($_POST['nombre']),
-                    'email' => trim($_POST['email']),
-                    'telefono' => trim($_POST['telefono']),
-                    'direccion' => trim($_POST['direccion']),
-                    'dni' => trim($_POST['dni'])
-                ];
-                $clienteModel = $this->model('Cliente');
-                if ($clienteModel->createCliente($data)) {
-                    header('Location: ' . CLIENT . '');
-                } else {
-                    die('Error al crear el cliente');
-                }
-            } else {
-                $this->view('clientes/create');
-            }
         }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'nombre' => trim($_POST['nombre']),
+                'email' => trim($_POST['email']),
+                'telefono' => trim($_POST['telefono']),
+                'direccion' => trim($_POST['direccion']),
+                'dni' => trim($_POST['dni'])
+            ];
+            $clienteModel = $this->model('Cliente');
+            $result = $clienteModel->createCliente($data);
+            if ($result) {
+                echo json_encode([
+                    'success' => true,
+                    'cliente' => [
+                        'id' => $result,
+                        'nombre' => $data['nombre'],
+                        'dni' => $data['dni'],
+                        'email' => $data['email'],
+                        'telefono' => $data['telefono'],
+                        'direccion' => $data['direccion']
+                    ]
+                ]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+        }
+        exit();
     }
 
     public function edit($id)
