@@ -70,7 +70,6 @@ class PedidosController extends Controller
         ]);
     }
 
-
     public function create($mesa_id)
     {
         Session::init();
@@ -131,10 +130,14 @@ class PedidosController extends Controller
             $productoModel = $this->model('Producto');
             $productos = $productoModel->getAllProductos();
 
+            // Obtener el cliente_id de la URL si está presente
+            $cliente_id = isset($_GET['cliente_id']) ? $_GET['cliente_id'] : null;
+
             $this->view('pedidos/create', [
                 'mesa_id' => $mesa_id,
                 'clientes' => $clientes,
-                'productos' => $productos
+                'productos' => $productos,
+                'cliente_id' => $cliente_id // Pasar cliente_id a la vista
             ]);
         }
     }

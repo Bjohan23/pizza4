@@ -1,5 +1,4 @@
 <script>
-    // Asegúrate de que TOKEN esté definido correctamente
     const TOKEN = <?php echo json_encode(TOKEN) ?>; // Asume que TOKEN está definido en PHP
 
     function calcularTotal() {
@@ -57,6 +56,19 @@
         }
     }
 
+    function obtenerClienteIdDeUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('cliente_id');
+    }
+
+    function actualizarUIConClienteSeleccionado(clienteId) {
+        if (clienteId) {
+            document.getElementById('clienteSeleccionado').value = clienteId;
+            // Aquí deberías añadir lógica para mostrar la información del cliente
+            // o marcar en la UI que el cliente ha sido seleccionado.
+        }
+    }
+
     function mostrarFormularioNuevoCliente() {
         Swal.fire({
             title: 'Registrar Nuevo Cliente',
@@ -89,8 +101,7 @@
                     <label for="direccion" class="block mb-2 text-sm font-medium text-gray-900">Dirección:</label>
                     <input type="text" id="direccion" name="direccion" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                 </div>
-            </form>
-        `,
+            </form>`,
             showCancelButton: true,
             confirmButtonText: 'Registrar',
             cancelButtonText: 'Cancelar',
@@ -203,8 +214,7 @@
             <p class="categoria text-sm text-gray-800 dark:text-white">No se encontraron clientes.</p>
             <button type="button" onclick="mostrarFormularioNuevoCliente()" class="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Registrar Nuevo Cliente
-            </button>
-        `;
+            </button>`;
         }
     }
 
@@ -218,8 +228,12 @@
             document.getElementById('busquedaClienteContainer').classList.toggle('hidden');
         });
         document.getElementById('busquedaCliente').addEventListener('input', buscarClientes);
+
+        const clienteId = obtenerClienteIdDeUrl();
+        actualizarUIConClienteSeleccionado(clienteId);
     });
 </script>
+
 
 <main class="p-4 md:ml-64 h-auto pt-20 bg-gray-100 dark:bg-gray-900 min-h-screen">
     <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 p-4">
