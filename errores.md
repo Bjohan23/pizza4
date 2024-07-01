@@ -1,4 +1,4 @@
-errores que faltan por arreglar en el proyecto hata el momento :
+# Errores que faltan por arreglar en el proyecto hasta el momento
 
 ```markdown
 # Errores Pendientes
