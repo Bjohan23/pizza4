@@ -100,59 +100,23 @@ class Pedido extends Model
 
     public function getAllPedidosWithDetails()
     {
-        // Consulta para obtener pedidos con sus detalles agrupados
         $this->db->query("SELECT 
-    pedidoscomanda.id, 
-    pedidoscomanda.usuario_id, 
-    personas.nombre AS usuario, 
-    pedidoscomanda.mesa_id, 
-    mesas.numero AS mesa, 
-    pedidoscomanda.fecha, 
-    pedidoscomanda.estado,
-    productos.nombre AS producto,
-    SUM(detallespedido.cantidad) AS cantidad,
-    GROUP_CONCAT(DISTINCT CONCAT(productos.nombre, ' (', detallespedido.descripcion, ')') ORDER BY productos.nombre SEPARATOR ', ') AS descripcion
-FROM pedidoscomanda
-JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
-JOIN personas ON usuarios.persona_id = personas.id
-JOIN mesas ON pedidoscomanda.mesa_id = mesas.id
-JOIN detallespedido ON pedidoscomanda.id = detallespedido.pedido_id
-JOIN productos ON detallespedido.producto_id = productos.id
-GROUP BY 
-    pedidoscomanda.id, 
-    pedidoscomanda.usuario_id, 
-    pedidoscomanda.mesa_id, 
-    pedidoscomanda.fecha,
-    pedidoscomanda.estado;
+            mesas.numero AS mesa, 
+            GROUP_CONCAT(DISTINCT personas.nombre ORDER BY personas.nombre SEPARATOR ', ') AS usuario, 
+            GROUP_CONCAT(DISTINCT DATE(pedidoscomanda.fecha) ORDER BY pedidoscomanda.fecha SEPARATOR ', ') AS fecha,
+            GROUP_CONCAT(DISTINCT pedidoscomanda.estado ORDER BY pedidoscomanda.estado SEPARATOR ', ') AS estado,
+            GROUP_CONCAT(CONCAT(productos.nombre, ' (', detallespedido.cantidad, ')') ORDER BY productos.nombre SEPARATOR ', ') AS descripcion
+        FROM pedidoscomanda
+        JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
+        JOIN personas ON usuarios.persona_id = personas.id
+        JOIN mesas ON pedidoscomanda.mesa_id = mesas.id
+        JOIN detallespedido ON pedidoscomanda.id = detallespedido.pedido_id
+        JOIN productos ON detallespedido.producto_id = productos.id
+        GROUP BY 
+            mesas.numero");
 
-");
-
-
-        $pedidos = $this->db->resultSet();
-
-        // Agrupar los pedidos por mesa y usuario
-        $pedidosAgrupados = [];
-        foreach ($pedidos as $pedido) {
-            $clave = $pedido['mesa'] . '_' . $pedido['usuario'];
-            if (!isset($pedidosAgrupados[$clave])) {
-                $pedidosAgrupados[$clave] = [
-                    'mesa' => $pedido['mesa'],
-                    'usuario' => $pedido['usuario'],
-                    'fecha' => $pedido['fecha'],
-                    'estado' => $pedido['estado'],
-                    'descripcion' => $pedido['descripcion'],
-                    'detalles' => []
-                ];
-            }
-            $pedidosAgrupados[$clave]['detalles'][] = [
-                'producto' => $pedido['producto'],
-                'cantidad' => $pedido['cantidad']
-            ];
-        }
-
-        return $pedidosAgrupados;
+        return $this->db->resultSet();
     }
-
 
     public function deleteDetallesByPedido($pedido_id)
     {

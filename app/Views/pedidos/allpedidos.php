@@ -26,37 +26,23 @@
                                 <th scope="col" class="px-4 py-3">Usuario</th>
                                 <th scope="col" class="px-4 py-3">Fecha</th>
                                 <th scope="col" class="px-4 py-3">Estado</th>
-                                <th scope="col" class="px-4 py-3">Detalle</th>
                                 <th scope="col" class="px-4 py-3">Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (isset($data['pedidosAgrupados']) && is_array($data['pedidosAgrupados'])) : ?>
-                                <?php foreach ($data['pedidosAgrupados'] as $mesa => $grupoPedidos) : ?>
-                                    <?php foreach ($grupoPedidos['pedidos'] as $pedido) : ?>
-                                        <tr class="bg-gray-200 dark:bg-gray-700">
-                                            <td class="px-4 py-3"><?php echo isset($pedido['mesa']) ? $pedido['mesa'] : ''; ?></td>
-                                            <td class="px-4 py-3"><?php echo isset($pedido['usuario']) ? $pedido['usuario'] : ''; ?></td>
-                                            <td class="px-4 py-3"><?php echo isset($pedido['fecha']) ? $pedido['fecha'] : ''; ?></td>
-                                            <td class="px-4 py-3"><?php echo isset($pedido['estado']) ? $pedido['estado'] : ''; ?></td>
-                                            <td class="px-4 py-3">
-                                                <ul>
-                                                    <?php if (isset($pedido['detalles']) && is_array($pedido['detalles']) && !empty($pedido['detalles'])) : ?>
-                                                        <?php foreach ($pedido['detalles'] as $detalle) : ?>
-                                                            <li><?php echo $detalle['cantidad'] . ' x ' . $detalle['producto']; ?></li>
-                                                        <?php endforeach; ?>
-                                                    <?php else : ?>
-                                                        <li>No hay detalles disponibles</li>
-                                                    <?php endif; ?>
-                                                </ul>
-                                            </td>
-                                            <td class="px-4 py-3"><?php echo isset($pedido['descripcion']) ? $pedido['descripcion'] : 'Sin descripción'; ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                <?php foreach ($data['pedidosAgrupados'] as $pedido) : ?>
+                                    <tr class="bg-gray-200 dark:bg-gray-700">
+                                        <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
+                                        <td class="px-4 py-3"><?php echo $pedido['usuario']; ?></td>
+                                        <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
+                                        <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
+                                        <td class="px-4 py-3"><?php echo $pedido['descripcion']; ?></td>
+                                    </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="6" class="px-4 py-3 text-center">No hay pedidos registrados</td>
+                                    <td colspan="5" class="px-4 py-3 text-center">No hay pedidos registrados</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

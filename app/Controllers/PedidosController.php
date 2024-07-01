@@ -275,19 +275,21 @@ class PedidosController extends Controller
         $pedidosModel = $this->model('Pedido');
         $pedidos = $pedidosModel->getAllPedidosWithDetails();
 
-        // Agrupar pedidos por mesa
         $pedidosAgrupados = [];
         foreach ($pedidos as $pedido) {
             $mesa = $pedido['mesa'];
             if (!isset($pedidosAgrupados[$mesa])) {
                 $pedidosAgrupados[$mesa] = [
                     'mesa' => $mesa,
-                    'pedidos' => []
+                    'usuario' => $pedido['usuario'],
+                    'fecha' => $pedido['fecha'],
+                    'estado' => $pedido['estado'],
+                    'descripcion' => $pedido['descripcion']
                 ];
+            } else {
+                $pedidosAgrupados[$mesa]['descripcion'] .= ', ' . $pedido['descripcion'];
             }
-            $pedidosAgrupados[$mesa]['pedidos'][] = $pedido;
         }
-       
 
         $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados]);
     }
