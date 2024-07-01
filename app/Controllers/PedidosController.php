@@ -84,7 +84,7 @@ class PedidosController extends Controller
                 'mesa_id' => $mesa_id,
                 'cliente_id' => $_POST['cliente_id'],
                 'usuario_id' => Session::get('usuario_id'),
-                'estado' => 'ocupada',
+                'estado' => 'pendiente',
                 'total' => $_POST['total'],
                 'fecha' => date('Y-m-d H:i:s')
             ];
@@ -272,18 +272,26 @@ class PedidosController extends Controller
 
     public function allPedidos()
     {
-        Session::init();
-        if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR);
-            exit();
-        } else {
-            // Obtener todos los pedidos con sus detalles
-            $pedidoModel = $this->model('Pedido');
-            $pedidos = $pedidoModel->getAllPedidosWithDetails();
-            // Cargar la vista con los datos de los pedidos
-            $this->view('pedidos/allPedidos', ['pedidos' => $pedidos]);
+        $pedidosModel = $this->model('Pedido');
+        $pedidos = $pedidosModel->getAllPedidosWithDetails();
+
+        // Agrupar pedidos por mesa
+        $pedidosAgrupados = [];
+        foreach ($pedidos as $pedido) {
+            $mesa = $pedido['mesa'];
+            if (!isset($pedidosAgrupados[$mesa])) {
+                $pedidosAgrupados[$mesa] = [
+                    'mesa' => $mesa,
+                    'pedidos' => []
+                ];
+            }
+            $pedidosAgrupados[$mesa]['pedidos'][] = $pedido;
         }
+       
+
+        $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados]);
     }
+
     public function cobrar($id)
     {
         Session::init();
