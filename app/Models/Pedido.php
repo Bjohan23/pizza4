@@ -100,13 +100,24 @@ class Pedido extends Model
 
     public function getAllPedidosWithDetails()
     {
-        $this->db->query('SELECT pedidoscomanda.id, pedidoscomanda.usuario_id, pedidoscomanda.cliente_id, pedidoscomanda.mesa_id, pedidoscomanda.fecha, pedidoscomanda.estado, pedidoscomanda.total,
-        personas.nombre AS usuario, clientes.persona_id AS cliente, mesas.numero AS mesa
-        FROM pedidoscomanda
-        JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
-        JOIN personas ON usuarios.persona_id = personas.id
-        JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
-        JOIN mesas ON pedidoscomanda.mesa_id = mesas.id');
+        $this->db->query('SELECT pedidoscomanda.id, 
+       pedidoscomanda.usuario_id, 
+       pedidoscomanda.cliente_id, 
+       pedidoscomanda.mesa_id, 
+       pedidoscomanda.fecha, 
+       pedidoscomanda.estado, 
+       pedidoscomanda.total, 
+       detallespedido.descripcion,
+       personas.nombre AS usuario, 
+       clientes.persona_id AS cliente, 
+       mesas.numero AS mesa
+FROM pedidoscomanda
+JOIN usuarios ON pedidoscomanda.usuario_id = usuarios.id
+JOIN personas ON usuarios.persona_id = personas.id
+JOIN clientes ON pedidoscomanda.cliente_id = clientes.id
+JOIN mesas ON pedidoscomanda.mesa_id = mesas.id
+JOIN detallespedido ON pedidoscomanda.id = detallespedido.pedido_id
+');
 
         $pedidos = $this->db->resultSet();
 

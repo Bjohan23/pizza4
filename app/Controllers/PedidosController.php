@@ -103,7 +103,8 @@ class PedidosController extends Controller
                                 'producto_id' => $producto['id'],
                                 'cantidad' => $producto['cantidad'],
                                 'precio' => $producto['precio'],
-                                'descripcion' => $producto['descripcion2']
+                                'descripcion' => $producto['descripcion2'],
+                                'estado' => 'pendiente'
                             ];
                             $pedidoModel->addDetalle($detalleData);
                         }
@@ -279,7 +280,6 @@ class PedidosController extends Controller
             // Obtener todos los pedidos con sus detalles
             $pedidoModel = $this->model('Pedido');
             $pedidos = $pedidoModel->getAllPedidosWithDetails();
-
             // Cargar la vista con los datos de los pedidos
             $this->view('pedidos/allPedidos', ['pedidos' => $pedidos]);
         }

@@ -26,8 +26,8 @@
                                 <th scope="col" class="px-4 py-3">Mesa</th>
                                 <th scope="col" class="px-4 py-3">Fecha</th>
                                 <th scope="col" class="px-4 py-3">Estado</th>
-                                <th scope="col" class="px-4 py-3">Categoría</th>
                                 <th scope="col" class="px-4 py-3">Detalle</th>
+                                <th scope="col" class="px-4 py-3">Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,7 +38,6 @@
                                         <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
                                         <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
                                         <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
-                                        <td class="px-4 py-3"><?php /* Aquí debes obtener la categoría */ ?></td>
                                         <td class="px-4 py-3">
                                             <ul>
                                                 <?php foreach ($pedido['detalles'] as $detalle) : ?>
@@ -46,6 +45,7 @@
                                                 <?php endforeach; ?>
                                             </ul>
                                         </td>
+                                        <td class="px-4 py-3"><?php echo $pedido['descripcion'];  ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
