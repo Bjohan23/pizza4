@@ -257,11 +257,11 @@ class PedidosController extends Controller
         // Obtener todos los pedidos asociados a la mesa
         $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
 
-        $data = [
-            'detalle_id' => $pedidos[0]['id'],
-            'comanda_id' => $pedidos[0]['pedido_id'],
-        ];
-        $pedidoModel->deletePedido($data);
+        // Eliminar cada pedido y sus detalles
+        foreach ($pedidos as $pedido) {
+            $pedidoModel->deletePedido(['detalle_id' => $pedido['id'], 'comanda_id' => $pedido['pedido_id']]);
+        }
+
         // Actualizar el estado de la mesa a 'libre'
         $mesaModel = $this->model('Mesa');
         $mesaModel->updateEstado($mesa_id, 'libre');

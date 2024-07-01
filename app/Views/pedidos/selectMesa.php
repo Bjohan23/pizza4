@@ -45,23 +45,23 @@
     /* ver pedido boton  */
 </style>
 <?php include_once '../app/Views/inc/footer.php'; ?>
-
-
 <script>
-    document.getElementById('liberar-mesa-button').addEventListener('click', function() {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "Se eliminará el pedido al liberar la mesa.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, liberar mesa',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('liberar-mesa-form').submit();
-            }
-        })
+    document.querySelectorAll('#liberar-mesa-button').forEach(button => {
+        button.addEventListener('click', function() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se eliminará el pedido al liberar la mesa.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, liberar mesa',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    button.closest('form').submit();
+                }
+            });
+        });
     });
 </script>

@@ -89,10 +89,12 @@ class Pedido extends Model
 
     public function deletePedido($data)
     {
-        $this->db->query('DELETE FROM detallespedido WHERE id = :id');
-        $this->db->bind(':id', $data['detalle_id']);
+        // Eliminar todos los detalles asociados al pedido
+        $this->db->query('DELETE FROM detallespedido WHERE pedido_id = :pedido_id');
+        $this->db->bind(':pedido_id', $data['comanda_id']);
         $this->db->execute();
 
+        // Eliminar el pedido
         $this->db->query('DELETE FROM pedidoscomanda WHERE id = :id');
         $this->db->bind(':id', $data['comanda_id']);
         return $this->db->execute();
