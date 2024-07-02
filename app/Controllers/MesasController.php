@@ -4,6 +4,11 @@ class MesasController extends Controller
 {
     public function index()
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesas();
         $this->view('mesas/index', ['mesas' => $mesas]);
@@ -11,6 +16,11 @@ class MesasController extends Controller
 
     public function create()
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisos();
 
@@ -33,6 +43,11 @@ class MesasController extends Controller
 
     public function edit($id)
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $mesaModel = $this->model('Mesa');
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisos();
@@ -57,6 +72,11 @@ class MesasController extends Controller
 
     public function delete($id)
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $mesaModel = $this->model('Mesa');
         $piso_id = $mesaModel->getMesaById($id);
         if ($mesaModel->deleteMesa($id)) {

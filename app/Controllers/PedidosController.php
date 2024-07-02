@@ -1,5 +1,4 @@
 <?php
-
 class PedidosController extends Controller
 {
     public function index()
@@ -41,10 +40,9 @@ class PedidosController extends Controller
         $productoModel = $this->model('Producto');
         $productos = $productoModel->getAllProductos();
         $clienteModel = $this->model('Cliente');
-        $clientes = $clienteModel->getAllClientes();
+        $cliente = $clienteModel->getClienteById($pedidos[0]['cliente_id']);
         $usuarioModel = $this->model('Usuario');
         $usuario = $usuarioModel->getUsuarioById(Session::get('usuario_id'));
-
         if ($usuario) {
             $usuario = (object) $usuario;
         }
@@ -56,20 +54,19 @@ class PedidosController extends Controller
             $mesa = (object) $mesa;
         }
 
-
         $pedido = isset($pedidos[0]) ? $pedidos[0] : null;
+
 
         $this->view('pedidos/viewMesa', [
             'mesa_id' => $mesa_id,
             'pedidos' => $pedidos,
             'productos' => $productos,
-            'clientes' => $clientes,
+            'cliente' => $cliente,
             'mesa' => $mesa,
             'usuario' => $usuario,
             'pedido' => $pedido
         ]);
     }
-
 
     public function create($mesa_id)
     {
@@ -131,10 +128,14 @@ class PedidosController extends Controller
             $productoModel = $this->model('Producto');
             $productos = $productoModel->getAllProductos();
 
+            // Obtener el cliente_id de la URL si está presente
+            $cliente_id = isset($_GET['cliente_id']) ? $_GET['cliente_id'] : null;
+
             $this->view('pedidos/create', [
                 'mesa_id' => $mesa_id,
                 'clientes' => $clientes,
-                'productos' => $productos
+                'productos' => $productos,
+                'cliente_id' => $cliente_id // Pasar cliente_id a la vista
             ]);
         }
     }
@@ -226,7 +227,6 @@ class PedidosController extends Controller
         }
     }
 
-
     public function eliminarProducto($pedido_id, $producto_id)
     {
         Session::init();
@@ -272,6 +272,11 @@ class PedidosController extends Controller
 
     public function allPedidos()
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $pedidosModel = $this->model('Pedido');
         $pedidos = $pedidosModel->getAllPedidosWithDetails();
 
@@ -302,55 +307,43 @@ class PedidosController extends Controller
             exit();
         }
 
-
-
         $pedidoModel = $this->model('Pedido');
-        $pedido = $pedidoModel->getPedidoById($id);
+        $pedido = $pedidoModel->getPedidoById($_POST['pedido_id']);
 
         if ($pedido) {
             // Recoger datos del formulario
             $pedidoData = [
-                'id' => $_POST['id'],
-                'usuario_id' => $_POST['usuario_id'],
-                'cliente_id' => $_POST['cliente_id'],
-                'mesa_id' => $_POST['mesa_id'],
-                'fecha' => $_POST['fecha'],
+                'pedido_id' => $_POST['pedido_id'],
+                'fecha' => date('Y-m-d H:i:s'),
                 'estado' => 'pagado',
-                'total' => $_POST['total'],
-                'pedido_id' => $pedido['productos'][0]['pedido_id'],
+                'monto' => $_POST['total'],
+                'tipo' => $_POST['tipo'],
             ];
 
+            if ($_POST['boleta'] == 'si') {
+                $boletaData = $pedidoModel->getDetailedPedidoById($pedidoData['pedido_id']);
+                // Imprimir boleta
+                $this->imprimirBoleta($boletaData);
+            }
 
-            if ($pedidoModel->updatePedido($pedidoData)) {
+            if ($pedidoModel->updateEstadoPedido($pedidoData)) {
+                // Actualizar el estado de la mesa
+                $mesaModel = $this->model('Mesa');
+                $mesaModel->updateEstado($pedido['mesa_id'], 'libre');
+
                 // Verificación adicional
-                $pedidoExistente = $pedidoModel->getPedidoById($pedidoData['id']);
+                $pedidoExistente = $pedidoModel->getPedidoById($pedidoData['pedido_id']);
                 if ($pedidoExistente) {
                     // Registrar el comprobante de venta
                     $comprobanteModel = $this->model('ComprobanteVenta');
-                    $comprobanteData = [
-
-                        'pedido_id' => $pedidoData['pedido_id'],
-                        'tipo' => 'factura', // Puede ser 'boleta', 'factura', etc.
-                        'monto' => $pedidoData['total'],
-                        'fecha' => date('Y-m-d H:i:s')
-                    ];
-
-
-
-
-                    if ($comprobanteModel->createComprobante($comprobanteData)) {
-                        // Verificar los datos antes de la inserción
-                        error_log('Datos del pedido: ' . print_r($pedidoData, true));
-                        error_log('Datos del comprobante: ' . print_r($comprobanteData, true));
-
+                    if ($comprobanteModel->createComprobante($pedidoData)) {
                         // Redirigir a la vista de la mesa
-                        header('Location: ' . VIEW_MESA . $pedidoData['mesa_id']);
+                        header('Location: ' . ORDER);
                         exit();
                     } else {
                         die('Error al registrar el comprobante de venta');
                     }
                 } else {
-                    error_log('El pedido no existe en la base de datos');
                     die('El pedido no existe en la base de datos');
                 }
             } else {
@@ -360,6 +353,108 @@ class PedidosController extends Controller
         } else {
             error_log('Error al encontrar el pedido');
             die('Error al encontrar el pedido');
+        }
+    }
+
+    public function imprimirBoleta($datos)
+    {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
+        try {
+            require_once(dirname(__FILE__) . '/../../vendor/tecnickcom/tcpdf/tcpdf.php');
+
+            $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('Tu Empresa');
+            $pdf->SetTitle('Boleta de Pedido');
+            $pdf->SetSubject('Boleta de Pedido');
+            $pdf->SetKeywords('TCPDF, PDF, boleta, pedido');
+
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+            $pdf->SetMargins(15, 15, 15);
+            $pdf->AddPage();
+
+            $pdf->SetFont('helvetica', 'B', 14);
+            $pdf->Cell(0, 10, 'Boleta de Pedido', 0, 1, 'C');
+            $pdf->SetFont('helvetica', '', 10);
+
+            $pdf->Ln(5);
+
+            // Información del pedido
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Número de Pedido:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['pedido_id'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Fecha:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['fecha'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Atendido por:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['usuario_nombre'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Mesa:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['mesa_numero'] . ' (' . $datos['piso_nombre'] . ')', 0, 1);
+
+            $pdf->Ln(5);
+
+            // Información del cliente
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(0, 8, 'Datos del Cliente', 0, 1);
+            $pdf->SetFont('helvetica', '', 10);
+
+            $pdf->Cell(50, 6, 'Nombre:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_nombre'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Teléfono:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_telefono'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Dirección:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_direccion'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Email:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_email'], 0, 1);
+
+            $pdf->Ln(5);
+
+            // Detalles del pedido
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(0, 8, 'Detalle del Pedido', 0, 1);
+            $pdf->SetFont('helvetica', '', 10);
+
+            $detalles = explode(', ', $datos['detalles_pedido']);
+            foreach ($detalles as $detalle) {
+                $pdf->MultiCell(0, 6, $detalle, 0, 'L');
+            }
+
+            $pdf->Ln(5);
+
+            // Total
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(120, 8, 'Total:', 0, 0, 'R');
+            $pdf->Cell(0, 8, 'S/ ' . number_format($datos['total'], 2), 0, 1, 'R');
+
+            // Generar el PDF y guardarlo en el servidor
+            $pdfFileName = 'boleta_' . $datos['pedido_id'] . '.pdf';
+            $pdfFilePath = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
+            $pdf->Output($pdfFilePath, 'F');
+
+            // Devolver la URL del PDF
+            $rutaCompleta = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
+            return $rutaCompleta;
+        } catch (Exception $e) {
+            error_log('Error al generar el PDF: ' . $e->getMessage());
+            return null;
         }
     }
 }

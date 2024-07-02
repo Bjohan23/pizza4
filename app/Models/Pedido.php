@@ -47,10 +47,19 @@ class Pedido extends Model
 
     public function getPedidosByMesa($mesa_id)
     {
-        $this->db->query('SELECT p.*, d.*, pr.nombre AS producto_nombre, pr.descripcion AS producto_descripcion FROM pedidoscomanda p JOIN detallespedido d ON p.id = d.pedido_id JOIN productos pr ON d.producto_id = pr.id WHERE p.mesa_id = :mesa_id');
+        $this->db->query('
+            SELECT p.*, d.*, pr.nombre AS producto_nombre, pr.descripcion AS producto_descripcion 
+            FROM pedidoscomanda p 
+            JOIN detallespedido d ON p.id = d.pedido_id 
+            JOIN productos pr ON d.producto_id = pr.id 
+            WHERE p.mesa_id = :mesa_id 
+            AND p.estado != :estado
+        ');
         $this->db->bind(':mesa_id', $mesa_id);
+        $this->db->bind(':estado', 'pagado');
         return $this->db->resultSet();
     }
+
 
     public function getPedidoById($id)
     {
@@ -64,7 +73,6 @@ class Pedido extends Model
 
         return $pedido;
     }
-
 
     public function updateDetallePedido($data)
     {
@@ -84,6 +92,14 @@ class Pedido extends Model
         $this->db->bind(':estado', $data['estado']);
         $this->db->bind(':total', $data['total']);
         $this->db->bind(':id', $data['id']);
+        return $this->db->execute();
+    }
+
+    public function updateEstadoPedido($data)
+    {
+        $this->db->query('UPDATE pedidoscomanda SET estado = :estado WHERE id = :id');
+        $this->db->bind(':estado', $data['estado']);
+        $this->db->bind(':id', $data['pedido_id']);
         return $this->db->execute();
     }
 
@@ -137,5 +153,64 @@ class Pedido extends Model
     {
         $this->db->query('SELECT estado, COUNT(*) as total FROM pedidoscomanda GROUP BY estado');
         return $this->db->resultSet();
+    }
+
+    public function getDetailedPedidoById($id)
+    {
+        $this->db->query("SELECT 
+        pedidoscomanda.id AS pedido_id,
+        pedidoscomanda.fecha,
+        pedidoscomanda.total,
+        personas.nombre AS usuario_nombre,
+        cliente_persona.nombre AS cliente_nombre,
+        cliente_persona.telefono AS cliente_telefono,
+        cliente_persona.direccion AS cliente_direccion,
+        cliente_persona.email AS cliente_email,
+        mesas.numero AS mesa_numero,
+        piso.nombre AS piso_nombre,
+        GROUP_CONCAT(
+        CONCAT(
+            'Producto ID: ', detallespedido.producto_id, 
+            ', Cantidad: ', detallespedido.cantidad, 
+            ', Precio: ', detallespedido.precio, 
+            ', Nombre: ', productos.nombre, 
+            ', Descripción: ', productos.descripcion
+        ) 
+        SEPARATOR ' | '
+        ) AS detalles_pedido
+        FROM 
+            pedidoscomanda
+        JOIN 
+            usuarios ON pedidoscomanda.usuario_id = usuarios.id
+        JOIN 
+            personas ON usuarios.persona_id = personas.id
+        JOIN 
+            clientes ON pedidoscomanda.cliente_id = clientes.id
+        JOIN 
+            personas AS cliente_persona ON clientes.persona_id = cliente_persona.id
+        JOIN 
+            mesas ON pedidoscomanda.mesa_id = mesas.id
+        JOIN 
+            piso ON mesas.piso_id = piso.id
+        JOIN 
+            detallespedido ON pedidoscomanda.id = detallespedido.pedido_id
+        JOIN 
+            productos ON detallespedido.producto_id = productos.id
+        WHERE 
+            pedidoscomanda.id = :pedido_id
+        GROUP BY 
+            pedidoscomanda.id,
+            pedidoscomanda.fecha,
+            pedidoscomanda.total,
+            personas.nombre,
+            cliente_persona.nombre,
+            cliente_persona.telefono,
+            cliente_persona.direccion,
+            cliente_persona.email,
+            mesas.numero,
+            piso.nombre;");
+
+        $this->db->bind(':pedido_id', $id);
+        return $this->db->single();
     }
 }
