@@ -33,11 +33,14 @@
                             <?php if (isset($data['pedidosAgrupados']) && is_array($data['pedidosAgrupados'])) : ?>
                                 <?php foreach ($data['pedidosAgrupados'] as $pedido) : ?>
                                     <tr class="bg-gray-200 dark:bg-gray-700">
-                                        <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['usuario']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['descripcion']; ?></td>
+                                        <?php if ($pedido['estado'] == 'pagado') : ?>
+                                        <?php else : ?>
+                                            <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['usuario']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['descripcion']; ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>

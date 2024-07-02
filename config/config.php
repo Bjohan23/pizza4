@@ -76,5 +76,5 @@ define('PISO_CREATE', '/PIZZA4/public/pisos/create');
 define('PISO_EDIT', '/PIZZA4/public/pisos/edit/');
 define('PISO_DELETE', '/PIZZA4/public/pisos/delete/');
 // COBRAR
-define('COBRAR', '/PIZZA4/public/pedidos/cobrar');
-define('COBRAR_PEDIDO', '/PIZZA4/public/pedidos/cobrarPedido/');
+define('COBRAR', '/PIZZA4/public/pedidos/cobrar/');
+define('IMPRIMIR_BOLETA', '/PIZZA4/public/pedidos/imprimirBoleta/');
