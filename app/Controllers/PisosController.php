@@ -44,7 +44,7 @@ class PisosController extends Controller
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR );
             exit();
         }
     
@@ -53,10 +53,8 @@ class PisosController extends Controller
     
         if (!$piso) {
             // Manejar el caso donde el piso no existe
-            // Esto puede ser una redirección, mostrar un mensaje de error, etc.
-            // Por ejemplo:
-            // header('Location: /PIZZA4/public/error404');
-            // exit();
+            header('Location: /PIZZA4/public/error/404');
+            exit();
         }
     
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -80,12 +78,11 @@ class PisosController extends Controller
         $this->view('pisos/edit', ['piso' => $piso, 'sedes' => $sedes]);
     }
     
-
     public function delete($id)
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR );
             exit();
         }
 
@@ -98,7 +95,7 @@ class PisosController extends Controller
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR );
             exit();
         }
 

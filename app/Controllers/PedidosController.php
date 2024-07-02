@@ -272,6 +272,11 @@ class PedidosController extends Controller
 
     public function allPedidos()
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         $pedidosModel = $this->model('Pedido');
         $pedidos = $pedidosModel->getAllPedidosWithDetails();
 
@@ -353,6 +358,11 @@ class PedidosController extends Controller
 
     public function imprimirBoleta($datos)
     {
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
         try {
             require_once(dirname(__FILE__) . '/../../vendor/tecnickcom/tcpdf/tcpdf.php');
 
