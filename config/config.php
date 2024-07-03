@@ -78,3 +78,4 @@ define('PISO_DELETE', '/PIZZA4/public/pisos/delete/');
 // COBRAR
 define('COBRAR', '/PIZZA4/public/pedidos/cobrar/');
 define('IMPRIMIR_BOLETA', '/PIZZA4/public/pedidos/imprimirBoleta/');
+define('VENTAS_MOSTRAR', '/PIZZA4/public/ventas');

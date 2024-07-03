@@ -145,7 +145,8 @@ class Pedido extends Model
 
     public function countPedidos()
     {
-        $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda');
+        $this->db->query('SELECT COUNT(*) as count FROM pedidoscomanda WHERE estado = :estado');
+        $this->db->bind(':estado', 'pendiente');
         return $this->db->single()['count'];
     }
 
@@ -212,5 +213,15 @@ class Pedido extends Model
 
         $this->db->bind(':pedido_id', $id);
         return $this->db->single();
+    }
+
+    public function getProductosMasVendidos()
+    {
+        $this->db->query('SELECT productos.nombre, SUM(detallespedido.cantidad) as total_vendido
+                          FROM detallespedido
+                          JOIN productos ON detallespedido.producto_id = productos.id
+                          GROUP BY productos.id
+                          ORDER BY total_vendido DESC');
+        return $this->db->resultSet();
     }
 }

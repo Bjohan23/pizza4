@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <a href="<?php echo CLIENT ?>" class="block text-white bg-blue-500 dark:bg-blue-700 text-center py-2 rounded-b-lg hover:bg-blue-600 dark:hover:bg-blue-800 transition duration-200">
-                      Más info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         <div class="flex items-center">
                             <div class="text-white">
                                 <h3 class="text-3xl font-bold"><?php echo $data['pedidosCount']; ?></h3>
-                                <p>Pedidos</p>
+                                <p>Pedidos pendientes</p>
                             </div>
                             <div class="ml-auto">
                                 <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Pedidos" class="icon-size">
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <a href="<?php echo PISOS ?>" class="block text-white bg-orange-400 dark:bg-orange-700 text-center py-2 rounded-b-lg hover:bg-orange-600 dark:hover:bg-orange-700 hover:text-orange-800 dark:hover:text-orange-800 transition duration-200">
-                         Más info <i class="fas fa-arrow-circle-right"></i>
+                        Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                         Más info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
-            </div>  
+            </div>
 
             <!-- Categorías -->
             <div class="col-lg-3 col-6">
@@ -176,20 +176,23 @@
         </div>
 
         <br>
-        
+
 
         <!-- Gráfica "Total de Pedidos por Estado" -->
-        <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
-            <canvas id="pedidosChart"></canvas>
-        </div>
+        <!-- <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
+        </div> -->
+        <canvas id="pedidosChart" class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg"></canvas>
 
-        <div class="grid grid-cols-2 gap-6 mb-6">
+        <!-- <div class="grid grid-cols-2 gap-6 mb-6">
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
-        </div>
-        <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg"></div>
+        </div> -->
+        <!-- <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
+            <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Productos Más Vendidos</h1>
+        </div> -->
+        <canvas id="productosMasVendidosChart" class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg"></canvas>
         <div class="grid grid-cols-2 gap-6">
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
@@ -219,6 +222,30 @@
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        const ctx2 = document.getElementById('productosMasVendidosChart').getContext('2d');
+        const productos = <?php echo json_encode(array_column($data['productosMasVendidos'], 'nombre')); ?>;
+        const cantidades = <?php echo json_encode(array_column($data['productosMasVendidos'], 'total_vendido')); ?>;
+
+        const productosMasVendidosChart = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: productos,
+                datasets: [{
+                    label: 'Total Vendido',
+                    data: cantidades,
+                    backgroundColor: 'rgba(175, 192, 192, 0.2)',
+                    borderColor: 'rgb(255,204,102)',
+                    borderWidth: 1,
                 }]
             },
             options: {

@@ -295,7 +295,6 @@ class PedidosController extends Controller
                 $pedidosAgrupados[$mesa]['descripcion'] .= ', ' . $pedido['descripcion'];
             }
         }
-
         $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados]);
     }
 
@@ -358,6 +357,7 @@ class PedidosController extends Controller
 
     public function imprimirBoleta($datos)
     {
+
         Session::init();
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR);
@@ -427,25 +427,60 @@ class PedidosController extends Controller
 
             $pdf->Ln(5);
 
-            // Detalles del pedido
+            // Detalles del pedido en una tabla
             $pdf->SetFont('helvetica', 'B', 12);
             $pdf->Cell(0, 8, 'Detalle del Pedido', 0, 1);
             $pdf->SetFont('helvetica', '', 10);
 
-            $detalles = explode(', ', $datos['detalles_pedido']);
+            // Encabezados de la tabla
+            $pdf->SetFillColor(230, 230, 230);
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(60, 7, 'Producto', 1, 0, 'C', 1);
+            $pdf->Cell(60, 7, 'Descripción', 1, 0, 'C', 1);
+            $pdf->Cell(20, 7, 'Cantidad', 1, 0, 'C', 1);
+            $pdf->Cell(25, 7, 'Precio', 1, 0, 'C', 1);
+            $pdf->Cell(25, 7, 'Subtotal', 1, 1, 'C', 1);
+
+            // Detalles de los productos
+            $pdf->SetFont('helvetica', '', 9);
+            $detalles = explode(' | ', $datos['detalles_pedido']);
             foreach ($detalles as $detalle) {
-                $pdf->MultiCell(0, 6, $detalle, 0, 'L');
+                $partes = explode(', ', $detalle);
+                $producto = '';
+                $descripcion = '';
+                $cantidad = 0;
+                $precio = 0;
+
+                foreach ($partes as $parte) {
+                    if (strpos($parte, 'Nombre:') !== false) {
+                        $producto = trim(str_replace('Nombre:', '', $parte));
+                    } elseif (strpos($parte, 'Descripción:') !== false) {
+                        $descripcion = trim(str_replace('Descripción:', '', $parte));
+                    } elseif (strpos($parte, 'Cantidad:') !== false) {
+                        $cantidad = intval(trim(str_replace('Cantidad:', '', $parte)));
+                    } elseif (strpos($parte, 'Precio:') !== false) {
+                        $precio = floatval(trim(str_replace('Precio:', '', $parte)));
+                    }
+                }
+
+                $subtotal = $cantidad * $precio;
+
+                $pdf->Cell(60, 6, $producto, 1);
+                $pdf->Cell(60, 6, $descripcion, 1);
+                $pdf->Cell(20, 6, $cantidad, 1, 0, 'C');
+                $pdf->Cell(25, 6, 'S/ ' . number_format($precio, 2), 1, 0, 'R');
+                $pdf->Cell(25, 6, 'S/ ' . number_format($subtotal, 2), 1, 1, 'R');
             }
 
             $pdf->Ln(5);
 
             // Total
             $pdf->SetFont('helvetica', 'B', 12);
-            $pdf->Cell(120, 8, 'Total:', 0, 0, 'R');
-            $pdf->Cell(0, 8, 'S/ ' . number_format($datos['total'], 2), 0, 1, 'R');
+            $pdf->Cell(165, 8, 'Total:', 0, 0, 'R');
+            $pdf->Cell(25, 8, 'S/ ' . number_format($datos['total'], 2), 0, 1, 'R');
 
             // Generar el PDF y guardarlo en el servidor
-            $pdfFileName = 'boleta_' . $datos['pedido_id'] . '.pdf';
+            $pdfFileName = 'boleta_' . $datos['pedido_id'] . "_" . $datos['cliente_nombre'] . '.pdf';
             $pdfFilePath = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
             $pdf->Output($pdfFilePath, 'F');
 

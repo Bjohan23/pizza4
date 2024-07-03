@@ -63,8 +63,7 @@ class ComprobanteVenta extends Model
             cliente_persona.direccion,
             cliente_persona.email,
             mesas.numero,
-            piso.nombre
-    ');
+            piso.nombre');
 
         return $this->db->resultSet();
     }
