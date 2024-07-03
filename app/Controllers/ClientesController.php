@@ -50,7 +50,7 @@ class ClientesController extends Controller
                 echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
             }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+            $this->view('clientes/create');
         }
         exit();
     }
