@@ -192,7 +192,7 @@
         <!-- <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg">
             <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Productos Más Vendidos</h1>
         </div> -->
-        <canvas id="productosMasVendidosChart" class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg"></canvas>
+        <canvas id="productosMasVendidosChart" class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-6 bg-white dark:bg-gray-800 shadow-lg" width="100" height="100"></canvas>
         <div class="grid grid-cols-2 gap-6">
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
             <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72 bg-white dark:bg-gray-800 shadow-lg"></div>
@@ -232,29 +232,66 @@
                 }
             }
         });
+
         const ctx2 = document.getElementById('productosMasVendidosChart').getContext('2d');
         const productos = <?php echo json_encode(array_column($data['productosMasVendidos'], 'nombre')); ?>;
         const cantidades = <?php echo json_encode(array_column($data['productosMasVendidos'], 'total_vendido')); ?>;
 
-        const productosMasVendidosChart = new Chart(ctx2, {
+        // Asegúrate de que cantidades sean números
+        const cantidadesNumericas = cantidades.map(Number);
+
+        function generateColors(numColors) {
+            const colors = [];
+            for (let i = 0; i < numColors; i++) {
+                const hue = (i * 137.508) % 360; // Distribuye los colores uniformemente
+                colors.push(`hsl(${hue}, 70%, 60%)`);
+            }
+            return colors;
+        }
+
+        const backgroundColors = generateColors(productos.length);
+        const borderColors = backgroundColors.map(color => color.replace('0.6', '1'));
+
+        const config = {
             type: 'pie',
             data: {
                 labels: productos,
                 datasets: [{
                     label: 'Total Vendido',
-                    data: cantidades,
-                    backgroundColor: 'rgba(175, 192, 192, 0.2)',
-                    borderColor: 'rgb(255,204,102)',
-                    borderWidth: 1,
+                    data: cantidadesNumericas,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
                 }]
             },
             options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Productos más vendidos',
+                        color: 'Gray' // Ajusta esto según el tema de tu sitio
+                    },
+                },
+                // Ajustes para modo oscuro
+                color: 'Gray', // Color del texto en el gráfico
                 scales: {
+                    x: {
+                        ticks: {
+                            color: 'Gray'
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        ticks: {
+                            color: 'Gray'
+                        }
                     }
                 }
             }
-        });
+        };
+        new Chart(ctx2, config);
     });
 </script>
