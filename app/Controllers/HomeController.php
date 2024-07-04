@@ -47,6 +47,8 @@ class HomeController extends Controller
         // obtenemos los datos del usuario autenticado para mostrar en el dashboard
         $usuarioId = Session::get('usuario_id');
         $usuario = $usuarioModel->getUsuarioById($usuarioId);
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado($usuarioId);
+
         // Pasar los datos a la vista
         $this->view('dashboard', [
             'usuariosCount' => $usuariosCount,
@@ -60,6 +62,7 @@ class HomeController extends Controller
             'totalPedidosPorEstado' => $totalPedidosPorEstado, // Pasar los datos como array asociativo
             'productosMasVendidos' => $productosMasVendidos,
             'usuario' => $usuario,
+            'rolUsuario' => $rolUsuario,
         ]);
     }
 }
