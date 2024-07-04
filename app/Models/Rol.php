@@ -32,4 +32,10 @@ class Rol extends Model
         $this->db->bind(':nombre', $nombre);
         $this->db->execute();
     }
+    public function deleteRol($id)
+    {
+        $this->db->query('DELETE FROM roles WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+    }
 }

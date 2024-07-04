@@ -9,8 +9,11 @@ class VentasController extends Controller
             exit();
         }
 
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+
         $ventaModel = $this->model('ComprobanteVenta');
         $ventas = $ventaModel->getVentas();
-        $this->view('ventas/index', ['ventas' => $ventas]);
+        $this->view('ventas/index', ['ventas' => $ventas, 'rolUsuario' => $rolUsuario]);
     }
 }

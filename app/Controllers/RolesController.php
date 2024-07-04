@@ -12,7 +12,10 @@ class RolesController extends Controller
         } else {
             $rolModel = $this->model('Rol');
             $roles = $rolModel->getAllRoles();
-            $this->view('roles/index', ['roles' => $roles]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('roles/index', ['roles' => $roles, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -30,7 +33,10 @@ class RolesController extends Controller
                 $rolModel->createRol($nombre);
                 header('Location: /PIZZA4/public/roles');
             } else {
-                $this->view('roles/create');
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('roles/create', ['rolUsuario' => $rolUsuario]);
             }
         }
     }
@@ -50,8 +56,24 @@ class RolesController extends Controller
             } else {
                 $rolModel = $this->model('Rol');
                 $rol = $rolModel->getRolById($id);
-                $this->view('roles/edit', ['rol' => $rol]);
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('roles/edit', ['rol' => $rol, 'rolUsuario' => $rolUsuario]);
             }
+        }
+    }
+    public function eliminar($id)
+    {
+        Session::init();
+        // Verificar si el usuario está autenticado
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR . '');
+            exit();
+        } else {
+            $rolModel = $this->model('Rol');
+            $rolModel->deleteRol($id);
+            header('Location: /PIZZA4/public/roles');
         }
     }
 }

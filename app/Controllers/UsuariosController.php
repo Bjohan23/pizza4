@@ -11,7 +11,10 @@ class UsuariosController extends Controller
         } else {
             $usuarioModel = $this->model('Usuario');
             $usuarios = $usuarioModel->getUsuarios();
-            $this->view('usuarios/index', ['usuarios' => $usuarios]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('usuarios/index', ['usuarios' => $usuarios, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -69,7 +72,10 @@ class UsuariosController extends Controller
             } else {
                 $rolModel = $this->model('Rol');
                 $roles = $rolModel->getAllRoles();
-                $this->view('usuarios/create', ['roles' => $roles]);
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('usuarios/create', ['roles' => $roles, 'rolUsuario' => $rolUsuario]);
             }
         }
     }
@@ -97,7 +103,10 @@ class UsuariosController extends Controller
                 }
             } else {
                 $usuario = $usuarioModel->getUsuarioById($id);
-                $this->view('usuarios/edit', ['usuario' => $usuario]);
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('usuarios/edit', ['usuario' => $usuario, 'rolUsuario' => $rolUsuario]);
             }
         }
     }
