@@ -240,6 +240,7 @@ document.getElementById('paymentForm').addEventListener('submit', function(event
 });
 </script>
 
+
 </main>
 <?php include_once '../app/Views/inc/footer.php'; ?>
 
