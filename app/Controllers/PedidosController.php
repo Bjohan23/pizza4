@@ -11,7 +11,12 @@ class PedidosController extends Controller
 
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisos();
-        $this->view('pedidos/index', ['pisos' => $pisos]);
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pedidos/index', [
+            'pisos' => $pisos,
+            'rolUsuario' => $rolUsuario
+        ]);
     }
 
     public function selectMesa($piso_id)
@@ -24,7 +29,13 @@ class PedidosController extends Controller
 
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesasByPiso($piso_id);
-        $this->view('pedidos/selectMesa', ['mesas' => $mesas, 'piso_id' => $piso_id]);
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pedidos/selectMesa', [
+            'mesas' => $mesas,
+            'piso_id' => $piso_id,
+            'rolUsuario' => $rolUsuario
+        ]);
     }
 
     public function viewMesa($mesa_id)
@@ -43,6 +54,7 @@ class PedidosController extends Controller
         $cliente = $clienteModel->getClienteById($pedidos[0]['cliente_id']);
         $usuarioModel = $this->model('Usuario');
         $usuario = $usuarioModel->getUsuarioById(Session::get('usuario_id'));
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         if ($usuario) {
             $usuario = (object) $usuario;
         }
@@ -64,7 +76,8 @@ class PedidosController extends Controller
             'cliente' => $cliente,
             'mesa' => $mesa,
             'usuario' => $usuario,
-            'pedido' => $pedido
+            'pedido' => $pedido,
+            'rolUsuario' => $rolUsuario
         ]);
     }
 
@@ -127,6 +140,8 @@ class PedidosController extends Controller
 
             $productoModel = $this->model('Producto');
             $productos = $productoModel->getAllProductos();
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
 
             // Obtener el cliente_id de la URL si está presente
             $cliente_id = isset($_GET['cliente_id']) ? $_GET['cliente_id'] : null;
@@ -135,7 +150,8 @@ class PedidosController extends Controller
                 'mesa_id' => $mesa_id,
                 'clientes' => $clientes,
                 'productos' => $productos,
-                'cliente_id' => $cliente_id // Pasar cliente_id a la vista
+                'cliente_id' => $cliente_id, // Pasar cliente_id a la vista
+                'rolUsuario' => $rolUsuario
             ]);
         }
     }
@@ -279,6 +295,8 @@ class PedidosController extends Controller
         }
         $pedidosModel = $this->model('Pedido');
         $pedidos = $pedidosModel->getAllPedidosWithDetails();
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
 
         $pedidosAgrupados = [];
         foreach ($pedidos as $pedido) {
@@ -295,7 +313,7 @@ class PedidosController extends Controller
                 $pedidosAgrupados[$mesa]['descripcion'] .= ', ' . $pedido['descripcion'];
             }
         }
-        $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados]);
+        $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados, 'rolUsuario' => $rolUsuario]);
     }
 
     public function cobrar($id)

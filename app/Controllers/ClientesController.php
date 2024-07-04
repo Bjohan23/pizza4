@@ -11,7 +11,10 @@ class ClientesController extends Controller
         } else {
             $clienteModel = $this->model('Cliente');
             $clientes = $clienteModel->getAllClientes();
-            $this->view('clientes/index', ['clientes' => $clientes]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('clientes/index', ['clientes' => $clientes, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -50,7 +53,10 @@ class ClientesController extends Controller
                 echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
             }
         } else {
-            $this->view('clientes/create');
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
         }
         exit();
     }
@@ -80,8 +86,10 @@ class ClientesController extends Controller
                 }
             } else {
                 $cliente = $clienteModel->getClienteById($id);
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
 
-                $this->view('clientes/edit', ['cliente' => $cliente]);
+                $this->view('clientes/edit', ['cliente' => $cliente, 'rolUsuario' => $rolUsuario]);
             }
         }
     }

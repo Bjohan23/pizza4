@@ -11,7 +11,10 @@ class CategoriasController extends Controller
         } else {
             $categoriaModel = $this->model('Categoria');
             $categorias = $categoriaModel->getCategorias();
-            $this->view('categorias/index', ['categorias' => $categorias]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('categorias/index', ['categorias' => $categorias, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -32,7 +35,10 @@ class CategoriasController extends Controller
                     $this->view('categorias/create', $data);
                 }
             } else {
-                $this->view('categorias/create');
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('categorias/create', ['rolUsuario' => $rolUsuario]);
             }
         }
     }
@@ -58,7 +64,10 @@ class CategoriasController extends Controller
                 }
             } else {
                 $categoria = $categoriaModel->getCategoriaById($id);
-                $this->view('categorias/edit', ['categoria' => $categoria]);
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('categorias/edit', ['categoria' => $categoria, 'rolUsuario' => $rolUsuario]);
             }
         }
     }

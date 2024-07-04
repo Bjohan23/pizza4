@@ -56,18 +56,48 @@ class Usuario extends Model
     public function getUsuarioById($id)
     {
         $this->db->query('
-        SELECT u.id, p.nombre, p.email, p.telefono, p.direccion, GROUP_CONCAT(r.nombre SEPARATOR ", ") AS roles 
-        FROM usuarios u 
-        JOIN personas p ON u.persona_id = p.id 
-        LEFT JOIN listroles lr ON u.id = lr.usuario_id
-        LEFT JOIN roles r ON lr.rol_id = r.id
-        WHERE u.id = :id
-        GROUP BY u.id, p.nombre, p.email, p.telefono, p.direccion
-    ');
+        SELECT 
+            u.id, 
+            p.nombre, 
+            p.email, 
+            p.telefono, 
+            p.direccion, 
+            IFNULL(GROUP_CONCAT(r.nombre SEPARATOR ", "), "No roles") AS roles 
+        FROM 
+            usuarios u 
+        JOIN 
+            personas p ON u.persona_id = p.id 
+        LEFT JOIN 
+            listroles lr ON u.id = lr.usuario_id
+        LEFT JOIN 
+            roles r ON lr.rol_id = r.id
+        WHERE 
+            u.id = :id
+        GROUP BY 
+            u.id, p.nombre, p.email, p.telefono, p.direccion');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
 
+    public function getRolesUsuarioAutenticado($userId)
+    {
+        $this->db->query('
+        SELECT 
+            IFNULL(GROUP_CONCAT(r.nombre SEPARATOR ", "), "No roles") AS roles 
+        FROM 
+            usuarios u 
+        LEFT JOIN 
+            listroles lr ON u.id = lr.usuario_id
+        LEFT JOIN 
+            roles r ON lr.rol_id = r.id
+        WHERE 
+            u.id = :id
+    ');
+        $this->db->bind(':id', $userId);
+        $result = $this->db->single();
+
+        return $result ? $result['roles'] : ['error' => 'No roles found for this user'];
+    }
 
     public function updateUsuario($data)
     {

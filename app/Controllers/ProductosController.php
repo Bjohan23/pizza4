@@ -11,7 +11,10 @@ class ProductosController extends Controller
         } else {
             $productoModel = $this->model('Producto');
             $productos = $productoModel->getAllProductos();
-            $this->view('productos/index', ['productos' => $productos]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('productos/index', ['productos' => $productos, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -38,9 +41,12 @@ class ProductosController extends Controller
                     die('Error al crear el producto');
                 }
             } else {
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
                 $categoriaModel = $this->model('Categoria');
                 $categorias = $categoriaModel->getCategorias();
-                $this->view('productos/create', ['categorias' => $categorias]);
+                $this->view('productos/create', ['categorias' => $categorias, 'rolUsuario' => $rolUsuario]);
             }
         }
     }
@@ -72,7 +78,10 @@ class ProductosController extends Controller
                 $producto = $productoModel->getProductoById($id);
                 $categoriaModel = $this->model('Categoria');
                 $categorias = $categoriaModel->getCategorias();
-                $this->view('productos/edit', ['producto' => $producto, 'categorias' => $categorias]);
+
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('productos/edit', ['producto' => $producto, 'categorias' => $categorias, 'rolUsuario' => $rolUsuario]);
             }
         }
     }

@@ -11,7 +11,10 @@ class MesasController extends Controller
         }
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesas();
-        $this->view('mesas/index', ['mesas' => $mesas]);
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('mesas/index', ['mesas' => $mesas, 'rolUsuario' => $rolUsuario]);
     }
 
     public function create()
@@ -24,6 +27,9 @@ class MesasController extends Controller
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisos();
 
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'piso_id' => $_POST['piso_id'],
@@ -34,10 +40,10 @@ class MesasController extends Controller
             if ($mesaModel->createMesa($data)) {
                 header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
             } else {
-                $this->view('mesas/create', ['error' => 'Error al registrar la mesa.', 'pisos' => $pisos]);
+                $this->view('mesas/create', ['error' => 'Error al registrar la mesa.', 'pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
             }
         } else {
-            $this->view('mesas/create', ['pisos' => $pisos]);
+            $this->view('mesas/create', ['pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -50,6 +56,9 @@ class MesasController extends Controller
         }
         $mesaModel = $this->model('Mesa');
         $pisoModel = $this->model('Piso');
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         $pisos = $pisoModel->getPisos();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -62,11 +71,11 @@ class MesasController extends Controller
             if ($mesaModel->updateMesa($data)) {
                 header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
             } else {
-                $this->view('mesas/edit', ['mesa' => $data, 'error' => 'Error al actualizar la mesa.', 'pisos' => $pisos]);
+                $this->view('mesas/edit', ['mesa' => $data, 'error' => 'Error al actualizar la mesa.', 'pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
             }
         } else {
             $mesa = $mesaModel->getMesaById($id);
-            $this->view('mesas/edit', ['mesa' => $mesa, 'pisos' => $pisos]);
+            $this->view('mesas/edit', ['mesa' => $mesa, 'pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
         }
     }
 

@@ -11,7 +11,10 @@ class SedeController extends Controller
         } else {
             $sedeModel = $this->model('Sede');
             $sedes = $sedeModel->getAllSedes();
-            $this->view('sede/index', ['sedes' => $sedes]);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('sede/index', ['sedes' => $sedes, 'rolUsuario' => $rolUsuario]);
         }
     }
     // mostrar sede por id  
@@ -25,8 +28,9 @@ class SedeController extends Controller
         } else {
             $sedeModel = $this->model('Sede');
             $sede = $sedeModel->getSedeById($id);
-
-            $this->view('sede/mostrar', ['sede' => $sede]);
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('sede/mostrar', ['sede' => $sede, 'rolUsuario' => $rolUsuario]);
         }
     }
 
