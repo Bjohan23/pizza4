@@ -1,6 +1,6 @@
 <?php
 // Incluir el autoload global de Composer
-//require_once 'C:/Users/narum/AppData/Roaming/Composer/vendor/autoload.php';
+// require_once 'C:/Users/narum/AppData/Roaming/Composer/vendor/autoload.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
@@ -76,5 +76,6 @@ define('PISO_CREATE', '/PIZZA4/public/pisos/create');
 define('PISO_EDIT', '/PIZZA4/public/pisos/edit/');
 define('PISO_DELETE', '/PIZZA4/public/pisos/delete/');
 // COBRAR
-define('COBRAR', '/PIZZA4/public/pedidos/cobrar');
-define('COBRAR_PEDIDO', '/PIZZA4/public/pedidos/cobrarPedido/');
+define('COBRAR', '/PIZZA4/public/pedidos/cobrar/');
+define('IMPRIMIR_BOLETA', '/PIZZA4/public/pedidos/imprimirBoleta/');
+define('VENTAS_MOSTRAR', '/PIZZA4/public/ventas');

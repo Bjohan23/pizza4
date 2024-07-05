@@ -6,7 +6,7 @@
                     <div class="flex items-center flex-1 space-x-4">
                         <h5>
                             <span class="text-gray-500">Total Pedidos:</span>
-                            <span class="dark:text-white"><?php echo count($data['pedidos']); ?></span>
+                            <span class="dark:text-white"><?php echo isset($data['pedidosAgrupados']) ? count($data['pedidosAgrupados']) : 0; ?></span>
                         </h5>
                     </div>
                     <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -22,35 +22,30 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-4 py-3">Usuario</th>
                                 <th scope="col" class="px-4 py-3">Mesa</th>
+                                <th scope="col" class="px-4 py-3">Usuario</th>
                                 <th scope="col" class="px-4 py-3">Fecha</th>
                                 <th scope="col" class="px-4 py-3">Estado</th>
-                                <th scope="col" class="px-4 py-3">Categoría</th>
-                                <th scope="col" class="px-4 py-3">Detalle</th>
+                                <th scope="col" class="px-4 py-3">Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (isset($data['pedidos']) && is_array($data['pedidos'])) : ?>
-                                <?php foreach ($data['pedidos'] as $pedido) : ?>
-                                    <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <td class="px-4 py-3"><?php echo $pedido['usuario']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
-                                        <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
-                                        <td class="px-4 py-3"><?php /* Aquí debes obtener la categoría */ ?></td>
-                                        <td class="px-4 py-3">
-                                            <ul>
-                                                <?php foreach ($pedido['detalles'] as $detalle) : ?>
-                                                    <li><?php echo $detalle['cantidad'] . ' x ' . $detalle['nombre']; ?></li>
-                                                <?php endforeach; ?>
-                                            </ul>
-                                        </td>
+                            <?php if (isset($data['pedidosAgrupados']) && is_array($data['pedidosAgrupados'])) : ?>
+                                <?php foreach ($data['pedidosAgrupados'] as $pedido) : ?>
+                                    <tr class="bg-gray-200 dark:bg-gray-700">
+                                        <?php if ($pedido['estado'] == 'pagado') : ?>
+                                        <?php else : ?>
+                                            <td class="px-4 py-3"><?php echo $pedido['mesa']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['usuario']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['fecha']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['estado']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $pedido['descripcion']; ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="6" class="px-4 py-3 text-center">No hay pedidos registrados</td>
+                                    <td colspan="5" class="px-4 py-3 text-center">No hay pedidos registrados</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

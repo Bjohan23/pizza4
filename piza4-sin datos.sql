@@ -52,12 +52,6 @@ CREATE TABLE `mesas` (
   `estado` varchar(255) DEFAULT 'libre'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pedidoscomanda`
---
-
 CREATE TABLE `pedidoscomanda` (
   `id` int(11) NOT NULL,
   `usuario_id` int(11) DEFAULT NULL,
@@ -68,11 +62,6 @@ CREATE TABLE `pedidoscomanda` (
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `personas`
---
 
 CREATE TABLE `personas` (
   `id` int(11) NOT NULL,
@@ -82,23 +71,12 @@ CREATE TABLE `personas` (
   `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `piso`
---
-
 CREATE TABLE `piso` (
   `id` int(11) NOT NULL,
   `sede_id` int(11) DEFAULT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `presentación`
---
 
 CREATE TABLE `presentación` (
   `id` int(11) NOT NULL,
@@ -106,11 +84,6 @@ CREATE TABLE `presentación` (
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos`
---
 
 CREATE TABLE `productos` (
   `id` int(11) NOT NULL,
@@ -122,22 +95,10 @@ CREATE TABLE `productos` (
   `presentacion_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `roles`
---
-
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `sede`
---
 
 CREATE TABLE `sede` (
   `id` int(11) NOT NULL,
@@ -145,25 +106,12 @@ CREATE TABLE `sede` (
   `direccion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
-
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `persona_id` int(11) DEFAULT NULL,
   `contrasena` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `categoría`
---
 ALTER TABLE `categoría`
   ADD PRIMARY KEY (`id`);
 

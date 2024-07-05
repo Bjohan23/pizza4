@@ -43,9 +43,12 @@ class HomeController extends Controller
         $mesasCount = $listMesasModel->mesasCount();
         $categoriasCount = $listCategoriasModel->categoriasCount();
         $totalPedidosPorEstado = $pedidoModel->getTotalPedidosPorEstado();
+        $productosMasVendidos = $pedidoModel->getProductosMasVendidos();
         // obtenemos los datos del usuario autenticado para mostrar en el dashboard
         $usuarioId = Session::get('usuario_id');
         $usuario = $usuarioModel->getUsuarioById($usuarioId);
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado($usuarioId);
+
         // Pasar los datos a la vista
         $this->view('dashboard', [
             'usuariosCount' => $usuariosCount,
@@ -57,7 +60,9 @@ class HomeController extends Controller
             'mesasCount' => $mesasCount,
             'categoriasCount' => $categoriasCount,
             'totalPedidosPorEstado' => $totalPedidosPorEstado, // Pasar los datos como array asociativo
+            'productosMasVendidos' => $productosMasVendidos,
             'usuario' => $usuario,
+            'rolUsuario' => $rolUsuario,
         ]);
     }
 }

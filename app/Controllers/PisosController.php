@@ -12,7 +12,10 @@ class PisosController extends Controller
 
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisosWithMesasCount();
-        $this->view('pisos/index', ['pisos' => $pisos]);
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pisos/index', ['pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
     }
 
     public function create()
@@ -28,37 +31,41 @@ class PisosController extends Controller
                 'nombre' => $_POST['nombre'],
                 'sede_id' => $_POST['sede_id']
             ];
-            $pisoModel = $this->model('Piso'); 
-            if ($pisoModel->createPiso($data)) { 
+            $pisoModel = $this->model('Piso');
+            if ($pisoModel->createPiso($data)) {
                 header('Location: /PIZZA4/public/pisos');
             } else {
                 $this->view('pisos/create', ['error' => 'Error al registrar el piso.']);
             }
         } else {
-            $sedeModel = $this->model('Sede'); 
-            $sedes = $sedeModel->getAllSedes(); 
-            $this->view('pisos/create', ['sedes' => $sedes]);
+            $sedeModel = $this->model('Sede');
+            $sedes = $sedeModel->getAllSedes();
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('pisos/create', ['sedes' => $sedes, 'rolUsuario' => $rolUsuario]);
         }
     }
     public function edit($id)
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
         }
-    
+
         $pisoModel = $this->model('Piso');
         $piso = $pisoModel->getPisoById($id); // Obtener los detalles del piso
-    
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+
         if (!$piso) {
             // Manejar el caso donde el piso no existe
-            // Esto puede ser una redirección, mostrar un mensaje de error, etc.
-            // Por ejemplo:
-            // header('Location: /PIZZA4/public/error404');
-            // exit();
+            header('Location: /PIZZA4/public/error/404');
+            exit();
         }
-    
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'id' => $id,
@@ -69,23 +76,22 @@ class PisosController extends Controller
                 header('Location: /PIZZA4/public/pisos');
                 exit();
             } else {
-                $this->view('pisos/edit', ['piso' => $piso, 'error' => 'Error al actualizar el piso.']);
+                $this->view('pisos/edit', ['piso' => $piso, 'error' => 'Error al actualizar el piso.', 'rolUsuario' => $rolUsuario]);
                 exit();
             }
         }
-    
+
         // Solo obtenemos las sedes si estamos mostrando el formulario de edición
         $sedeModel = $this->model('Sede');
-        $sedes = $sedeModel->getAllSedes(); 
-        $this->view('pisos/edit', ['piso' => $piso, 'sedes' => $sedes]);
+        $sedes = $sedeModel->getAllSedes();
+        $this->view('pisos/edit', ['piso' => $piso, 'sedes' => $sedes, 'rolUsuario' => $rolUsuario]);
     }
-    
 
     public function delete($id)
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
         }
 
@@ -98,7 +104,7 @@ class PisosController extends Controller
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
         }
 
@@ -106,6 +112,9 @@ class PisosController extends Controller
         $piso = $pisoModel->getPisoById($id);
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesasByPisoId($id);
-        $this->view('pisos/mesas', ['piso' => $piso, 'mesas' => $mesas]);
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pisos/mesas', ['piso' => $piso, 'mesas' => $mesas, 'rolUsuario' => $rolUsuario]);
     }
 }

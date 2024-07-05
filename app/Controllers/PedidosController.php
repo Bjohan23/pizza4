@@ -1,5 +1,4 @@
 <?php
-
 class PedidosController extends Controller
 {
     public function index()
@@ -12,7 +11,12 @@ class PedidosController extends Controller
 
         $pisoModel = $this->model('Piso');
         $pisos = $pisoModel->getPisos();
-        $this->view('pedidos/index', ['pisos' => $pisos]);
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pedidos/index', [
+            'pisos' => $pisos,
+            'rolUsuario' => $rolUsuario
+        ]);
     }
 
     public function selectMesa($piso_id)
@@ -25,7 +29,13 @@ class PedidosController extends Controller
 
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesasByPiso($piso_id);
-        $this->view('pedidos/selectMesa', ['mesas' => $mesas, 'piso_id' => $piso_id]);
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+        $this->view('pedidos/selectMesa', [
+            'mesas' => $mesas,
+            'piso_id' => $piso_id,
+            'rolUsuario' => $rolUsuario
+        ]);
     }
 
     public function viewMesa($mesa_id)
@@ -41,11 +51,10 @@ class PedidosController extends Controller
         $productoModel = $this->model('Producto');
         $productos = $productoModel->getAllProductos();
         $clienteModel = $this->model('Cliente');
-        $clientes = $clienteModel->getAllClientes();
+        $cliente = $clienteModel->getClienteById($pedidos[0]['cliente_id']);
         $usuarioModel = $this->model('Usuario');
         $usuario = $usuarioModel->getUsuarioById(Session::get('usuario_id'));
-
-        // Convertir a objeto si no es nulo
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         if ($usuario) {
             $usuario = (object) $usuario;
         }
@@ -53,21 +62,22 @@ class PedidosController extends Controller
         $mesaModel = $this->model('Mesa');
         $mesa = $mesaModel->getMesaById($mesa_id);
 
-        // Convertir a objeto si no es nulo
         if ($mesa) {
             $mesa = (object) $mesa;
         }
 
-        $pedido = isset($pedidos[0]) ? $pedidos[0] : null; // Asegurarse de tener al menos un pedido
+        $pedido = isset($pedidos[0]) ? $pedidos[0] : null;
+
 
         $this->view('pedidos/viewMesa', [
             'mesa_id' => $mesa_id,
             'pedidos' => $pedidos,
             'productos' => $productos,
-            'clientes' => $clientes,
+            'cliente' => $cliente,
             'mesa' => $mesa,
             'usuario' => $usuario,
-            'pedido' => $pedido // Pasar el primer pedido a la vista
+            'pedido' => $pedido,
+            'rolUsuario' => $rolUsuario
         ]);
     }
 
@@ -84,11 +94,10 @@ class PedidosController extends Controller
                 'mesa_id' => $mesa_id,
                 'cliente_id' => $_POST['cliente_id'],
                 'usuario_id' => Session::get('usuario_id'),
-                'estado' => 'ocupada',
+                'estado' => 'pendiente',
                 'total' => $_POST['total'],
                 'fecha' => date('Y-m-d H:i:s')
             ];
-
             $pedidoModel = $this->model('Pedido');
             $pedidoId = $pedidoModel->createPedido($pedidoData);
 
@@ -103,7 +112,9 @@ class PedidosController extends Controller
                                 'pedido_id' => $pedidoId,
                                 'producto_id' => $producto['id'],
                                 'cantidad' => $producto['cantidad'],
-                                'precio' => $producto['precio']
+                                'precio' => $producto['precio'],
+                                'descripcion' => $producto['descripcion2'],
+                                'estado' => 'pendiente'
                             ];
                             $pedidoModel->addDetalle($detalleData);
                         }
@@ -129,11 +140,18 @@ class PedidosController extends Controller
 
             $productoModel = $this->model('Producto');
             $productos = $productoModel->getAllProductos();
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+
+            // Obtener el cliente_id de la URL si está presente
+            $cliente_id = isset($_GET['cliente_id']) ? $_GET['cliente_id'] : null;
 
             $this->view('pedidos/create', [
                 'mesa_id' => $mesa_id,
                 'clientes' => $clientes,
-                'productos' => $productos
+                'productos' => $productos,
+                'cliente_id' => $cliente_id, // Pasar cliente_id a la vista
+                'rolUsuario' => $rolUsuario
             ]);
         }
     }
@@ -225,7 +243,6 @@ class PedidosController extends Controller
         }
     }
 
-
     public function eliminarProducto($pedido_id, $producto_id)
     {
         Session::init();
@@ -256,11 +273,11 @@ class PedidosController extends Controller
         // Obtener todos los pedidos asociados a la mesa
         $pedidos = $pedidoModel->getPedidosByMesa($mesa_id);
 
-        $data = [
-            'detalle_id' => $pedidos[0]['id'],
-            'comanda_id' => $pedidos[0]['pedido_id'],
-        ];
-        $pedidoModel->deletePedido($data);
+        // Eliminar cada pedido y sus detalles
+        foreach ($pedidos as $pedido) {
+            $pedidoModel->deletePedido(['detalle_id' => $pedido['id'], 'comanda_id' => $pedido['pedido_id']]);
+        }
+
         // Actualizar el estado de la mesa a 'libre'
         $mesaModel = $this->model('Mesa');
         $mesaModel->updateEstado($mesa_id, 'libre');
@@ -275,15 +292,30 @@ class PedidosController extends Controller
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR);
             exit();
-        } else {
-            // Obtener todos los pedidos con sus detalles
-            $pedidoModel = $this->model('Pedido');
-            $pedidos = $pedidoModel->getAllPedidosWithDetails();
-
-            // Cargar la vista con los datos de los pedidos
-            $this->view('pedidos/allPedidos', ['pedidos' => $pedidos]);
         }
+        $pedidosModel = $this->model('Pedido');
+        $pedidos = $pedidosModel->getAllPedidosWithDetails();
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+
+        $pedidosAgrupados = [];
+        foreach ($pedidos as $pedido) {
+            $mesa = $pedido['mesa'];
+            if (!isset($pedidosAgrupados[$mesa])) {
+                $pedidosAgrupados[$mesa] = [
+                    'mesa' => $mesa,
+                    'usuario' => $pedido['usuario'],
+                    'fecha' => $pedido['fecha'],
+                    'estado' => $pedido['estado'],
+                    'descripcion' => $pedido['descripcion']
+                ];
+            } else {
+                $pedidosAgrupados[$mesa]['descripcion'] .= ', ' . $pedido['descripcion'];
+            }
+        }
+        $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados, 'rolUsuario' => $rolUsuario]);
     }
+
     public function cobrar($id)
     {
         Session::init();
@@ -292,55 +324,43 @@ class PedidosController extends Controller
             exit();
         }
 
-
-
         $pedidoModel = $this->model('Pedido');
-        $pedido = $pedidoModel->getPedidoById($id);
+        $pedido = $pedidoModel->getPedidoById($_POST['pedido_id']);
 
         if ($pedido) {
             // Recoger datos del formulario
             $pedidoData = [
-                'id' => $_POST['id'],
-                'usuario_id' => $_POST['usuario_id'],
-                'cliente_id' => $_POST['cliente_id'],
-                'mesa_id' => $_POST['mesa_id'],
-                'fecha' => $_POST['fecha'],
+                'pedido_id' => $_POST['pedido_id'],
+                'fecha' => date('Y-m-d H:i:s'),
                 'estado' => 'pagado',
-                'total' => $_POST['total'],
-                'pedido_id' => $pedido['productos'][0]['pedido_id'],
+                'monto' => $_POST['total'],
+                'tipo' => $_POST['tipo'],
             ];
 
+            if ($_POST['boleta'] == 'si') {
+                $boletaData = $pedidoModel->getDetailedPedidoById($pedidoData['pedido_id']);
+                // Imprimir boleta
+                $this->imprimirBoleta($boletaData);
+            }
 
-            if ($pedidoModel->updatePedido($pedidoData)) {
+            if ($pedidoModel->updateEstadoPedido($pedidoData)) {
+                // Actualizar el estado de la mesa
+                $mesaModel = $this->model('Mesa');
+                $mesaModel->updateEstado($pedido['mesa_id'], 'libre');
+
                 // Verificación adicional
-                $pedidoExistente = $pedidoModel->getPedidoById($pedidoData['id']);
+                $pedidoExistente = $pedidoModel->getPedidoById($pedidoData['pedido_id']);
                 if ($pedidoExistente) {
                     // Registrar el comprobante de venta
                     $comprobanteModel = $this->model('ComprobanteVenta');
-                    $comprobanteData = [
-
-                        'pedido_id' => $pedidoData['pedido_id'],
-                        'tipo' => 'factura', // Puede ser 'boleta', 'factura', etc.
-                        'monto' => $pedidoData['total'],
-                        'fecha' => date('Y-m-d H:i:s')
-                    ];
-
-
-
-
-                    if ($comprobanteModel->createComprobante($comprobanteData)) {
-                        // Verificar los datos antes de la inserción
-                        error_log('Datos del pedido: ' . print_r($pedidoData, true));
-                        error_log('Datos del comprobante: ' . print_r($comprobanteData, true));
-
+                    if ($comprobanteModel->createComprobante($pedidoData)) {
                         // Redirigir a la vista de la mesa
-                        header('Location: ' . VIEW_MESA . $pedidoData['mesa_id']);
+                        header('Location: ' . ORDER);
                         exit();
                     } else {
                         die('Error al registrar el comprobante de venta');
                     }
                 } else {
-                    error_log('El pedido no existe en la base de datos');
                     die('El pedido no existe en la base de datos');
                 }
             } else {
@@ -350,6 +370,144 @@ class PedidosController extends Controller
         } else {
             error_log('Error al encontrar el pedido');
             die('Error al encontrar el pedido');
+        }
+    }
+
+    public function imprimirBoleta($datos)
+    {
+
+        Session::init();
+        if (!Session::get('usuario_id')) {
+            header('Location: ' . SALIR);
+            exit();
+        }
+        try {
+            require_once(dirname(__FILE__) . '/../../vendor/tecnickcom/tcpdf/tcpdf.php');
+
+            $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('Tu Empresa');
+            $pdf->SetTitle('Boleta de Pedido');
+            $pdf->SetSubject('Boleta de Pedido');
+            $pdf->SetKeywords('TCPDF, PDF, boleta, pedido');
+
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+            $pdf->SetMargins(15, 15, 15);
+            $pdf->AddPage();
+
+            $pdf->SetFont('helvetica', 'B', 14);
+            $pdf->Cell(0, 10, 'Boleta de Pedido', 0, 1, 'C');
+            $pdf->SetFont('helvetica', '', 10);
+
+            $pdf->Ln(5);
+
+            // Información del pedido
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Número de Pedido:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['pedido_id'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Fecha:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['fecha'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Atendido por:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['usuario_nombre'], 0, 1);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(50, 6, 'Mesa:', 0, 0);
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(0, 6, $datos['mesa_numero'] . ' (' . $datos['piso_nombre'] . ')', 0, 1);
+
+            $pdf->Ln(5);
+
+            // Información del cliente
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(0, 8, 'Datos del Cliente', 0, 1);
+            $pdf->SetFont('helvetica', '', 10);
+
+            $pdf->Cell(50, 6, 'Nombre:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_nombre'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Teléfono:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_telefono'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Dirección:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_direccion'], 0, 1);
+
+            $pdf->Cell(50, 6, 'Email:', 0, 0);
+            $pdf->Cell(0, 6, $datos['cliente_email'], 0, 1);
+
+            $pdf->Ln(5);
+
+            // Detalles del pedido en una tabla
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(0, 8, 'Detalle del Pedido', 0, 1);
+            $pdf->SetFont('helvetica', '', 10);
+
+            // Encabezados de la tabla
+            $pdf->SetFillColor(230, 230, 230);
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(60, 7, 'Producto', 1, 0, 'C', 1);
+            $pdf->Cell(60, 7, 'Descripción', 1, 0, 'C', 1);
+            $pdf->Cell(20, 7, 'Cantidad', 1, 0, 'C', 1);
+            $pdf->Cell(25, 7, 'Precio', 1, 0, 'C', 1);
+            $pdf->Cell(25, 7, 'Subtotal', 1, 1, 'C', 1);
+
+            // Detalles de los productos
+            $pdf->SetFont('helvetica', '', 9);
+            $detalles = explode(' | ', $datos['detalles_pedido']);
+            foreach ($detalles as $detalle) {
+                $partes = explode(', ', $detalle);
+                $producto = '';
+                $descripcion = '';
+                $cantidad = 0;
+                $precio = 0;
+
+                foreach ($partes as $parte) {
+                    if (strpos($parte, 'Nombre:') !== false) {
+                        $producto = trim(str_replace('Nombre:', '', $parte));
+                    } elseif (strpos($parte, 'Descripción:') !== false) {
+                        $descripcion = trim(str_replace('Descripción:', '', $parte));
+                    } elseif (strpos($parte, 'Cantidad:') !== false) {
+                        $cantidad = intval(trim(str_replace('Cantidad:', '', $parte)));
+                    } elseif (strpos($parte, 'Precio:') !== false) {
+                        $precio = floatval(trim(str_replace('Precio:', '', $parte)));
+                    }
+                }
+
+                $subtotal = $cantidad * $precio;
+
+                $pdf->Cell(60, 6, $producto, 1);
+                $pdf->Cell(60, 6, $descripcion, 1);
+                $pdf->Cell(20, 6, $cantidad, 1, 0, 'C');
+                $pdf->Cell(25, 6, 'S/ ' . number_format($precio, 2), 1, 0, 'R');
+                $pdf->Cell(25, 6, 'S/ ' . number_format($subtotal, 2), 1, 1, 'R');
+            }
+
+            $pdf->Ln(5);
+
+            // Total
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->Cell(165, 8, 'Total:', 0, 0, 'R');
+            $pdf->Cell(25, 8, 'S/ ' . number_format($datos['total'], 2), 0, 1, 'R');
+
+            // Generar el PDF y guardarlo en el servidor
+            $pdfFileName = 'boleta_' . $datos['pedido_id'] . "_" . $datos['cliente_nombre'] . '.pdf';
+            $pdfFilePath = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
+            $pdf->Output($pdfFilePath, 'F');
+
+            // Devolver la URL del PDF
+            $rutaCompleta = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
+            return $rutaCompleta;
+        } catch (Exception $e) {
+            error_log('Error al generar el PDF: ' . $e->getMessage());
+            return null;
         }
     }
 }
