@@ -21,35 +21,40 @@ class ClientesController extends Controller
     public function create()
     {
         Session::init();
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
-        } else {
+        }
 
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $data = [
-                    'nombre' => trim($_POST['nombre']),
-                    'email' => trim($_POST['email']),
-                    'telefono' => trim($_POST['telefono']),
-                    'direccion' => trim($_POST['direccion']),
-                    'dni' => trim($_POST['dni'])
-                ];
-                $clienteModel = $this->model('Cliente');
-                $result = $clienteModel->createCliente($data);
-                if ($result) {
-                    header('Location: ' . CLIENT);
-                } else {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'nombre' => trim($_POST['nombre']),
+                'email' => trim($_POST['email']),
+                'telefono' => trim($_POST['telefono']),
+                'direccion' => trim($_POST['direccion']),
+                'dni' => trim($_POST['dni'])
+            ];
+            $clienteModel = $this->model('Cliente');
+            $result = $clienteModel->createCliente($data);
 
-                    $usuarioModel = $this->model('Usuario');
-                    $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
-                    $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
-                }
+            if ($result) {
+                header('Location: ' . CLIENT);
+            } else {
+                die('Error al registrar el cliente');
                 exit();
             }
-        }
-    }
+        } else {
 
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
+        }
+        exit();
+    }
     public function edit($id)
     {
         Session::init();
