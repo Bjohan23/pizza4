@@ -38,27 +38,15 @@ class ClientesController extends Controller
                 $clienteModel = $this->model('Cliente');
                 $result = $clienteModel->createCliente($data);
                 if ($result) {
-                    echo json_encode([
-                        'success' => true,
-                        'cliente' => [
-                            'id' => $result,
-                            'nombre' => $data['nombre'],
-                            'dni' => $data['dni'],
-                            'email' => $data['email'],
-                            'telefono' => $data['telefono'],
-                            'direccion' => $data['direccion']
-                        ]
-                    ]);
-                } else {
                     header('Location: ' . CLIENT);
-                }
-            } else {
+                } else {
 
-                $usuarioModel = $this->model('Usuario');
-                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
-                $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
+                    $usuarioModel = $this->model('Usuario');
+                    $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                    $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
+                }
+                exit();
             }
-            exit();
         }
     }
 
