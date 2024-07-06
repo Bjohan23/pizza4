@@ -23,9 +23,9 @@ class ClientesController extends Controller
         Session::init();
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+            header('Location: ' . SALIR . '');
             exit();
-        }
+        } else {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
