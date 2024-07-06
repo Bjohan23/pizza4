@@ -50,7 +50,7 @@ class ClientesController extends Controller
                         ]
                     ]);
                 } else {
-                    echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
+                    header('Location: ' . CLIENT);
                 }
             } else {
 
