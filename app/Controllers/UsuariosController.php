@@ -103,7 +103,6 @@ class UsuariosController extends Controller
                 }
             } else {
                 $usuario = $usuarioModel->getUsuarioById($id);
-
                 $usuarioModel = $this->model('Usuario');
                 $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
                 $this->view('usuarios/edit', ['usuario' => $usuario, 'rolUsuario' => $rolUsuario]);

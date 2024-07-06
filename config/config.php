@@ -10,9 +10,14 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'piza4');
+define('USERNAME', 'johan230804@gmail.com');
+define('NOMBRE_EMPRE', 'PIZZERIA ZARELLE');
 // Configurar la zona horaria en PHP
 date_default_timezone_set('America/Lima');
 define('TOKEN', $_ENV['TOKEN']);
+define('TOKEN_RESEND', $_ENV['TOKEN_RESEND']);
+define('CONTRASENA', $_ENV['CONTRASENA']);
+
 // salir
 define('SALIR', '/PIZZA4/public/auth/login');
 define('APP_URL', 'http://localhost/PIZZA4/');
