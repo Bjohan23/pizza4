@@ -27,38 +27,39 @@ class ClientesController extends Controller
             exit();
         } else {
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $data = [
-                'nombre' => trim($_POST['nombre']),
-                'email' => trim($_POST['email']),
-                'telefono' => trim($_POST['telefono']),
-                'direccion' => trim($_POST['direccion']),
-                'dni' => trim($_POST['dni'])
-            ];
-            $clienteModel = $this->model('Cliente');
-            $result = $clienteModel->createCliente($data);
-            if ($result) {
-                echo json_encode([
-                    'success' => true,
-                    'cliente' => [
-                        'id' => $result,
-                        'nombre' => $data['nombre'],
-                        'dni' => $data['dni'],
-                        'email' => $data['email'],
-                        'telefono' => $data['telefono'],
-                        'direccion' => $data['direccion']
-                    ]
-                ]);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data = [
+                    'nombre' => trim($_POST['nombre']),
+                    'email' => trim($_POST['email']),
+                    'telefono' => trim($_POST['telefono']),
+                    'direccion' => trim($_POST['direccion']),
+                    'dni' => trim($_POST['dni'])
+                ];
+                $clienteModel = $this->model('Cliente');
+                $result = $clienteModel->createCliente($data);
+                if ($result) {
+                    echo json_encode([
+                        'success' => true,
+                        'cliente' => [
+                            'id' => $result,
+                            'nombre' => $data['nombre'],
+                            'dni' => $data['dni'],
+                            'email' => $data['email'],
+                            'telefono' => $data['telefono'],
+                            'direccion' => $data['direccion']
+                        ]
+                    ]);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
+                }
             } else {
-                echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
-            }
-        } else {
 
-            $usuarioModel = $this->model('Usuario');
-            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
-            $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
+                $usuarioModel = $this->model('Usuario');
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
+            }
+            exit();
         }
-        exit();
     }
 
     public function edit($id)
