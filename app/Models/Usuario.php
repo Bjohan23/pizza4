@@ -26,9 +26,27 @@ class Usuario extends Model
 
     public function getUsuarios()
     {
-        $this->db->query('SELECT u.id, p.nombre, p.email, p.telefono FROM usuarios u JOIN personas p ON u.persona_id = p.id');
+        $this->db->query('
+            SELECT 
+                u.id, 
+                p.nombre, 
+                p.email, 
+                p.telefono, 
+                GROUP_CONCAT(r.nombre SEPARATOR ", ") AS roles
+            FROM 
+                usuarios u 
+            JOIN 
+                personas p ON u.persona_id = p.id
+            LEFT JOIN 
+                listroles lr ON u.id = lr.usuario_id
+            LEFT JOIN 
+                roles r ON lr.rol_id = r.id
+            GROUP BY 
+                u.id, p.nombre, p.email, p.telefono
+        ');
         return $this->db->resultSet();
     }
+
 
     public function getAllUsuarios()
     {
@@ -44,38 +62,38 @@ class Usuario extends Model
 
     public function createUsuario($data)
     {
-
         $this->db->query('INSERT INTO usuarios (persona_id, contrasena) VALUES (:persona_id, :contrasena)');
         $this->db->bind(':persona_id', $data['persona_id']);
         $this->db->bind(':contrasena', $data['contrasena']);
-        // Ejecutar la consulta y devolver el resultado
-        return $this->db->execute();
-    }
+        $this->db->execute();
 
+        return $this->db->lastInsertId(); // Devuelve el ID del nuevo usuario
+    }
 
     public function getUsuarioById($id)
     {
-        $this->db->query('
-        SELECT 
-            u.id, 
-            p.nombre, 
-            p.email, 
-            p.telefono, 
-            p.direccion, 
-            IFNULL(GROUP_CONCAT(r.nombre SEPARATOR ", "), "No roles") AS roles 
-        FROM 
-            usuarios u 
-        JOIN 
-            personas p ON u.persona_id = p.id 
-        LEFT JOIN 
-            listroles lr ON u.id = lr.usuario_id
-        LEFT JOIN 
-            roles r ON lr.rol_id = r.id
-        WHERE 
-            u.id = :id
-        GROUP BY 
-            u.id, p.nombre, p.email, p.telefono, p.direccion');
-        $this->db->bind(':id', $id);
+        $this->db->query("
+                SELECT 
+                u.id, 
+                p.nombre, 
+                p.email, 
+                p.telefono, 
+                p.direccion,
+                p.dni,
+                IFNULL(GROUP_CONCAT(DISTINCT r.nombre SEPARATOR ', '), 'No roles') AS roles,
+                GROUP_CONCAT(DISTINCT lr.id SEPARATOR ', ') AS rol_id
+            FROM 
+                usuarios u 
+            JOIN 
+                personas p ON u.persona_id = p.id 
+            LEFT JOIN 
+                listroles lr ON u.id = lr.usuario_id
+            LEFT JOIN 
+                roles r ON lr.rol_id = r.id
+            WHERE 
+                u.id = :id
+            GROUP BY 
+            u.id, p.nombre, p.email, p.telefono, p.direccion;");$this->db->bind(':id', $id);
         return $this->db->single();
     }
 
@@ -91,12 +109,18 @@ class Usuario extends Model
         LEFT JOIN 
             roles r ON lr.rol_id = r.id
         WHERE 
-            u.id = :id
-    ');
+            u.id = :id');
         $this->db->bind(':id', $userId);
         $result = $this->db->single();
 
         return $result ? $result['roles'] : ['error' => 'No roles found for this user'];
+    }
+
+    public function getPersonaIdByUsuarioId($usuarioId)
+    {
+        $this->db->query('SELECT persona_id FROM usuarios WHERE id = :id');
+        $this->db->bind(':id', $usuarioId);
+        return $this->db->single()['persona_id'];
     }
 
     public function updateUsuario($data)
@@ -109,6 +133,19 @@ class Usuario extends Model
         $this->db->bind(':telefono', $data['telefono']);
         $this->db->bind(':direccion', $data['direccion']);
         return $this->db->execute();
+    }
+
+    public function updateUsuarioContrasenia($data)
+    {
+        $this->db->query('UPDATE usuarios SET contrasena = IFNULL(:contrasena, contrasena) WHERE id = :id');
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':contrasena', $data['contrasena']);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            throw new \Exception("Error al actualizar el usuario");
+        }
     }
 
     public function deleteUsuario($id)

@@ -23,7 +23,7 @@
                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                <tr>
-                                   <th scope="col" class="px-4 py-3">ID</th>
+                                   <th scope="col" class="px-4 py-3">Roles</th>
                                    <th scope="col" class="px-4 py-3">Nombre</th>
                                    <th scope="col" class="px-4 py-3">Email</th>
                                    <th scope="col" class="px-4 py-3">Teléfono</th>
@@ -34,7 +34,7 @@
                                <?php if (isset($data['usuarios']) && is_array($data['usuarios'])) : ?>
                                    <?php foreach ($data['usuarios'] as $usuario) : ?>
                                        <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                           <td class="px-4 py-3"><?php echo $usuario['id']; ?></td>
+                                           <td class="px-4 py-3"><?php echo $usuario['roles']; ?></td>
                                            <td class="px-4 py-3"><?php echo $usuario['nombre']; ?></td>
                                            <td class="px-4 py-3"><?php echo $usuario['email']; ?></td>
                                            <td class="px-4 py-3"><?php echo $usuario['telefono']; ?></td>
@@ -47,12 +47,13 @@
                                                        </svg>
                                                    </a>
                                                    <span>|</span>
-                                                   <a href="/PIZZA4/public/usuarios/delete/<?php echo $usuario['id']; ?>" class="Btn delete-btn" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                                   <a href="/PIZZA4/public/usuarios/delete/<?php echo $usuario['id']; ?>" class="Btn delete-btn">
                                                        Borrar
                                                        <svg class="svg" viewBox="0 0 448 512">
                                                            <path d="M135.2 17.8C140.4 7.1 150.8 0 162.4 0h123.2c11.7 0 22 7.1 27.2 17.8L328.6 32H432c8.8 0 16 7.2 16 16s-7.2 16-16 16h-16.4L397.4 467.1c-1.8 35.3-31.1 62.9-66.5 62.9H117.1c-35.4 0-64.7-27.6-66.5-62.9L32.4 64H16c-8.8 0-16-7.2-16-16s7.2-16 16-16h103.4l17.8-14.2zM384 64H64l17.1 403.4c.5 10.3 9.1 18.6 19.4 18.6H347.4c10.3 0 18.9-8.3 19.4-18.6L384 64zM192 416c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v256c0 8.8 7.2 16 16 16zm128 0c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v256c0 8.8 7.2 16 16 16z"></path>
                                                        </svg>
                                                    </a>
+
                                                </div>
                                            </td>
                                        </tr>
@@ -70,3 +71,26 @@
        </section>
    </main>
    <?php include_once '../app/Views/inc/footer.php'; ?>
+
+
+
+   <script>
+       // Mostrar alertas de éxito o error si existen en la URL
+       document.addEventListener('DOMContentLoaded', function() {
+           <?php if (isset($_GET['success'])) : ?>
+               Swal.fire({
+                   icon: 'success',
+                   title: 'Éxito',
+                   text: '<?php echo htmlspecialchars($_GET['success']); ?>'
+               });
+           <?php endif; ?>
+
+           <?php if (isset($_GET['error'])) : ?>
+               Swal.fire({
+                   icon: 'error',
+                   title: 'Error',
+                   text: '<?php echo htmlspecialchars($_GET['error']); ?>'
+               });
+           <?php endif; ?>
+       });
+   </script>

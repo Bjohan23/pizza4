@@ -11,7 +11,6 @@ class UsuariosController extends Controller
         } else {
             $usuarioModel = $this->model('Usuario');
             $usuarios = $usuarioModel->getUsuarios();
-
             $usuarioModel = $this->model('Usuario');
             $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
             $this->view('usuarios/index', ['usuarios' => $usuarios, 'rolUsuario' => $rolUsuario]);
@@ -22,61 +21,62 @@ class UsuariosController extends Controller
     {
         Session::init();
         if (!Session::get('usuario_id')) {
-            header('Location: ' . SALIR . '');
+            header('Location: ' . SALIR);
             exit();
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        }
 
-                $data = [
-                    'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
-                    'email' => isset($_POST['email']) ? $_POST['email'] : null,
-                    'telefono' => isset($_POST['telefono']) ? $_POST['telefono'] : null,
-                    'direccion' => isset($_POST['direccion']) ? $_POST['direccion'] : null,
-                    'contrasena' => password_hash($_POST['contrasena'], PASSWORD_DEFAULT),
-                    'rol_id' => $_POST['rol_id']
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'nombre' => isset($_POST['nombre']) ? $_POST['nombre'] : null,
+                'email' => isset($_POST['email']) ? $_POST['email'] : null,
+                'telefono' => isset($_POST['telefono']) ? $_POST['telefono'] : null,
+                'direccion' => isset($_POST['direccion']) ? $_POST['direccion'] : null,
+                'contrasena' => password_hash($_POST['contrasena'], PASSWORD_DEFAULT),
+                'rol_id' => $_POST['rol_id'],
+                'dni' => $_POST['dni']
+            ];
+
+            $personaModel = $this->model('Persona');
+            $usuarioModel = $this->model('Usuario');
+            $listRolesModel = $this->model('ListRoles');
+
+            // if ($usuarioModel->findUserByEmail($data['email'])) {
+            //     $data['error'] = 'El correo electrónico ya está registrado.';
+            //     $rolModel = $this->model('Rol');
+            //     $data['roles'] = $rolModel->getAllRoles();
+            //     $this->view('usuarios/create', $data);
+            //     return;
+            // }
+
+            try {
+                $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion'], $data['dni']);
+
+                $data2 = [
+                    'persona_id' => $persona_id,
+                    'contrasena' => $data['contrasena']
                 ];
 
-                $personaModel = $this->model('Persona');
-                $usuarioModel = $this->model('Usuario');
-                $listRolesModel = $this->model('ListRoles');
+                $usuario_id = $usuarioModel->createUsuario($data2);
 
-                if ($usuarioModel->findUserByEmail($data['email'])) {
-                    $data['error'] = 'El correo electrónico ya está registrado.';
-                    $rolModel = $this->model('Rol');
-                    $data['roles'] = $rolModel->getAllRoles();
-                    $this->view('usuarios/create', $data);
-                    return;
-                }
-                try {
-                    $persona_id = $personaModel->create($data['nombre'], $data['email'], $data['telefono'], $data['direccion']);
+                // Asignar rol al usuario
+                $listRolesModel->assignRole($usuario_id, $data['rol_id']);
 
-                    $data['persona_id'] = $persona_id;
-                    $data2 = [
-                        'persona_id' => $persona_id,
-                        'contrasena' => $data['contrasena']
-                    ];
-
-                    $usuario_id = $usuarioModel->createUsuario($data2);
-
-                    // Redireccionar a la lista de usuarios
-                    header('Location: /PIZZA4/public/usuarios');
-                    return;
-
-                    $listRolesModel->assignRole($usuario_id, $data['rol_id']);
-                } catch (Exception $e) {
-                    $data['error'] = $e->getMessage();
-                    $rolModel = $this->model('Rol');
-                    $data['roles'] = $rolModel->getAllRoles();
-                    $this->view('usuarios/create', $data);
-                }
-            } else {
+                // Redireccionar a la lista de usuarios
+                header('Location: /PIZZA4/public/usuarios');
+                return;
+            } catch (Exception $e) {
+                $data['error'] = $e;
                 $rolModel = $this->model('Rol');
-                $roles = $rolModel->getAllRoles();
-
-                $usuarioModel = $this->model('Usuario');
-                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
-                $this->view('usuarios/create', ['roles' => $roles, 'rolUsuario' => $rolUsuario]);
+                $data['roles'] = $rolModel->getAllRoles();
+                $this->view('usuarios/create', $data);
             }
+        } else {
+            $rolModel = $this->model('Rol');
+            $roles = $rolModel->getAllRoles();
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('usuarios/create', ['roles' => $roles, 'rolUsuario' => $rolUsuario]);
         }
     }
 
@@ -88,39 +88,88 @@ class UsuariosController extends Controller
             exit();
         } else {
             $usuarioModel = $this->model('Usuario');
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') { // si se envió el formulario de edición de usuario 
+            $personaModel = $this->model('Persona');
+            $listRolesModel = $this->model('ListRoles');
+            $rolModel = $this->model('Rol');
 
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $data = [
                     'id' => $id,
                     'nombre' => $_POST['nombre'],
                     'email' => $_POST['email'],
                     'telefono' => $_POST['telefono'],
-                    'direccion' => $_POST['direccion']
+                    'direccion' => $_POST['direccion'],
+                    'dni' => $_POST['dni'],
+                    'contrasena' => !empty($_POST['contrasena']) ? password_hash($_POST['contrasena'], PASSWORD_DEFAULT) : null,
+                    'rol_id' => $_POST['rol_id']
                 ];
 
-                if ($usuarioModel->updateUsuario($data)) {
+                try {
+                    // Actualizar datos de la persona
+                    $persona_id = $usuarioModel->getPersonaIdByUsuarioId($id);
+                    $personaModel->update($persona_id, $data['nombre'], $data['email'], $data['telefono'], $data['direccion'], $data['dni']);
+
+                    // Actualizar datos del usuario
+                    $usuarioData = [
+                        'id' => $id,
+                        'persona_id' => $persona_id,
+                        'contrasena' => $data['contrasena']
+                    ];
+                    $usuarioModel->updateUsuarioContrasenia($usuarioData);
+
+                    // Actualizar el rol del usuario
+                    $listRolesModel->updateRole($id, $data['rol_id']);
+
                     header('Location: /PIZZA4/public/usuarios');
+                } catch (Exception $e) {
+                    $data['error'] = $e->getMessage();
+                    $roles = $rolModel->getAllRoles();
+                    $usuario = $usuarioModel->getUsuarioById($id);
+                    $this->view('usuarios/edit', ['usuario' => $usuario, 'roles' => $roles, 'error' => $data['error']]);
                 }
             } else {
                 $usuario = $usuarioModel->getUsuarioById($id);
-                $usuarioModel = $this->model('Usuario');
+                $roles = $rolModel->getAllRoles();
                 $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
-                $this->view('usuarios/edit', ['usuario' => $usuario, 'rolUsuario' => $rolUsuario]);
+
+                $this->view('usuarios/edit', ['usuario' => $usuario, 'roles' => $roles, 'rolUsuario' => $rolUsuario]);
             }
         }
     }
 
-    public function delete($id)
+    public function delete($usuarioId)
     {
         Session::init();
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
-        } else {
+        }
+
+        try {
+            $listRolesModel = $this->model('ListRoles');
             $usuarioModel = $this->model('Usuario');
-            if ($usuarioModel->deleteUsuario($id)) {
-                header('Location: /PIZZA4/public/usuarios');
-            }
+            $personaModel = $this->model('Persona');
+
+            // Obtener persona_id del usuario
+            $usuario = $usuarioModel->getUsuarioById($usuarioId);
+            $personaId = $usuario['persona_id'];
+
+            // Eliminar roles asociados al usuario
+            $listRolesModel->deleteRolesByUsuarioId($usuarioId);
+
+            // Eliminar el usuario
+            $usuarioModel->deleteUsuario($usuarioId);
+
+            // Eliminar los datos personales
+            $personaModel->deletePersona($personaId);
+
+            // Redireccionar a la lista de usuarios con un mensaje de éxito
+            header('Location: /PIZZA4/public/usuarios?success=Usuario eliminado con éxito');
+            exit();
+        } catch (Exception $e) {
+            // Redireccionar a la lista de usuarios con un mensaje de error
+            header('Location: /PIZZA4/public/usuarios?error=' . urlencode($e->getMessage()));
+            exit();
         }
     }
 
@@ -134,7 +183,8 @@ class UsuariosController extends Controller
             $usuarioModel = $this->model('Usuario');
             $usuario = $usuarioModel->getUsuarioById($id);
             if ($usuario) {
-                $this->view('cuenta/index', ['usuario' => $usuario]);
+                $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+                $this->view('cuenta/index', ['usuario' => $usuario, 'rolUsuario' => $rolUsuario]);
             }
         }
     }

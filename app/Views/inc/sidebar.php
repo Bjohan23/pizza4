@@ -75,10 +75,6 @@
                         <li>
                             <a href="<?php echo USER_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Usuario</a>
                         </li>
-                        <!-- buscar usuario -->
-                        <li>
-                            <a href="<?php echo USER_SEARCH ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Buscar Usuario</a>
-                        </li>
                     </ul>
                 </li>
                 <!-- gestión de clientes -->
@@ -116,10 +112,10 @@
                     </button>
                     <ul id="roles-menu" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="/PIZZA4/public/roles" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Roles</a>
+                            <a href="<?php echo ROL ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Roles</a>
                         </li>
                         <li>
-                            <a href="/PIZZA4/public/roles/create" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Rol</a>
+                            <a href="<?php echo ROL_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Rol</a>
                         </li>
                     </ul>
                 </li>
@@ -137,10 +133,10 @@
                     </button>
                     <ul id="productos-menu" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="/PIZZA4/public/productos" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Productos</a>
+                            <a href="<?php echo PRODUCT ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Productos</a>
                         </li>
                         <li>
-                            <a href="/PIZZA4/public/productos/create" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Producto</a>
+                            <a href="<?php echo PRODUCT_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Producto</a>
                         </li>
                     </ul>
                 </li>
@@ -158,7 +154,10 @@
                     </button>
                     <ul id="pisos-menu" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="/PIZZA4/public/pisos" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Pisos</a>
+                            <a href="<?php echo PISOS ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Pisos</a>
+                        </li>
+                        <li>
+                            <a href=" <?php echo PISO_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear pisos</a>
                         </li>
                     </ul>
                 </li>
@@ -176,8 +175,12 @@
                     </button>
                     <ul id="mesas-menu" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="/PIZZA4/public/mesas" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Mesas</a>
+                            <a href="<?php echo TABLE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Mesas</a>
                         </li>
+                        <li>
+                            <a href="<?php echo TABLE_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Mesa</a>
+                        </li>
+
                     </ul>
                 </li>
                 <!-- Gestión de Categorías Menu -->
@@ -195,35 +198,13 @@
                     </button>
                     <ul id="categorias-menu" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="/PIZZA4/public/categorias" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Categorias</a>
+                            <a href="<?php echo CATEGORY ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Categorias</a>
                         </li>
                         <li>
-                            <a href="/PIZZA4/public/categorias/create" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Categoria</a>
+                            <a href="<?php echo CATEGORY_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Categoria</a>
                         </li>
                     </ul>
 
-                </li>
-                <!-- gentión de sedes menu -->
-                <li>
-                    <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="sedes-menu" data-collapse-toggle="sedes-menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="24" height="24" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
-                            <path fill="currentColor" d="M24,7L21.802,0h-4.802V5h-2V0h-6V5h-2V0H2.198L.024,6.783l-.024,1.217c0,1.005,.385,1.914,1,2.618v10.382c0,1.654,1.346,3,3,3H12c1.654,0,3-1.346,3-3V11.438c.372-.217,.717-.474,1-.795,.733,.832,1.807,1.357,3,1.357h1c.347,0,.678-.058,1-.142v12.142h2V10.618c.615-.703,1-1.612,1-2.618v-1Zm-11,10H3v-5.142c.322,.084,.653,.142,1,.142h1c1.2,0,2.266-.542,3-1.382,.734,.84,1.8,1.382,3,1.382h2v5Z" />
-                        </svg>
-
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Sedes</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-                    <ul id="sedes-menu" class="hidden py-2 space-y-2">
-                        <li>
-                            <a href="<?php echo SEDE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Listar Sedes</a>
-
-                        </li>
-                        <li>
-                            <a href="<?php echo SEDE_CREATE ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Crear Sede</a>
-                        </li>
-                    </ul>
                 </li>
             <?php }  ?>
     </div>
