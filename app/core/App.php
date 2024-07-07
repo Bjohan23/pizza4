@@ -1,12 +1,14 @@
 <?php
 class App
 {
+
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
 
     public function __construct()
     {
+        // error_reporting(0);
         $url = $this->parseUrl();
 
         if (isset($url[0]) && file_exists('../app/controllers/' . ucfirst($url[0]) . 'Controller.php')) {

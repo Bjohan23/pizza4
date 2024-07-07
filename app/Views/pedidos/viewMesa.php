@@ -33,15 +33,22 @@
                                     <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Precio</th>
                                     <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
                                     <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Descripción</th>
+                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Subtotal</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($data['pedidos'] as $pedido) : ?>
+                            <tbody id="pedido-body">
+                                <?php
+                                $total = 0;
+                                foreach ($data['pedidos'] as $pedido) :
+                                    $subtotal = $pedido['precio'] * $pedido['cantidad'];
+                                    $total += $subtotal;
+                                ?>
                                     <tr class="border-b dark:border-gray-600 producto">
                                         <td class="py-2 px-4 border dark:border-gray-600 dark:text-white nombre"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>">$<?php echo htmlspecialchars($pedido['precio']); ?></td>
+                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>"> S/. <?php echo htmlspecialchars($pedido['precio']); ?></td>
                                         <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['cantidad']); ?></td>
                                         <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
+                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white subtotal">S/. <?php echo number_format($subtotal, 2); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -50,7 +57,7 @@
                         <div class="mt-3 m-2">
                             <label for="total" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Total:</label>
                             <p id="total" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light">
-                                <?php echo $pedido['total']; ?>
+                                S/. <?php echo number_format($total, 2); ?>
                             </p>
                         </div>
                         <button type="button" id="cobrar-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cobrar Pedido</button>
@@ -74,12 +81,12 @@
                 <input type="hidden" name="cliente_id" value="<?php echo $data['cliente']["id"] ?>">
                 <input type="hidden" name="mesa_id" value="<?php echo $data['mesa_id']; ?>">
                 <input type="hidden" name="fecha" value="<?php echo date('Y-m-d H:i:s'); ?>">
-                <input type="hidden" name="total" value="<?php echo $pedido['total']; ?>">
+                <input type="hidden" name="total" value="<?php echo number_format($total, 2); ?>">
                 <input type="hidden" name="pedido_id" value="<?php echo $data['pedido']['pedido_id'] ?>">
 
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300">Método de Pago</label>
-                    <select name="tipo" id="payment-method" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select name="tipo" id="payment-method" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="efectivo">Efectivo</option>
                         <option value="yape">Yape</option>
                         <option value="tarjeta">Tarjeta</option>
@@ -91,7 +98,7 @@
                 <!-- opcion de seleccionar si se decea una boleta o no  -->
                 <div class="mb-4">
                     <label class="block text-gray-700 dark:text-gray-300">¿Desea Boleta?</label>
-                    <select name="boleta" id="boleta" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select name="boleta" id="boleta" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="si">Sí</option>
                         <option value="no">No</option>
                     </select>
@@ -119,15 +126,15 @@
                 paymentFields.innerHTML = `
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Cantidad con la que Paga</label>
-                        <input type="number" id="payment-amount" step="0.01" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" id="payment-amount" step="0.01" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Monto Total</label>
-                        <input type="number" id="total-amount" value="<?php echo $pedido['total']; ?>" step="0.01" readonly class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" id="total-amount" value="<?php echo number_format($total, 2); ?>" step="0.01" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Vuelto</label>
-                        <input type="number" id="change-amount" step="0.01" readonly class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" id="change-amount" step="0.01" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                 `;
 
@@ -142,15 +149,15 @@
                 paymentFields.innerHTML = `
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Número de Tarjeta</label>
-                        <input type="text" id="card-number" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="card-number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Fecha de Expiración</label>
-                        <input type="text" id="expiry-date" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="MM/AA">
+                        <input type="text" id="expiry-date" placeholder="MM/AA" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Código CVV</label>
-                        <input type="text" id="cvv" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="cvv" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                 `;
                 break;
@@ -158,10 +165,26 @@
                 paymentFields.innerHTML = `
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300">Escanea el código QR con Yape</label>
-                        <img src="ruta_a_la_imagen_del_codigo_qr.jpg" alt="Código QR de Yape" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                `;
+                        <img src="http://localhost/PIZZA4/public/img/qr.jpg" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        </div>
+                        `;
                 break;
         }
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calcularTotal();
+    });
+
+    function calcularTotal() {
+        let total = 0;
+        document.querySelectorAll('.producto').forEach(producto => {
+            const cantidad = parseFloat(producto.querySelector('.cantidad').textContent);
+            const precio = parseFloat(producto.querySelector('.precio').dataset.precio);
+            total += cantidad * precio;
+        });
+        document.getElementById('total').textContent = `S/. ${total.toFixed(2)}`;
+        // Actualiza el campo de total en el formulario de pago
+        document.getElementById('total-amount').value = total.toFixed(2);
+    }
 </script>

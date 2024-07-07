@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-06-2024 a las 23:34:32
+-- Tiempo de generación: 07-07-2024 a las 05:17:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `piza4`
+-- Base de datos: `piza4-sin`
 --
 
 -- --------------------------------------------------------
@@ -37,10 +37,8 @@ CREATE TABLE `categoría` (
 --
 
 INSERT INTO `categoría` (`id`, `nombre`) VALUES
-(1, 'Pizzas'),
-(2, 'Ensaladas'),
-(3, 'Bebidas'),
-(4, 'Postres');
+(1, 'Pizza'),
+(2, 'Bebidas');
 
 -- --------------------------------------------------------
 
@@ -58,10 +56,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `persona_id`) VALUES
-(1, 13),
-(2, 15),
-(105, 94),
-(106, 95);
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -82,15 +77,12 @@ CREATE TABLE `comprobanteventa` (
 --
 
 INSERT INTO `comprobanteventa` (`id`, `pedido_id`, `tipo`, `monto`, `fecha`) VALUES
-(17, 45, 'factura', 17.00, '2024-06-08 12:44:18'),
-(18, 45, 'factura', 17.00, '2024-06-08 12:44:20'),
-(19, 45, 'factura', 17.00, '2024-06-08 12:44:46'),
-(20, 44, 'factura', 63.50, '2024-06-08 18:29:31'),
-(21, 46, 'factura', 20.00, '2024-06-21 15:35:59'),
-(22, 46, 'factura', 20.00, '2024-06-27 22:43:00'),
-(23, 46, 'factura', 20.00, '2024-06-27 22:57:27'),
-(24, 46, 'factura', 20.00, '2024-06-27 23:16:28'),
-(25, 46, 'factura', 20.00, '2024-06-27 23:23:27');
+(1, 1, 'efectivo', 32.00, '2024-07-06 20:48:25'),
+(2, 2, 'yape', 7.00, '2024-07-06 20:49:34'),
+(3, 3, 'yape', 3.50, '2024-07-06 20:50:09'),
+(4, 4, 'yape', 25.00, '2024-07-06 20:55:54'),
+(5, 6, 'efectivo', 25.00, '2024-07-06 21:03:15'),
+(6, 7, 'efectivo', 50.00, '2024-07-06 21:05:45');
 
 -- --------------------------------------------------------
 
@@ -112,7 +104,13 @@ CREATE TABLE `detallespedido` (
 --
 
 INSERT INTO `detallespedido` (`id`, `pedido_id`, `producto_id`, `cantidad`, `precio`, `descripcion`) VALUES
-(194, 64, 1, 123, 20.00, NULL);
+(1, 1, 1, 1, 25.00, ''),
+(2, 1, 2, 1, 3.50, ''),
+(3, 2, 2, 1, 3.50, ''),
+(4, 3, 2, 1, 3.50, ''),
+(5, 4, 1, 1, 25.00, ''),
+(7, 6, 1, 1, 25.00, ''),
+(8, 7, 1, 2, 25.00, '');
 
 -- --------------------------------------------------------
 
@@ -122,7 +120,7 @@ INSERT INTO `detallespedido` (`id`, `pedido_id`, `producto_id`, `cantidad`, `pre
 
 CREATE TABLE `listroles` (
   `id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
+  `usuario_id` int(11) NOT NULL,
   `rol_id` int(11) DEFAULT NULL,
   `fecha_inicio` datetime NOT NULL,
   `fecha_fin` datetime DEFAULT NULL
@@ -133,8 +131,7 @@ CREATE TABLE `listroles` (
 --
 
 INSERT INTO `listroles` (`id`, `usuario_id`, `rol_id`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, 1, '2024-06-02 13:18:19', NULL),
-(3, 4, 2, '2024-06-22 17:04:01', '2024-06-30 10:04:01');
+(1, 1, 1, '2024-07-07 19:33:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,14 +152,13 @@ CREATE TABLE `mesas` (
 --
 
 INSERT INTO `mesas` (`id`, `piso_id`, `numero`, `capacidad`, `estado`) VALUES
-(1, 1, 1, 6, 'ocupada'),
-(2, 1, 2, 6, 'libre'),
-(3, 2, 3, 5, 'libre'),
-(4, 1, 3, 6, 'libre'),
-(12, 1, 3, 12, 'libre'),
-(13, 2, 3, 11, 'libre'),
-(14, 1, 1, 12, 'libre'),
-(15, 1, 1, 1, 'libre');
+(1, 1, 1, 10, 'libre'),
+(2, 1, 2, 5, 'libre'),
+(3, 1, 3, 4, 'libre'),
+(4, 1, 4, 4, 'libre'),
+(5, 2, 1, 5, 'libre'),
+(7, 2, 2, 5, 'libre'),
+(8, 2, 3, 5, 'libre');
 
 -- --------------------------------------------------------
 
@@ -176,7 +172,7 @@ CREATE TABLE `pedidoscomanda` (
   `cliente_id` int(11) DEFAULT NULL,
   `mesa_id` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
-  `estado` enum('pendiente','preparando','listo','servido','cancelado') DEFAULT NULL,
+  `estado` varchar(255) NOT NULL,
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -185,17 +181,12 @@ CREATE TABLE `pedidoscomanda` (
 --
 
 INSERT INTO `pedidoscomanda` (`id`, `usuario_id`, `cliente_id`, `mesa_id`, `fecha`, `estado`, `total`) VALUES
-(44, 1, 1, 1, '2024-06-08 05:44:38', 'preparando', 63.50),
-(45, 1, 1, 3, '2024-06-08 19:41:24', 'listo', 17.00),
-(46, 1, 1, 1, '2024-06-13 21:30:24', '', 20.00),
-(56, 1, 1, 3, '2024-06-28 03:38:53', '', 135.00),
-(64, 1, NULL, 1, '2024-06-28 11:26:44', '', 2460.00),
-(65, 1, NULL, 1, '2024-06-28 11:33:04', '', 40.00),
-(66, 1, NULL, 1, '2024-06-28 15:45:34', '', 5.00),
-(67, 1, NULL, 1, '2024-06-28 15:46:04', '', 5.00),
-(68, 1, NULL, 1, '2024-06-28 15:47:36', '', 20.00),
-(69, 1, NULL, 1, '2024-06-28 15:48:10', '', 5.00),
-(70, 1, NULL, 1, '2024-06-28 15:48:15', '', 5.00);
+(1, 1, 1, 1, '2024-07-06 19:50:04', 'pagado', 28.50),
+(2, 1, 1, 1, '2024-07-06 20:14:11', 'pagado', 3.50),
+(3, 1, 1, 1, '2024-07-06 20:49:19', 'pagado', 3.50),
+(4, 1, 1, 1, '2024-07-06 20:55:43', 'pagado', 25.00),
+(6, 1, 1, 2, '2024-07-06 21:02:03', 'pagado', 25.00),
+(7, 1, 1, 5, '2024-07-06 21:05:35', 'pagado', 50.00);
 
 -- --------------------------------------------------------
 
@@ -217,19 +208,21 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id`, `nombre`, `telefono`, `direccion`, `email`, `dni`) VALUES
-(1, 'Admin', '980957418', '123 Admin St.1', 'admin@example.com', NULL),
-(13, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
-(15, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'admin6@gmail.com', '29265381'),
-(17, '123', '998113374', 'porvenir 548', NULL, NULL),
-(76, 'Nequ', '123456789', 'Voluptatum sunt dolo', 'lyhozugy@mailinator.com1', NULL),
-(88, 'Sit iusto pariatur', 'Blanditiis occa', 'Quia eiusmod nobis e', 'gacupyba@mailinator.com', NULL),
-(89, 'Consequatur iste un', 'Quaerat ratione', '12212121', 'lusox@mailinator.com', NULL),
-(90, 'Mollitia neque volup', 'Aut ducimus tem', 'Adipisicing Nam amet', 'webi@mailinator.com', NULL),
-(91, 'Veniam sunt perspic', '123123', 'Non aliquip ipsum e', 'qubawuw@mailinator.com', NULL),
-(92, 'Recusandae Proident', '861231231231231', 'Consequat Incidunt', 'zulo@mailinator.com', NULL),
-(93, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', NULL),
-(94, 'BECERRA VENTURA JOHAN JHERLI', '123456789', 'Omnis voluptas volup', 'qijy@mailinator.com', '77349472'),
-(95, 'CRUZ VASQUEZ JESUS AARON', '922810391', 'Manuel Artiaga-168', 'yisusvasquez.21@gmail.com', '75959504');
+(1, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(2, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(4, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(5, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(6, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(7, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(8, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(9, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(10, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(11, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '29265381'),
+(12, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '29265381'),
+(13, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '29265381'),
+(14, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '29265381'),
+(15, 'BECERRA VENTURA JOHAN JHERLI', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '77349472'),
+(16, 'ZEGARRA APAZA MARCO ANTONIO', '998113374', 'porvenir 548', 'becerrajohan6@gmail.com', '29265381');
 
 -- --------------------------------------------------------
 
@@ -248,8 +241,8 @@ CREATE TABLE `piso` (
 --
 
 INSERT INTO `piso` (`id`, `sede_id`, `nombre`) VALUES
-(1, 6, 'piso 1'),
-(2, 6, 'piso 2');
+(1, 3, '1#'),
+(2, 3, '2#');
 
 -- --------------------------------------------------------
 
@@ -284,16 +277,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `disponible`, `categoria_id`, `presentacion_id`) VALUES
-(1, 'Pizza Margarita', 'Nuestra clásica pizza con salsa de tomate, queso mozzarella y albahaca fresca.', 20.00, 1, 1, NULL),
-(2, 'Pizza Margarita FAMILIAR', 'Pizza Margarita', 123.00, 1, 2, NULL),
-(5, 'Pizza Margarita', 'Pizza clásica con salsa de tomate, mozzarella y albahaca.', 8.50, 1, 1, NULL),
-(6, 'Pizza Pepperoni', 'Pizza con salsa de tomate, mozzarella y pepperoni.', 9.00, 1, 1, NULL),
-(7, 'Pizza Cuatro Quesos', 'Pizza con salsa de tomate y una mezcla de cuatro quesos.', 10.00, 1, 1, NULL),
-(8, 'Pizza Hawaiana', 'Pizza con salsa de tomate, mozzarella, jamón y piña.', 9.50, 1, 1, NULL),
-(9, 'Ensalada César', 'Ensalada con lechuga, pollo, crutones y aderezo César.', 7.00, 1, 2, NULL),
-(10, 'Refresco de Cola', 'Refresco de cola de 350 ml.', 2.00, 1, 3, NULL),
-(11, 'Cerveza Artesanal', 'Cerveza artesanal de 500 ml.', 5.00, 1, 3, NULL),
-(12, 'Tiramisu', 'Postre italiano hecho con capas de café, mascarpone y cacao.', 4.50, 1, 4, NULL);
+(1, 'Pizza Margarita', '.', 25.00, 1, 1, NULL),
+(2, 'gaseosa coca cola', '.', 3.50, 1, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -312,8 +297,7 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `nombre`) VALUES
 (1, 'Administrador'),
-(2, 'mozo '),
-(3, 'gerente ');
+(2, 'mozo ');
 
 -- --------------------------------------------------------
 
@@ -332,7 +316,7 @@ CREATE TABLE `sede` (
 --
 
 INSERT INTO `sede` (`id`, `nombre`, `direccion`) VALUES
-(6, 'pizza 4', '7943 S. Fifth Street');
+(3, 'Zarelle - Pizzería & Trattoría', 'Chiclayo');
 
 -- --------------------------------------------------------
 
@@ -351,10 +335,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `persona_id`, `contrasena`) VALUES
-(1, 1, '$2y$10$QCluU3aIyg.nbWIbFRgnUebrCCCWwVgbNjPwT782QcuBf0j9n/RFS'),
-(4, 76, '$2y$10$4tmjTqJwrWE44tQ/IWtAGezrtRTNmO.W5EHSDELXY3yE3VQ8ZBtS6'),
-(6, 89, '$2y$10$qErc5VY21eHD6cW6mrvvYuF52GcckRbv8rzWZjZq55b4SghMJFHZi'),
-(7, 90, '$2y$10$JCMjBd2LmddJTowUfOCs.OkKx0eaIgTyv.0lW1YmstHs1vU0ucXZG');
+(1, 1, '$2y$10$2N6RCHKsCGBI6UOje5A68Og2TlS.S1bpmAt9OMgDcExqP2Zxx4Vxy');
 
 --
 -- Índices para tablas volcadas
@@ -394,7 +375,8 @@ ALTER TABLE `detallespedido`
 ALTER TABLE `listroles`
   ADD PRIMARY KEY (`id`),
   ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `rol_id` (`rol_id`);
+  ADD KEY `rol_id` (`rol_id`),
+  ADD KEY `usuario_id_2` (`usuario_id`);
 
 --
 -- Indices de la tabla `mesas`
@@ -467,49 +449,49 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categoría`
 --
 ALTER TABLE `categoría`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobanteventa`
 --
 ALTER TABLE `comprobanteventa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `detallespedido`
 --
 ALTER TABLE `detallespedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `listroles`
 --
 ALTER TABLE `listroles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `mesas`
 --
 ALTER TABLE `mesas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidoscomanda`
 --
 ALTER TABLE `pedidoscomanda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `piso`
@@ -527,25 +509,25 @@ ALTER TABLE `presentación`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `sede`
 --
 ALTER TABLE `sede`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas

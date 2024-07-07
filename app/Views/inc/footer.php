@@ -25,3 +25,22 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Mostrar alertas de éxito o error si existen en la URL
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php if (isset($_GET['success'])) : ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?php echo htmlspecialchars($_GET['success']); ?>'
+            });
+        <?php endif; ?>
+        <?php if (isset($_GET['error'])) : ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?php echo htmlspecialchars($_GET['error']); ?>'
+            });
+        <?php endif; ?>
+    });
+</script>

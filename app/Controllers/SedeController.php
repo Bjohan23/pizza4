@@ -59,14 +59,16 @@ class SedeController extends Controller
 
                 // se verifica si se pudo registrar la sede
                 if ($sedeModel->createSede($data)) {
-                    header('Location: /PIZZA4/public/dashboard');
+                    header('Location: ' . USER_CREATE);
                 } else {
                     $data['error'] = 'Error al registrar la sede.';
                 }
             }
 
-            // Load registration view
-            $this->view('sede/registro', $data);
+
+            $usuarioModel = $this->model('Usuario');
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+            $this->view('sede/registro', $data + ['rolUsuario' => $rolUsuario]);
         }
     }
 }
