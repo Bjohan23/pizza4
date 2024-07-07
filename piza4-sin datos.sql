@@ -1,22 +1,53 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 07-07-2024 a las 02:16:41
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `piza4`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoría`
+--
 
 CREATE TABLE `categoría` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `clientes`
+--
 
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL,
   `persona_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comprobanteventa`
+--
 
 CREATE TABLE `comprobanteventa` (
   `id` int(11) NOT NULL,
@@ -25,6 +56,12 @@ CREATE TABLE `comprobanteventa` (
   `monto` decimal(10,2) NOT NULL,
   `fecha` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detallespedido`
+--
 
 CREATE TABLE `detallespedido` (
   `id` int(11) NOT NULL,
@@ -35,14 +72,25 @@ CREATE TABLE `detallespedido` (
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `listroles`
+--
+
 CREATE TABLE `listroles` (
   `id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
+  `usuario_id` int(11) NOT NULL,
   `rol_id` int(11) DEFAULT NULL,
   `fecha_inicio` datetime NOT NULL,
   `fecha_fin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mesas`
+--
 
 CREATE TABLE `mesas` (
   `id` int(11) NOT NULL,
@@ -52,24 +100,42 @@ CREATE TABLE `mesas` (
   `estado` varchar(255) DEFAULT 'libre'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedidoscomanda`
+--
+
 CREATE TABLE `pedidoscomanda` (
   `id` int(11) NOT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
   `mesa_id` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
-  `estado` enum('pendiente','preparando','listo','servido','cancelado') DEFAULT NULL,
+  `estado` varchar(255) NOT NULL,
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personas`
+--
 
 CREATE TABLE `personas` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `telefono` varchar(15) DEFAULT NULL,
   `direccion` text DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
+  `email` varchar(255) DEFAULT NULL,
+  `dni` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `piso`
+--
 
 CREATE TABLE `piso` (
   `id` int(11) NOT NULL,
@@ -77,6 +143,11 @@ CREATE TABLE `piso` (
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `presentación`
+--
 
 CREATE TABLE `presentación` (
   `id` int(11) NOT NULL,
@@ -84,6 +155,11 @@ CREATE TABLE `presentación` (
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productos`
+--
 
 CREATE TABLE `productos` (
   `id` int(11) NOT NULL,
@@ -95,10 +171,22 @@ CREATE TABLE `productos` (
   `presentacion_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sede`
+--
 
 CREATE TABLE `sede` (
   `id` int(11) NOT NULL,
@@ -106,12 +194,25 @@ CREATE TABLE `sede` (
   `direccion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `persona_id` int(11) DEFAULT NULL,
   `contrasena` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `categoría`
+--
 ALTER TABLE `categoría`
   ADD PRIMARY KEY (`id`);
 
@@ -143,7 +244,8 @@ ALTER TABLE `detallespedido`
 ALTER TABLE `listroles`
   ADD PRIMARY KEY (`id`),
   ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `rol_id` (`rol_id`);
+  ADD KEY `rol_id` (`rol_id`),
+  ADD KEY `usuario_id_2` (`usuario_id`);
 
 --
 -- Indices de la tabla `mesas`

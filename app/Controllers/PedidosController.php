@@ -341,12 +341,11 @@ class PedidosController extends Controller
                 'tipo' => $_POST['tipo'],
             ];
 
-            if ($_POST['boleta'] == 'si') {
+            if ($_POST['boleta'] === 'si') {
                 $boletaData = $pedidoModel->getDetailedPedidoById($pedidoData['pedido_id']);
                 // Imprimir boleta
                 $this->imprimirBoleta($boletaData);
             }
-
             if ($pedidoModel->updateEstadoPedido($pedidoData)) {
                 // Actualizar el estado de la mesa
                 $mesaModel = $this->model('Mesa');
@@ -362,18 +361,23 @@ class PedidosController extends Controller
                         header('Location: ' . ORDER);
                         exit();
                     } else {
-                        die('Error al registrar el comprobante de venta');
+                        echo ('Error al registrar el comprobante de venta');
+                        exit();
                     }
                 } else {
-                    die('El pedido no existe en la base de datos');
+                    echo ('El pedido no existe en la base de datos');
+                    exit();
                 }
             } else {
                 error_log('Error al actualizar el estado del pedido');
-                die('Error al actualizar el estado del pedido');
+                echo 'Error al actualizar el estado del pedido';
+                exit();
             }
         } else {
             error_log('Error al encontrar el pedido');
             die('Error al encontrar el pedido');
+            echo 'Error al encontrar el pedido';
+            exit();
         }
     }
     public function imprimirBoleta($datos)
