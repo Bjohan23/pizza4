@@ -29,10 +29,10 @@ class CategoriasController extends Controller
                 $data = ['nombre' => trim($_POST['nombre'])];
                 $categoriaModel = $this->model('Categoria');
                 if ($categoriaModel->createCategoria($data)) {
-                    header('Location: /PIZZA4/public/categorias');
+                    header('Location: /PIZZA4/public/categorias?success= categoria creada correctamente');
                 } else {
                     $data['error'] = 'Error al crear la categoría.';
-                    $this->view('categorias/create', $data);
+                    $this->view('categorias/create?error= error al registrada la categoría.');
                 }
             } else {
 
@@ -57,10 +57,11 @@ class CategoriasController extends Controller
                     'nombre' => trim($_POST['nombre'])
                 ];
                 if ($categoriaModel->updateCategoria($data)) {
-                    header('Location: /PIZZA4/public/categorias');
+                    header('Location: /PIZZA4/public/categorias?success= categoria actualizada correctamente');
+                    exit();
                 } else {
-                    $data['error'] = 'Error al actualizar la categoría.';
-                    $this->view('categorias/edit', $data);
+                    $this->view('categorias/edit?error= Error al actualizar la categoría');
+                    exit();
                 }
             } else {
                 $categoria = $categoriaModel->getCategoriaById($id);
@@ -81,10 +82,11 @@ class CategoriasController extends Controller
         } else {
             $categoriaModel = $this->model('Categoria');
             if ($categoriaModel->deleteCategoria($id)) {
-                header('Location: /PIZZA4/public/categorias');
+                header('Location: /PIZZA4/public/categorias?success= categoria elimanda correctamente');
+                exit();
             } else {
-                $data['error'] = 'Error al eliminar la categoría.';
-                $this->view('categorias/index', $data);
+                $this->view('categorias/index?error= Error al eliminar la categoría.');
+                exit();
             }
         }
     }

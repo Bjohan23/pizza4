@@ -125,7 +125,7 @@ class PedidosController extends Controller
                     }
                 }
 
-                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id);
+                header('Location: /PIZZA4/public/pedidos/viewMesa/' . $mesa_id . "?success=pedido registrado con exito");
                 exit();
             } else {
                 $clienteModel = $this->model('Cliente');
@@ -341,11 +341,7 @@ class PedidosController extends Controller
                 'tipo' => $_POST['tipo'],
             ];
 
-            if ($_POST['boleta'] === 'si') {
-                $boletaData = $pedidoModel->getDetailedPedidoById($pedidoData['pedido_id']);
-                // Imprimir boleta
-                $this->imprimirBoleta($boletaData);
-            }
+
             if ($pedidoModel->updateEstadoPedido($pedidoData)) {
                 // Actualizar el estado de la mesa
                 $mesaModel = $this->model('Mesa');
@@ -357,8 +353,13 @@ class PedidosController extends Controller
                     // Registrar el comprobante de venta
                     $comprobanteModel = $this->model('ComprobanteVenta');
                     if ($comprobanteModel->createComprobante($pedidoData)) {
+                        if ($_POST['boleta'] === 'si') {
+                            $boletaData = $pedidoModel->getDetailedPedidoById($pedidoData['pedido_id']);
+                            // Imprimir boleta
+                            $this->imprimirBoleta($boletaData);
+                        }
                         // Redirigir a la vista de la mesa
-                        header('Location: ' . ORDER);
+                        header('Location: ' . ORDER . '?success= Pedido pagado con éxito , se ha enviado un correo con la boleta de pedido');
                         exit();
                     } else {
                         echo ('Error al registrar el comprobante de venta');
@@ -511,6 +512,7 @@ class PedidosController extends Controller
 
             // Devolver la URL del PDF
             $rutaCompleta = 'C:\\xampp\\htdocs\\pizza4\\ruta-temporal\\' . $pdfFileName;
+
             $this->enviarCorreo($datos);
             return $rutaCompleta;
         } catch (Exception $e) {

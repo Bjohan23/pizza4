@@ -25,22 +25,45 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 <script>
-    // Mostrar alertas de éxito o error si existen en la URL
-    document.addEventListener('DOMContentLoaded', function() {
-        <?php if (isset($_GET['success'])) : ?>
-            Swal.fire({
-                icon: 'success',
-                title: 'Éxito',
-                text: '<?php echo htmlspecialchars($_GET['success']); ?>'
-            });
-        <?php endif; ?>
-        <?php if (isset($_GET['error'])) : ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: '<?php echo htmlspecialchars($_GET['error']); ?>'
-            });
-        <?php endif; ?>
-    });
+    toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: true,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "2500",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+    };
+    <?php if (isset($_GET['success'])) : ?>
+        toastr.success('<?php echo htmlspecialchars($_GET['success']); ?>',
+            "Exito"
+        );
+    <?php endif; ?>
+    <?php if (isset($_GET['error'])) : ?>
+        toastr.error("<?php echo htmlspecialchars($_GET['error']); ?>",
+            "Error"
+        );
+    <?php endif; ?>
+
+    function confirmDelete() {
+        return Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!'
+        });
+    }
 </script>

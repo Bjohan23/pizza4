@@ -38,9 +38,11 @@ class MesasController extends Controller
             ];
             $mesaModel = $this->model('Mesa');
             if ($mesaModel->createMesa($data)) {
-                header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
+                header('Location: ' . TABLE  . $data['piso_id'] . '?success=Mesa creada correctamente: ' . $data['numero'] . '');
+                exit();
             } else {
-                $this->view('mesas/create', ['error' => 'Error al registrar la mesa.', 'pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
+                header('Location: ' . TABLE  . $data['piso_id'] . '?error=nose pudo crear la mesa');
+                exit();
             }
         } else {
             $this->view('mesas/create', ['pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
@@ -69,9 +71,11 @@ class MesasController extends Controller
                 'capacidad' => $_POST['capacidad']
             ];
             if ($mesaModel->updateMesa($data)) {
-                header('Location: /PIZZA4/public/pisos/mesas/' . $data['piso_id']);
+                header('Location: ' . TABLE  . $data['piso_id'] . '?success=Mesa actualizada correctamente');
+                exit();
             } else {
-                $this->view('mesas/edit', ['mesa' => $data, 'error' => 'Error al actualizar la mesa.', 'pisos' => $pisos, 'rolUsuario' => $rolUsuario]);
+                header('Location: ' . TABLE  . $data['piso_id'] . '?error=nose pudo actualizada la mesa');
+                exit();
             }
         } else {
             $mesa = $mesaModel->getMesaById($id);
@@ -89,7 +93,11 @@ class MesasController extends Controller
         $mesaModel = $this->model('Mesa');
         $piso_id = $mesaModel->getMesaById($id);
         if ($mesaModel->deleteMesa($id)) {
-            header('Location: /PIZZA4/public/pisos/mesas/' . $piso_id['piso_id']);
+            header('Location: ' . TABLE  . $piso_id['piso_id'] . '?success=Mesa eliminada correctamente');
+            exit();
+        } else {
+            header('Location: ' . TABLE  . $piso_id['piso_id'] . '?error=Error al eliminar la mesa');
+            exit();
         }
     }
 }
