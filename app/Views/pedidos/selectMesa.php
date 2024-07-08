@@ -44,7 +44,7 @@
 
     /* ver pedido boton  */
 </style>
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 <script>
     document.querySelectorAll('#liberar-mesa-button').forEach(button => {
         button.addEventListener('click', function() {

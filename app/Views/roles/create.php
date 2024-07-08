@@ -34,4 +34,3 @@
             <a href="<?php echo ROL ?>" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
         </div>
     </main>
-    <?php include_once '../app/Views/inc/footer.php'; ?>

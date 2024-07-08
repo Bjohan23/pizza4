@@ -111,7 +111,7 @@
     </section>
 </main>
 
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 
 <script>
     document.getElementById('cobrar-button').addEventListener('click', function() {

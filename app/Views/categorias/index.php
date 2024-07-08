@@ -63,4 +63,3 @@
         </div>
     </section>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>

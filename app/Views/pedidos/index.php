@@ -12,7 +12,7 @@
         <?php endforeach; ?>
     </div>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 
 
 <style>
