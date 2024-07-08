@@ -36,9 +36,11 @@ class ProductosController extends Controller
                 ];
                 $productoModel = $this->model('Producto');
                 if ($productoModel->createProducto($data)) {
-                    header('Location: ' . PRODUCT . '');
+                    header('Location: ' . PRODUCT . '?success= Producto registrado correctamente');
+                    exit();
                 } else {
-                    die('Error al crear el producto');
+                    header('Location: ' . PRODUCT . '?error= no se pudo registrar el producto correctamente');
+                    exit();
                 }
             } else {
 
@@ -70,9 +72,11 @@ class ProductosController extends Controller
                     'categoria_id' => trim($_POST['categoria_id'])
                 ];
                 if ($productoModel->updateProducto($data)) {
-                    header('Location: ' . PRODUCT . '');
+                    header('Location: ' . PRODUCT . '?success= Producto actualizado correctamente');
+                    exit();
                 } else {
-                    die('Error al actualizar el producto');
+                    header('Location: ' . PRODUCT . '?error=Error al actualizar el producto');
+                    exit();
                 }
             } else {
                 $producto = $productoModel->getProductoById($id);
@@ -96,9 +100,11 @@ class ProductosController extends Controller
         } else {
             $productoModel = $this->model('Producto');
             if ($productoModel->deleteProducto($id)) {
-                header('Location: ' . PRODUCT . '');
+                header('Location: ' . PRODUCT . '?success= Producto eliminado correctamente');
+                exit();
             } else {
-                die('Error al eliminar el producto');
+                header('Location: ' . PRODUCT . '?error= no se pudo eliminar el producto correctamente');
+                exit();
             }
         }
     }

@@ -72,15 +72,15 @@ class UsuariosController extends Controller
                 $resultado = $this->enviarCorreo($dataCorreo);
 
                 if ($resultado !== null) {
-                    header('Location: /PIZZA4/public/usuarios?success=correo enviado con exito');
+                    header('Location: ' . USER . '?success=correo enviado con exito');
                     exit(); // si no se pone el exit no se redirecciona con el mensaje de éxito
                 } else {
                     // Redireccionar a la lista de usuarios con un mensaje de error
-                    header('Location: /PIZZA4/public/usuarios?error=no se pudo enviar el correo');
+                    header('Location: ' . USER . '?error=no se pudo enviar el correo');
                     exit();
                 }
-                // Redireccionar a la lista de usuarios
-                header('Location: /PIZZA4/public/usuarios');
+                header('Location: ' . USER . '?success=Usuario creado con éxito');
+                exit();
                 return;
             } catch (Exception $e) {
                 $data['error'] = $e;
@@ -141,36 +141,33 @@ class UsuariosController extends Controller
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Datos de Cuenta - ' . NOMBRE_EMPRE . '</title>
             <style>
-                body {
+                body, html {
+                    height: 100%;
+                    margin: 0;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    height: 100vh;
-                    margin: 0;
                     background-color: #f0f0f0;
                     font-family: Arial, sans-serif;
                 }
                 .card {
                     display: flex;
+                    flex-direction: column;
                     background-color: #fff;
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     border-radius: 8px;
                     overflow: hidden;
-                    width: 80%;
+                    width: 90%;
                     max-width: 800px;
                 }
                 .image {
-                    flex-basis: 30%;
+                    height: 200px;
                     background-image: url(\'https://img.freepik.com/foto-gratis/pizza-espagueti-tomate-aceitunas-vista-superior-maiz-sobre-fondo-azul-oscuro_176474-4616.jpg?t=st=1720318966~exp=1720322566~hmac=abef29e79dbdeffaab5fdd68d0244982445c5262edef20f28410f9d162acfc6a&w=1800\');
                     background-size: cover;
                     background-position: center;
                 }
                 .account-info {
-                    flex-basis: 70%;
                     padding: 32px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
                     background-color: #f8f8f8;
                     color: #333;
                 }
@@ -191,6 +188,18 @@ class UsuariosController extends Controller
                 .important {
                     color: #FF4500;
                     font-weight: bold;
+                }
+                @media (min-width: 768px) {
+                    .card {
+                        flex-direction: row;
+                    }
+                    .image {
+                        flex-basis: 30%;
+                        height: auto;
+                    }
+                    .account-info {
+                        flex-basis: 70%;
+                    }
                 }
             </style>
         </head>
@@ -235,7 +244,6 @@ class UsuariosController extends Controller
                     'contrasena' => !empty($_POST['contrasena']) ? password_hash($_POST['contrasena'], PASSWORD_DEFAULT) : null,
                     'rol_id' => $_POST['rol_id']
                 ];
-
                 try {
                     // Actualizar datos de la persona
                     $persona_id = $usuarioModel->getPersonaIdByUsuarioId($id);
@@ -252,7 +260,8 @@ class UsuariosController extends Controller
                     // Actualizar el rol del usuario
                     $listRolesModel->updateRole($id, $data['rol_id']);
 
-                    header('Location: /PIZZA4/public/usuarios');
+                    header('Location: ' . USER . '?success=Usuario actualizado con éxito');
+                    exit();
                 } catch (Exception $e) {
                     $data['error'] = $e->getMessage();
                     $roles = $rolModel->getAllRoles();
@@ -296,11 +305,11 @@ class UsuariosController extends Controller
             $personaModel->deletePersona($personaId);
 
             // Redireccionar a la lista de usuarios con un mensaje de éxito
-            header('Location: /PIZZA4/public/usuarios?success=Usuario eliminado con éxito');
+            header('Location: ' . USER . '?success=Usuario eliminado con éxito');
             exit();
         } catch (Exception $e) {
             // Redireccionar a la lista de usuarios con un mensaje de error
-            header('Location: /PIZZA4/public/usuarios?error=' . urlencode($e->getMessage()));
+            header('Location: ' . USER . '?error= error al eliminar el usuario ');
             exit();
         }
     }

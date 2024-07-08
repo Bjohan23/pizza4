@@ -33,14 +33,15 @@ class PisosController extends Controller
             ];
             $pisoModel = $this->model('Piso');
             if ($pisoModel->createPiso($data)) {
-                header('Location: /PIZZA4/public/pisos');
+                header('Location: ' . PISOS . '?success=Piso registrado correctamente');
+                exit();
             } else {
-                $this->view('pisos/create', ['error' => 'Error al registrar el piso.']);
+                header('Location: ' . PISOS . '?error=Piso registrado correctamente');
+                exit();
             }
         } else {
             $sedeModel = $this->model('Sede');
             $sedes = $sedeModel->getAllSedes();
-
             $usuarioModel = $this->model('Usuario');
             $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
             $this->view('pisos/create', ['sedes' => $sedes, 'rolUsuario' => $rolUsuario]);
@@ -61,8 +62,7 @@ class PisosController extends Controller
         $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
 
         if (!$piso) {
-            // Manejar el caso donde el piso no existe
-            header('Location: /PIZZA4/public/error/404');
+            header('Location: ' . PISOS . '?error=No se encontró el piso.');
             exit();
         }
 
@@ -73,14 +73,13 @@ class PisosController extends Controller
                 'sede_id' => $_POST['sede_id']
             ];
             if ($pisoModel->updatePiso($data)) {
-                header('Location: /PIZZA4/public/pisos');
+                header('Location: ' . PISOS . '?success=Piso actualizado correctamente');
                 exit();
             } else {
-                $this->view('pisos/edit', ['piso' => $piso, 'error' => 'Error al actualizar el piso.', 'rolUsuario' => $rolUsuario]);
+                header('Location: ' . PISOS . '?error=nose pudo actualizar el piso correctamente');
                 exit();
             }
         }
-
         // Solo obtenemos las sedes si estamos mostrando el formulario de edición
         $sedeModel = $this->model('Sede');
         $sedes = $sedeModel->getAllSedes();
@@ -97,7 +96,11 @@ class PisosController extends Controller
 
         $pisoModel = $this->model('Piso');
         if ($pisoModel->deletePiso($id)) {
-            header('Location: /PIZZA4/public/pisos');
+            header('Location: ' . PISOS . '?success=Piso eliminado correctamente');
+            exit();
+        } else {
+            header('Location: ' . PISOS . '?error=No se pudo eliminar el piso');
+            exit();
         }
     }
     public function mesas($id)
@@ -112,7 +115,6 @@ class PisosController extends Controller
         $piso = $pisoModel->getPisoById($id);
         $mesaModel = $this->model('Mesa');
         $mesas = $mesaModel->getMesasByPisoId($id);
-
         $usuarioModel = $this->model('Usuario');
         $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         $this->view('pisos/mesas', ['piso' => $piso, 'mesas' => $mesas, 'rolUsuario' => $rolUsuario]);

@@ -42,9 +42,10 @@ class ClientesController extends Controller
             $result = $clienteModel->createCliente($data);
 
             if ($result) {
-                header('Location: ' . CLIENT);
+                header('Location: ' . CLIENT . '?success= cliente ' . $data['nombre'] . ' creado correctamente');
+                exit();
             } else {
-                die('Error al registrar el cliente');
+                header('Location: ' . CLIENT . '?error= nose pudo crear el cliente');
                 exit();
             }
         } else {
@@ -53,7 +54,6 @@ class ClientesController extends Controller
             $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
             $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
         }
-        exit();
     }
     public function edit($id)
     {
@@ -74,9 +74,11 @@ class ClientesController extends Controller
                 ];
 
                 if ($clienteModel->updateCliente($data)) {
-                    header('Location: ' . CLIENT);
+                    header('Location: ' . CLIENT . '?success= cliente actualizado correctamente');
+                    exit();
                 } else {
-                    die('Error al actualizar el cliente');
+                    header('Location: ' . CLIENT . '?error=nose pudo actualizar el cliente ');
+                    exit();
                 }
             } else {
                 $cliente = $clienteModel->getClienteById($id);
@@ -98,9 +100,11 @@ class ClientesController extends Controller
         } else {
             $clienteModel = $this->model('Cliente');
             if ($clienteModel->deleteCliente($id)) {
-                header('Location: ' . CLIENT . '');
+                header('Location: ' . CLIENT . '?success= cliente eliminado correctamente');
+                exit();
             } else {
-                die('Error al eliminar el cliente');
+                header('Location: ' . CLIENT . '?error= nose pudo elimnar el cliente');
+                exit();
             }
         }
     }

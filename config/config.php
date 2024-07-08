@@ -58,7 +58,7 @@ define('CLIENT_CREATE', '/PIZZA4/public/clientes/create');
 define('CLIENT_EDIT', '/PIZZA4/public/clientes/edit/');
 define('CLIENT_DELETE', '/PIZZA4/public/clientes/delete/');
 // mesas
-define('TABLE', '/PIZZA4/public/mesas');
+define('TABLE', '/PIZZA4/public/mesas/');
 define('TABLE_CREATE', '/PIZZA4/public/mesas/create/');
 define('TABLE_EDIT', '/PIZZA4/public/mesas/edit/');
 define('TABLE_DELETE', '/PIZZA4/public/mesas/delete/');

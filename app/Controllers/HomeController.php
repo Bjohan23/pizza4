@@ -6,7 +6,6 @@ class HomeController extends Controller
     {
         // Iniciar sesión si no está iniciada
         Session::init();
-
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR);
