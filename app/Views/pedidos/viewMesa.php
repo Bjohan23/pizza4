@@ -26,33 +26,35 @@
                             <?php endif; ?>
                         </div>
 
-                        <table class="min-w-full bg-white border dark:bg-gray-800">
-                            <thead class="bg-gray-200 dark:bg-gray-700">
-                                <tr>
-                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Producto</th>
-                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Precio</th>
-                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
-                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Descripción</th>
-                                    <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pedido-body">
-                                <?php
-                                $total = 0;
-                                foreach ($data['pedidos'] as $pedido) :
-                                    $subtotal = $pedido['precio'] * $pedido['cantidad'];
-                                    $total += $subtotal;
-                                ?>
-                                    <tr class="border-b dark:border-gray-600 producto">
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white nombre"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>"> S/. <?php echo htmlspecialchars($pedido['precio']); ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['cantidad']); ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
-                                        <td class="py-2 px-4 border dark:border-gray-600 dark:text-white subtotal">S/. <?php echo number_format($subtotal, 2); ?></td>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="bg-gray-200 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Producto</th>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Precio</th>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Cantidad</th>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Descripción</th>
+                                        <th class="py-2 px-4 border dark:border-gray-600 dark:text-white">Subtotal</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody id="pedido-body">
+                                    <?php
+                                    $total = 0;
+                                    foreach ($data['pedidos'] as $pedido) :
+                                        $subtotal = $pedido['precio'] * $pedido['cantidad'];
+                                        $total += $subtotal;
+                                    ?>
+                                        <tr class="border-b dark:border-gray-600 producto">
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white nombre"><?php echo htmlspecialchars($pedido['producto_nombre']); ?></td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white precio" data-precio="<?php echo htmlspecialchars($pedido['precio']); ?>"> S/. <?php echo htmlspecialchars($pedido['precio']); ?></td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['cantidad']); ?></td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white"><?php echo htmlspecialchars($pedido['producto_descripcion']); ?></td>
+                                            <td class="py-2 px-4 border dark:border-gray-600 dark:text-white subtotal">S/. <?php echo number_format($subtotal, 2); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div class="mt-3 m-2">
                             <label for="total" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Total:</label>

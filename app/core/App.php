@@ -31,7 +31,7 @@ class App
         if (method_exists($this->controller, $this->method)) {
             call_user_func_array([$this->controller, $this->method], $this->params);
         } else {
-            require_once '../app/Views/inc/head.php';
+            // require_once '../app/Views/inc/head.php';
             http_response_code(404);
             require_once '../app/Views/error/404.php';
         }

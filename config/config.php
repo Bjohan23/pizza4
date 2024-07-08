@@ -18,9 +18,11 @@ define('TOKEN', $_ENV['TOKEN']);
 define('TOKEN_RESEND', $_ENV['TOKEN_RESEND']);
 define('CONTRASENA', $_ENV['CONTRASENA']);
 
-// salir
-define('SALIR', '/PIZZA4/public/auth/login');
+// // salir
+// define('SALIR', '/PIZZA4/public/auth/login');
+define('SALIR', '/PIZZA4/public/auth/logout');
 define('APP_URL', 'http://localhost/PIZZA4/');
+define('INICIO', '/PIZZA4/public/');
 define('FORM_URL', '/PIZZA4/public/');
 define('APP_NAME', 'PIZZERIA ZARELLE');
 define('APP_PATH', realpath(dirname(__FILE__, 2)) . '/'); // obtiene la ruta del proyecto en el servidor local o en el servidor de produccion
