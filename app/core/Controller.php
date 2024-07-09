@@ -11,22 +11,20 @@ class Controller
     }
 
 
-    public function view($view, $data = []) //recibe la vista y los datos que se quieren enviar a la vista 
+    public function view($view, $data = [])//recibe la vista y los datos que se quieren enviar a la vista 
     {
         require_once '../app/core/Session.php';
         Session::init();
+
         include_once '../app/Views/inc/head.php';
-        if (Session::get('usuario_id')) {
-            include_once '../app/Views/inc/navbar.php';
-            include_once  '../app/Views/inc/sidebar.php';
-        }
+        include_once  '../app/Views/inc/sidebar.php';
+        include_once '../app/Views/inc/navbar.php';
         require_once '../app/Views/' . $view . '.php';
+        if (Session::get('usuario_id')) {
+            include_once '../app/Views/inc/footer.php';
+        }
         include_once '../app/Views/inc/script.php';
         include_once '../app/Views/inc/js/alertas.php';
-        if (Session::get('usuario_id')) {
-            // include_once '../app/Views/inc/footer.php';
-
-        }
     }
 }
 

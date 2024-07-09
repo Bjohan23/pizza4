@@ -45,13 +45,15 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Crear Usuario</button>
+                <div>
+                    <button type="submit" class="w-full py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Registrar</button>
+                </div>
             </form>
-            <a href="/PIZZA4/public/usuarios" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
+            <a href="<?php echo USER ?>" class="block text-center text-blue-500 hover:text-blue-700 transition-colors duration-300 mt-4">Regresar</a>
         </div>
     </section>
 </main>
-<?php include_once '../app/Views/inc/footer.php'; ?>
+
 <script>
     const TOKEN = <?php echo json_encode(TOKEN) ?>;
 

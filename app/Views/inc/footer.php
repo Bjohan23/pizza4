@@ -25,3 +25,46 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+<script>
+    toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: true,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "2500",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+    };
+    <?php if (isset($_GET['success'])) : ?>
+        toastr.success('<?php echo htmlspecialchars($_GET['success']); ?>',
+            "Exito"
+        );
+    <?php endif; ?>
+    <?php if (isset($_GET['error'])) : ?>
+        toastr.error("<?php echo htmlspecialchars($_GET['error']); ?>",
+            "Error"
+        );
+    <?php endif; ?>
+
+    function confirmDelete() {
+        return Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!'
+        });
+    }
+    // 
+</script>

@@ -21,9 +21,12 @@ class ClientesController extends Controller
     public function create()
     {
         Session::init();
+
+        $usuarioModel = $this->model('Usuario');
+        $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
         // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
-            echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+            header('Location: ' . SALIR . '');
             exit();
         }
 
@@ -37,20 +40,13 @@ class ClientesController extends Controller
             ];
             $clienteModel = $this->model('Cliente');
             $result = $clienteModel->createCliente($data);
+
             if ($result) {
-                echo json_encode([
-                    'success' => true,
-                    'cliente' => [
-                        'id' => $result,
-                        'nombre' => $data['nombre'],
-                        'dni' => $data['dni'],
-                        'email' => $data['email'],
-                        'telefono' => $data['telefono'],
-                        'direccion' => $data['direccion']
-                    ]
-                ]);
+                header('Location: ' . CLIENT . '?success= cliente ' . $data['nombre'] . ' creado correctamente');
+                exit();
             } else {
-                echo json_encode(['success' => false, 'message' => 'Error al crear el cliente']);
+                header('Location: ' . CLIENT . '?error= nose pudo crear el cliente');
+                exit();
             }
         } else {
 
@@ -58,9 +54,7 @@ class ClientesController extends Controller
             $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
             $this->view('clientes/create', ['rolUsuario' => $rolUsuario]);
         }
-        exit();
     }
-
     public function edit($id)
     {
         Session::init();
@@ -80,9 +74,11 @@ class ClientesController extends Controller
                 ];
 
                 if ($clienteModel->updateCliente($data)) {
-                    header('Location: ' . CLIENT);
+                    header('Location: ' . CLIENT . '?success= cliente actualizado correctamente');
+                    exit();
                 } else {
-                    die('Error al actualizar el cliente');
+                    header('Location: ' . CLIENT . '?error=nose pudo actualizar el cliente ');
+                    exit();
                 }
             } else {
                 $cliente = $clienteModel->getClienteById($id);
@@ -104,9 +100,11 @@ class ClientesController extends Controller
         } else {
             $clienteModel = $this->model('Cliente');
             if ($clienteModel->deleteCliente($id)) {
-                header('Location: ' . CLIENT . '');
+                header('Location: ' . CLIENT . '?success= cliente eliminado correctamente');
+                exit();
             } else {
-                die('Error al eliminar el cliente');
+                header('Location: ' . CLIENT . '?error= nose pudo elimnar el cliente');
+                exit();
             }
         }
     }
