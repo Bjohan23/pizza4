@@ -26,6 +26,7 @@
                                     <th scope="col" class="px-4 py-3">Nombre</th>
                                     <th scope="col" class="px-4 py-3">Descripción</th>
                                     <th scope="col" class="px-4 py-3">Precio</th>
+                                    <th scope="col" class="px-4 py-3">Stock</th>
                                     <th scope="col" class="px-4 py-3">Disponible</th>
                                     <th scope="col" class="px-4 py-3">Categoría</th>
                                     <th scope="col" class="px-4 py-3">Acciones</th>
@@ -38,6 +39,7 @@
                                             <td class="px-4 py-3"><?php echo $producto['nombre']; ?></td>
                                             <td class="px-4 py-3"><?php echo $producto['descripcion']; ?></td>
                                             <td class="px-4 py-3"><?php echo $producto['precio']; ?></td>
+                                            <td class="px-4 py-3"><?php echo $producto['stock']; ?></td>
                                             <td class="px-4 py-3"><?php echo $producto['disponible'] ? 'Sí' : 'No'; ?></td>
                                             <td class="px-4 py-3"><?php echo $producto['categoria']; ?></td>
                                             <td class="px-4 py-3">

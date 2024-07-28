@@ -13,6 +13,15 @@ class Pedido extends Model
         return $this->db->resultSet();
     }
 
+    public function decreaseStock($id, $cantidad)
+    {
+        $this->db->query('UPDATE productos SET disponible = disponible - :cantidad WHERE id = :id AND disponible >= :cantidad');
+        $this->db->bind(':cantidad', $cantidad);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
+
+
     public function createPedido($data)
     {
         $this->db->query('INSERT INTO pedidoscomanda (mesa_id, cliente_id, usuario_id, estado, total, fecha) VALUES (:mesa_id, :cliente_id, :usuario_id, :estado, :total, :fecha)');

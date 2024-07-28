@@ -7,6 +7,12 @@
                 </div>
                 <div class="overflow-x-auto">
                     <div class="p-6 space-y-6">
+                        <!-- input para filtrar por fecha -->
+                        <form action="/PIZZA4/public/ventas" method="POST" class="flex space
+                        -x-4">
+                            <input type="date" name="fecha" id="fecha" class="w-1/4 p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
+                            <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Filtrar</button>
+                        </form>
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
