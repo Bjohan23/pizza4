@@ -8,45 +8,57 @@
                 <div class="overflow-x-auto">
                     <div class="p-6 space-y-6">
                         <!-- input para filtrar por fecha -->
-                        <form action="/PIZZA4/public/ventas" method="POST" class="flex space
-                        -x-4">
-                            <input type="date" name="fecha" id="fecha" class="w-1/4 p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
-                            <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Filtrar</button>
+                        <form action="/PIZZA4/public/ventas" method="POST" class="flex space-x-4">
+                            <input type="date" name="fecha" id="fecha" class="w-1/4 p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="<?php echo isset($data['fecha']) ? $data['fecha'] : ''; ?>">
+                            <button type="submit" class="px-4 py-2.5 text-sm font-medium text-center text-white bg-primary-700 rounded-lg shadow-sm hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Filtrar</button>
                         </form>
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Tipo</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Monto</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Usuario</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Cliente</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Teléfono</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Dirección</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Email</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Mesa</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Piso</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Detalles del Pedido</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Fecha</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Tipo</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Monto</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Usuario</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Cliente</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Teléfono</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Dirección</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Email</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Mesa</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Piso</th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Detalles del Pedido</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                <?php foreach ($data['ventas'] as $venta) : ?>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                <?php if (!empty($data['ventas'])) : ?>
+                                    <?php foreach ($data['ventas'] as $venta) : ?>
+                                        <tr>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['fecha']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['tipo']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['monto']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['usuario_nombre']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['cliente_nombre']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['cliente_telefono']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['cliente_direccion']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['cliente_email']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['mesa_numero']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['piso_nombre']; ?></td>
+                                            <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white"><?php echo $venta['detalles_pedido']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['fecha']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['tipo']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['monto']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['usuario_nombre']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['cliente_nombre']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['cliente_telefono']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['cliente_direccion']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['cliente_email']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['mesa_numero']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['piso_nombre']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><?php echo $venta['detalles_pedido']; ?></td>
+                                        <td class="py-4 px-6 text-sm text-gray-900 whitespace-nowrap dark:text-white" colspan="11">No se encontraron ventas.</td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
+                        
+                        <!-- Controles de paginación -->
+                        <div class="flex justify-between mt-4">
+                            <a href="?pagina=<?php echo max(1, $data['pagina'] - 1); ?>" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg shadow-sm hover:bg-primary-700">Anterior</a>
+                            <span class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">Página <?php echo $data['pagina']; ?> de <?php echo $data['totalPaginas']; ?></span>
+                            <a href="?pagina=<?php echo min($data['totalPaginas'], $data['pagina'] + 1); ?>" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg shadow-sm hover:bg-primary-700">Siguiente</a>
+                        </div>
                     </div>
                 </div>
             </div>
