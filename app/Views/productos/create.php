@@ -12,8 +12,16 @@
                     <textarea name="descripcion" id="descripcion" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></textarea>
                 </div>
                 <div>
-                    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Precio:</label>
+                    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Precio Compra:</label>
                     <input type="number" step="0.01" name="precio" id="precio" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
+                </div>
+                <div>
+                    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Precio de venta:</label>
+                    <input type="number" step="0.01" name="precio" id="precio" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
+                </div>
+                <div>
+                    <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">stock:</label>
+                    <input type="number" step="1" name="stock" id="stock" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
                 </div>
                 <div class="flex items-center">
                     <input type="checkbox" name="disponible" id="disponible" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">

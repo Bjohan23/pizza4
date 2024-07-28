@@ -21,7 +21,6 @@ class ProductosController extends Controller
     public function create()
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
@@ -32,7 +31,8 @@ class ProductosController extends Controller
                     'descripcion' => trim($_POST['descripcion']),
                     'precio' => trim($_POST['precio']),
                     'disponible' => isset($_POST['disponible']) ? 1 : 0,
-                    'categoria_id' => trim($_POST['categoria_id'])
+                    'categoria_id' => trim($_POST['categoria_id']),
+                    'stock' => trim($_POST['stock']) // Agregar stock
                 ];
                 $productoModel = $this->model('Producto');
                 if ($productoModel->createProducto($data)) {
@@ -43,7 +43,6 @@ class ProductosController extends Controller
                     exit();
                 }
             } else {
-
                 $usuarioModel = $this->model('Usuario');
                 $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
                 $categoriaModel = $this->model('Categoria');
@@ -56,7 +55,6 @@ class ProductosController extends Controller
     public function edit($id)
     {
         Session::init();
-        // Verificar si el usuario está autenticado
         if (!Session::get('usuario_id')) {
             header('Location: ' . SALIR . '');
             exit();
@@ -69,7 +67,8 @@ class ProductosController extends Controller
                     'descripcion' => trim($_POST['descripcion']),
                     'precio' => trim($_POST['precio']),
                     'disponible' => isset($_POST['disponible']) ? 1 : 0,
-                    'categoria_id' => trim($_POST['categoria_id'])
+                    'categoria_id' => trim($_POST['categoria_id']),
+                    'stock' => trim($_POST['stock']) // Agregar stock
                 ];
                 if ($productoModel->updateProducto($data)) {
                     header('Location: ' . PRODUCT . '?success= Producto actualizado correctamente');
