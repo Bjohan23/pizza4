@@ -15,8 +15,17 @@
                     <label for="precio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Precio:</label>
                     <input type="number" step="0.01" name="precio" id="precio" value="<?php echo $data['producto']['precio']; ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
                 </div>
+<<<<<<< HEAD
                 <div class="flex items-center">
                     <input type="checkbox" name="disponible" id="disponible" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?php echo $data['producto']['disponible'] ? 'checked' : ''; ?>>
+=======
+                <div>
+                    <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">stock:</label>
+                    <input type="number" step="1" name="stock" id="stock"  value="<?php echo $data['producto']['stock']; ?>" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" required>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" name="disponible" id="disponible"  value="<?php echo $data['producto']['stock']; ?> class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?php echo $data['producto']['disponible'] ? 'checked' : ''; ?>>
+>>>>>>> 10bab11bfe709f6a0e1892c37fe9f7ef0dff901c
                     <label for="disponible" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Disponible</label>
                 </div>
                 <div>

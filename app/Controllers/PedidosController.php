@@ -103,7 +103,14 @@ class PedidosController extends Controller
                 'fecha' => date('Y-m-d H:i:s')
             ];
             $pedidoModel = $this->model('Pedido');
+<<<<<<< HEAD
             $pedidoId = $pedidoModel->createPedido($pedidoData);
+=======
+            $productoModel = $this->model('Producto');
+            $usuarioModel = $this->model('Usuario');
+            $pedidoId = $pedidoModel->createPedido($pedidoData);
+            $rolUsuario = $usuarioModel->getRolesUsuarioAutenticado(Session::get('usuario_id'));
+>>>>>>> 10bab11bfe709f6a0e1892c37fe9f7ef0dff901c
 
             if ($pedidoId) {
                 $mesaModel = $this->model('Mesa');
@@ -112,6 +119,25 @@ class PedidosController extends Controller
                 if (isset($_POST['productos']) && is_array($_POST['productos'])) {
                     foreach ($_POST['productos'] as $producto) {
                         if ($producto['cantidad'] > 0) {
+<<<<<<< HEAD
+=======
+                            // Obtener el stock actual del producto
+                            $productoActual = $productoModel->getProductoById($producto['id']);
+                            $stockActual = $productoActual['stock'];
+
+                            if ($producto['cantidad'] > $stockActual) {
+                                // Mostrar un mensaje de error si la cantidad es mayor que el stock disponible
+                                $clienteModel = $this->model('Cliente');
+                                $this->view('pedidos/create', ['error' => 'No hay suficiente stock para el producto: ' . $producto['nombre'] . '. Stock disponible: ' . $stockActual,
+                                    'mesa_id' => $mesa_id,
+                                    'rolUsuario' => $rolUsuario,
+                                    'clientes' => $clienteModel->getAllClientes(),
+                                    'productos' => $productoModel->getAllProductos()
+                                ]);
+                                return;
+                            }
+
+>>>>>>> 10bab11bfe709f6a0e1892c37fe9f7ef0dff901c
                             $detalleData = [
                                 'pedido_id' => $pedidoId,
                                 'producto_id' => $producto['id'],
@@ -120,7 +146,30 @@ class PedidosController extends Controller
                                 'descripcion' => $producto['descripcion2'],
                                 'estado' => 'pendiente'
                             ];
+<<<<<<< HEAD
                             $pedidoModel->addDetalle($detalleData);
+=======
+
+                            // Registro de depuración para datos del producto
+                            error_log("Producto ID: " . $producto['id'] . ", Cantidad: " . $producto['cantidad']);
+
+                            // Disminuir el stock del producto
+                            if ($productoModel->decreaseStock($producto['id'], $producto['cantidad'])) {
+                                $pedidoModel->addDetalle($detalleData);
+                            } else {
+                                
+                                // Manejar el caso cuando no hay suficiente stock
+                                $clienteModel = $this->model('Cliente');
+                                $this->view('pedidos/create', [
+                                    'error' => 'No hay suficiente stock para el producto: ' . $producto['nombre'],
+                                    'mesa_id' => $mesa_id,
+                                    'rolUsuario' => $rolUsuario,
+                                    'clientes' => $clienteModel->getAllClientes(),
+                                    'productos' => $productoModel->getAllProductos()
+                                ]);
+                                return;
+                            }
+>>>>>>> 10bab11bfe709f6a0e1892c37fe9f7ef0dff901c
                         }
                     }
                 }
@@ -160,6 +209,10 @@ class PedidosController extends Controller
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 10bab11bfe709f6a0e1892c37fe9f7ef0dff901c
     public function update($id)
     {
         Session::init();
