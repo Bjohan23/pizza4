@@ -198,7 +198,7 @@ class PedidosController extends Controller
                     }
                 }
 
-                header('Location: '. VIEW_MESA. $_POST['mesa_id']);
+                header('Location: ' . VIEW_MESA . $_POST['mesa_id']);
                 exit();
             } else {
                 die('Error al actualizar el pedido');
@@ -313,7 +313,7 @@ class PedidosController extends Controller
                 $pedidosAgrupados[$mesa]['descripcion'] .= ', ' . $pedido['descripcion'];
             }
         }
-        $this->view('pedidos/allPedidos', ['pedidosAgrupados' => $pedidosAgrupados, 'rolUsuario' => $rolUsuario]);
+        $this->view('pedidos/allpedidos', ['pedidosAgrupados' => $pedidosAgrupados, 'rolUsuario' => $rolUsuario]);
     }
 
     public function cobrar($id)
@@ -385,11 +385,9 @@ class PedidosController extends Controller
             header('Location: ' . SALIR);
             exit();
         }
-        
-            
-            return true;
-       
-            
+
+
+        return true;
     }
 
     public function enviarCorreo($datos)
@@ -401,11 +399,11 @@ class PedidosController extends Controller
         }
 
         try {
-            
+
             return 'Correo enviado exitosamente';
         } catch (Exception $e) {
             exit();
-            error_log('Error al enviar el correo: ' );
+            error_log('Error al enviar el correo: ');
             return null;
         }
     }
