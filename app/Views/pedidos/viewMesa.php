@@ -229,7 +229,7 @@
                         </svg>
                         Cobrar Pedido
                     </button>
-                    <button type="button" onclick="window.location.href='/PIZZA4/public/pedidos/create/<?php echo htmlspecialchars($data['mesa_id']); ?>?cliente_id=<?php echo htmlspecialchars($data['pedido']['cliente_id']); ?>'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="button" onclick="window.location.href='<?php echo ORDER_CREATE ?><?php echo htmlspecialchars($data['mesa_id']); ?>?cliente_id=<?php echo htmlspecialchars($data['pedido']['cliente_id']); ?>'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
@@ -380,7 +380,7 @@
                 case 'yape':
                     paymentFields.innerHTML = `
                     <div class="text-center space-y-4">
-                        <img src="http://localhost/PIZZA4/public/img/qr.jpg" class="mx-auto max-w-sm rounded-lg" alt="QR Yape">
+                        <img src="<?php echo APP_URL?>/public/img/qr.jpg" class="mx-auto max-w-sm rounded-lg" alt="QR Yape">
                         <p class="text-sm text-gray-500 dark:text-gray-400">Escanea el código QR para pagar S/. ${total.toFixed(2)}</p>
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -469,7 +469,7 @@
 
                 // Redireccionar después de 2 segundos
                 setTimeout(() => {
-                    window.location.href = '/PIZZA4/public/mesas';
+                    window.location.href = '<?php echo TABLE ?>';
                 }, 2000);
             }, 2000);
         });

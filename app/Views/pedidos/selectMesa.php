@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 ml-4"> <!-- Ajuste aquí -->
         <?php foreach ($data['mesas'] as $mesa) : ?>
             <div class="border-2 piso-cuadro <?php echo $mesa['estado'] == 'ocupada' ? 'border-red-500 bg-red-100' : 'border-green-500 bg-green-100'; ?> rounded-lg h-32 md:h-64 flex flex-col justify-between p-4 transition duration-300 custom-bg-image">
-                <a href="/PIZZA4/public/pedidos/create/<?php echo $mesa['id']; ?>" class="flex items-center justify-center flex-col h-full">
+                <a href="<?php echo ORDER_CREATE ?><?php echo $mesa['id']; ?>" class="flex items-center justify-center flex-col h-full">
                     <div class="text-center">
                         <p class="text-sm text-gray-500 text-blue-900 dark:text-white">Mesa <?php echo $mesa['numero']; ?></p>
                         <?php if ($mesa['estado'] == 'ocupada') : ?>
@@ -15,7 +15,7 @@
                 </a>
                 <?php if ($mesa['estado'] == 'ocupada') : ?>
                     <div class="flex space-x-2 mt-4">
-                        <a id="btn-pedido" href="/PIZZA4/public/pedidos/viewMesa/<?php echo $mesa['id']; ?>" class="flex items-center justify-center px-1 py-1 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        <a id="btn-pedido" href="<?php echo ORDER_VIEW ?><?php echo $mesa['id']; ?>" class="flex items-center justify-center px-1 py-1 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                             <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full text-sm px-2 py-2 text-center me-1 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">ver pedido</button>
                         </a>
                         <form id="liberar-mesa-form" action="<?= LIBERAR_MESA . $mesa['id']; ?>" method="post">

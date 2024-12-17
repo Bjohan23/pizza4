@@ -2,7 +2,7 @@
     <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Seleccionar Piso</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
         <?php foreach ($data['pisos'] as $piso) : ?>
-            <a href="/PIZZA4/public/pedidos/selectMesa/<?php echo $piso['id']; ?>" class="piso-cuadro">
+            <a href="<?php echo ORDER_SELECTMESA ?><?php echo $piso['id']; ?>" class="piso-cuadro">
                 <div class="contenido-cuadro p-4 rounded-lg text-white">
                     <div class="texto-contenido bg-black bg-opacity-50 rounded p-2">
                         <p class="text-xl text-gray-100"><?php echo $piso['nombre']; ?></p>

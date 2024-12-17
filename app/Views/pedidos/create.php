@@ -253,7 +253,7 @@
             <p class="text-red-500"><?php echo $error; ?></p>
         <?php endif; ?>
 
-        <form action="/PIZZA4/public/pedidos/create/<?php echo $data['mesa_id']; ?>" method="post">
+        <form action="<?php echo ORDER_CREATE ?><?php echo $data['mesa_id']; ?>" method="post">
             <input type="hidden" id="clienteSeleccionado" name="cliente_id" value="">
             <div class="mb-4">
                 <label for="filtro" class="block text-sm font-medium text-gray-900 dark:text-white">Buscar Productos:</label>
