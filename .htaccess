@@ -1,10 +1,19 @@
-# Habilita el módulo de reescritura de URL de Apache
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    Options -Multiviews
+    RewriteEngine On
+    RewriteBase /
+    
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+</IfModule>
 
-# Si la solicitud es para el directorio raíz (es decir, no hay ruta después del nombre de dominio en la URL), 
-# redirige al usuario al directorio 'public/'
-RewriteRule ^$ public/ [L]
+# Manejo de errores
+ErrorDocument 404 /error/404
+ErrorDocument 500 /error/500
 
-# Para cualquier otra ruta (capturada por el patrón '(.*)'), redirige al usuario a la misma ruta, pero dentro del directorio 'public/'
-# Por ejemplo, si la ruta es 'example', el usuario será redirigido a 'public/example'
-RewriteRule (.*) public/$1 [L]
+# Prevenir listado de directorios
+Options -Indexes
+
+# Zona horaria
+php_value date.timezone "America/Lima"

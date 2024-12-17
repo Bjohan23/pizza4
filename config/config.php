@@ -11,72 +11,79 @@ define('TOKEN', '1234567890');
 // Configurar la zona horaria en PHP
 date_default_timezone_set('America/Lima');
 
-// // salir
-define('LOGIN', '/PIZZA4/public/auth/login');
-define('SALIR', '/PIZZA4/public/auth/login');
-define('APP_URL', 'http://localhost/PIZZA4/');
-define('INICIO', '/PIZZA4/public/dashboard');
-// http://localhost/PIZZA4/public/usuarios
-define('FORM_URL', '/PIZZA4/public/');
+// URLs base
+define('LOGIN', '/auth/login');
+define('SALIR', '/auth/login');
+define('APP_URL', 'https://orange-ant-417838.hostingersite.com');
+define('INICIO', '/dashboard');
+define('FORM_URL', '/');
 define('APP_NAME', 'PIZZERIA ZARELLE');
-define('APP_PATH', realpath(dirname(__FILE__, 2)) . '/'); // obtiene la ruta del proyecto en el servidor local o en el servidor de produccion
+define('APP_PATH', realpath(dirname(__FILE__, 2)) . '/');
+
 // usuarios
-define('USER', '/PIZZA4/public/usuarios');
-define('USER_CREATE', '/PIZZA4/public/usuarios/create');
-define('USER_EDIT', '/PIZZA4/public/usuarios/edit/');
-define('USER_DELETE', '/PIZZA4/public/usuarios/delete/');
-define('USER_SEARCH', '/PIZZA4/public/usuarios/search');
+define('USER', '/usuarios');
+define('USER_CREATE', '/usuarios/create');
+define('USER_EDIT', '/usuarios/edit/');
+define('USER_DELETE', '/usuarios/delete/');
+define('USER_SEARCH', '/usuarios/search');
+
 // CUENTA
-define('CUENTA_EDIT', '/PIZZA4/public/usuarios/cuentaUsuario/');
+define('CUENTA_EDIT', '/usuarios/cuentaUsuario/');
 
 // roles
-define('ROL', '/PIZZA4/public/roles');
-define('ROL_CREATE', '/PIZZA4/public/roles/create');
-define('ROL_EDIT', '/PIZZA4/public/roles/edit/');
-define('ROL_DELETE', '/PIZZA4/public/roles/delete/');
+define('ROL', '/roles');
+define('ROL_CREATE', '/roles/create');
+define('ROL_EDIT', '/roles/edit/');
+define('ROL_DELETE', '/roles/delete/');
+
 // productos
-define('PRODUCT', '/PIZZA4/public/productos');
-define('PRODUCT_CREATE', '/PIZZA4/public/productos/create');
-define('PRODUCT_EDIT', '/PIZZA4/public/productos/edit/');
-define('PRODUCT_DELETE', '/PIZZA4/public/productos/delete/');
+define('PRODUCT', '/productos');
+define('PRODUCT_CREATE', '/productos/create');
+define('PRODUCT_EDIT', '/productos/edit/');
+define('PRODUCT_DELETE', '/productos/delete/');
+
 // pedidos
-define('ORDER', '/PIZZA4/public/pedidos');
-define('ORDER_CREATE', '/PIZZA4/public/pedidos/create/');
-define('ORDER_EDIT', '/PIZZA4/public/pedidos/edit/');
-define('ORDER_DELETE', '/PIZZA4/public/pedidos/delete/');
-define('ORDER_ALL', '/PIZZA4/public/pedidos/allPedidos');
-define('ORDER_VIEW', '/PIZZA4/public/pedidos/viewMesa/');
-define('ORDER_SELECTMESA', '/PIZZA4/public/pedidos/selectMesa/');
+define('ORDER', '/pedidos');
+define('ORDER_CREATE', '/pedidos/create/');
+define('ORDER_EDIT', '/pedidos/edit/');
+define('ORDER_DELETE', '/pedidos/delete/');
+define('ORDER_ALL', '/pedidos/allPedidos');
+define('ORDER_VIEW', '/pedidos/viewMesa/');
+define('ORDER_SELECTMESA', '/pedidos/selectMesa/');
 
 // clientes
-define('CLIENT', '/PIZZA4/public/clientes');
-define('CLIENT_CREATE', '/PIZZA4/public/clientes/create');
-define('CLIENT_EDIT', '/PIZZA4/public/clientes/edit/');
-define('CLIENT_DELETE', '/PIZZA4/public/clientes/delete/');
+define('CLIENT', '/clientes');
+define('CLIENT_CREATE', '/clientes/create');
+define('CLIENT_EDIT', '/clientes/edit/');
+define('CLIENT_DELETE', '/clientes/delete/');
+
 // mesas
-define('TABLE', '/PIZZA4/public/mesas/');
-define('TABLE_CREATE', '/PIZZA4/public/mesas/create/');
-define('TABLE_EDIT', '/PIZZA4/public/mesas/edit/');
-define('TABLE_DELETE', '/PIZZA4/public/mesas/delete/');
-define('LIBERAR_MESA', '/PIZZA4/public/pedidos/liberarMesa/');
-define('VIEW_MESA', '/PIZZA4/public/pedidos/viewMesa/');
+define('TABLE', '/mesas/');
+define('TABLE_CREATE', '/mesas/create/');
+define('TABLE_EDIT', '/mesas/edit/');
+define('TABLE_DELETE', '/mesas/delete/');
+define('LIBERAR_MESA', '/pedidos/liberarMesa/');
+define('VIEW_MESA', '/pedidos/viewMesa/');
+
 // categorias
-define('CATEGORY', '/PIZZA4/public/categorias');
-define('CATEGORY_CREATE', '/PIZZA4/public/categorias/create');
-define('CATEGORY_EDIT', '/PIZZA4/public/categorias/edit/');
-define('CATEGORY_DELETE', '/PIZZA4/public/categorias/delete/');
+define('CATEGORY', '/categorias');
+define('CATEGORY_CREATE', '/categorias/create');
+define('CATEGORY_EDIT', '/categorias/edit/');
+define('CATEGORY_DELETE', '/categorias/delete/');
 
 // sedes
-define('SEDE', '/PIZZA4/public/sede');
-define('SEDE_CREATE', '/PIZZA4/public/sede/create');
-define('SEDE_EDIT', '/PIZZA4/public/sede/edit/');
-define('SEDE_DELETE', '/PIZZA4/public/sede/delete/');
+define('SEDE', '/sede');
+define('SEDE_CREATE', '/sede/create');
+define('SEDE_EDIT', '/sede/edit/');
+define('SEDE_DELETE', '/sede/delete/');
+
 // PISO
-define('PISOS', '/PIZZA4/public/pisos');
-define('PISO_CREATE', '/PIZZA4/public/pisos/create');
-define('PISO_EDIT', '/PIZZA4/public/pisos/edit/');
-define('PISO_DELETE', '/PIZZA4/public/pisos/delete/');
+define('PISOS', '/pisos');
+define('PISO_CREATE', '/pisos/create');
+define('PISO_EDIT', '/pisos/edit/');
+define('PISO_DELETE', '/pisos/delete/');
+
 // COBRAR
-define('COBRAR', '/PIZZA4/public/pedidos/cobrar/');
-define('IMPRIMIR_BOLETA', '/PIZZA4/public/pedidos/imprimirBoleta/');
-define('VENTAS_MOSTRAR', '/PIZZA4/public/ventas');
+define('COBRAR', '/pedidos/cobrar/');
+define('IMPRIMIR_BOLETA', '/pedidos/imprimirBoleta/');
+define('VENTAS_MOSTRAR', '/ventas');
