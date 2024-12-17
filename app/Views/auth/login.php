@@ -7,11 +7,11 @@
             <div class="h-32 md:h-auto md:w-1/2">
 
                 <video autoplay loop muted class="object-cover w-full h-full dark:hidden">
-                    <source src="https://v7.cdnpk.net/videvo_files/video/partners1347/large_preview/h0fe09de9_203472_039.mp4" type="video/mp4" />
+                    <source src="https://videocdn.cdnpk.net/videos/f89865ea-d0a0-4963-9f0a-ba14ed6c15b9/horizontal/previews/clear/large.mp4?token=exp=1734459504~hmac=d135b0a320957d089d9a7f762d5ce737405c752eafa075fd25758d790aaa582e" type="video/mp4" />
                 </video>
 
                 <video autoplay loop muted class="hidden object-cover w-full h-full dark:block">
-                    <source src="https://v6.cdnpk.net/videvo_files/video/partners1008/large_preview/h33175806_V0133_062.mp4" type="video/mp4" />
+                    <source src="https://videocdn.cdnpk.net/videos/8de89326-1051-4137-96f9-90cbea787fdf/horizontal/previews/clear/large.mp4?token=exp=1734459546~hmac=9dfbfe195b90e2d73d61aa0af31f710eb449ada0adb8d93562e6f3582e149d64" type="video/mp4" />
                 </video>
 
             </div>
