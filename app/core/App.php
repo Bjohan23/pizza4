@@ -23,7 +23,7 @@ class App
             // Si hay URL, procesar normalmente
             else if (isset($url[0])) {
                 $controllerName = ucfirst($url[0]) . 'Controller';
-                $controllerFile = ROOT_PATH . '/app/controllers/' . $controllerName . '.php';
+                $controllerFile = ROOT_PATH . '/app/Controllers/' . $controllerName . '.php';  // Cambiado a mayúscula
 
                 if (file_exists($controllerFile)) {
                     $this->controller = $controllerName;
@@ -31,7 +31,7 @@ class App
                 }
             }
 
-            $controllerPath = ROOT_PATH . '/app/controllers/' . $this->controller . '.php';
+            $controllerPath = ROOT_PATH . '/app/Controllers/' . $this->controller . '.php';  // Cambiado a mayúscula
 
             if (!file_exists($controllerPath)) {
                 throw new Exception("Controlador no encontrado: " . $controllerPath);

@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 // Verificar que las carpetas principales existan
 $required_dirs = [
     ROOT_PATH . '/app',
-    ROOT_PATH . '/app/controllers',
+    ROOT_PATH . '/app/Controllers',  // Cambiado a mayúscula
     ROOT_PATH . '/app/core',
     ROOT_PATH . '/config'
 ];
