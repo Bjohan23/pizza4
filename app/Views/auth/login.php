@@ -1,5 +1,5 @@
 <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900 justify-center">
-    <form method="post" action="/PIZZA4/public/auth/login" autocomplete="on" class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+    <form method="post" action="<?php echo LOGIN ?>" autocomplete="on" class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
         <?php if (isset($data['error'])) : ?>
             <p class="text-red-500 mb-4 text-sm"><?php echo $data['error']; ?></p>
         <?php endif; ?>
@@ -36,7 +36,7 @@
 
 
                     <hr class="my-8" />
-                    <p class="mt-4">
+                    <!-- <p class="mt-4">
                         <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" href="#">
                             ¿Olvidaste tu contraseña?
                         </a>
@@ -45,7 +45,7 @@
                         <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" href="<?php echo USER_CREATE ?>">
                             Crear una cuenta
                         </a>
-                    </p>
+                    </p> -->
                 </div>
             </div>
         </div>
