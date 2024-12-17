@@ -1,7 +1,7 @@
 <?php
 class App
 {
-    protected $controller = 'AuthController';
+    protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
 
@@ -23,7 +23,7 @@ class App
             // Si hay URL, procesar normalmente
             else if (isset($url[0])) {
                 $controllerName = ucfirst($url[0]) . 'Controller';
-                $controllerFile = ROOT_PATH . '/app/Controllers/' . $controllerName . '.php';  // Cambiado a mayúscula
+                $controllerFile = '../app/Controllers/' . $controllerName . '.php';
 
                 if (file_exists($controllerFile)) {
                     $this->controller = $controllerName;
@@ -31,15 +31,11 @@ class App
                 }
             }
 
-            $controllerPath = ROOT_PATH . '/app/Controllers/' . $this->controller . '.php';  // Cambiado a mayúscula
+            // Cargar el controlador
+            require_once '../app/Controllers/' . $this->controller . '.php';
+            $this->controller = new $this->controller();
 
-            if (!file_exists($controllerPath)) {
-                throw new Exception("Controlador no encontrado: " . $controllerPath);
-            }
-
-            require_once $controllerPath;
-            $this->controller = new $this->controller;
-
+            // Procesar el método
             if (isset($url[1])) {
                 if (method_exists($this->controller, $url[1])) {
                     $this->method = $url[1];
@@ -47,16 +43,18 @@ class App
                 }
             }
 
+            // Procesar los parámetros
             $this->params = $url ? array_values($url) : [];
 
-            if (!method_exists($this->controller, $this->method)) {
-                throw new Exception("Método no encontrado: {$this->method} en el controlador {$this->controller}");
+            // Llamar al método del controlador con los parámetros
+            if (is_callable([$this->controller, $this->method])) {
+                call_user_func_array([$this->controller, $this->method], $this->params);
+            } else {
+                throw new Exception("El método {$this->method} no existe en el controlador");
             }
-
-            call_user_func_array([$this->controller, $this->method], $this->params);
         } catch (Exception $e) {
             error_log("Error in App.php: " . $e->getMessage());
-            echo "Error: " . $e->getMessage();
+            require_once '../app/Views/error/500.php';
             exit();
         }
     }
