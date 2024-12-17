@@ -22,6 +22,10 @@ class Database
             throw new Exception("Error de conexión a la base de datos");
         }
     }
+    public function rowCount()
+    {
+        return $this->stmt->rowCount();
+    }
 
     public function query($sql)
     {
@@ -89,7 +93,7 @@ class Database
             return false;
         }
     }
-    
+
     public function beginTransaction()
     {
         return $this->dbh->beginTransaction();

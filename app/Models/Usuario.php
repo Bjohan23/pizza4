@@ -5,7 +5,7 @@ class Usuario extends Model
     {
         $this->db->query('SELECT * FROM usuarios JOIN personas ON usuarios.persona_id = personas.id WHERE personas.email = :email');
         $this->db->bind(':email', $email);
-        $this->db->single();
+        $this->db->execute(); // Ejecutar la consulta antes de obtener el conteo
         return $this->db->rowCount() > 0;
     }
 
@@ -93,7 +93,8 @@ class Usuario extends Model
             WHERE 
                 u.id = :id
             GROUP BY 
-            u.id, p.nombre, p.email, p.telefono, p.direccion;");$this->db->bind(':id', $id);
+            u.id, p.nombre, p.email, p.telefono, p.direccion;");
+        $this->db->bind(':id', $id);
         return $this->db->single();
     }
 
