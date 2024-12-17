@@ -9,7 +9,7 @@
                     <p class="px-4 py-3 text-red-500"><?php echo $error; ?></p>
                 <?php endif; ?>
                 <div class="px-4 py-3">
-                    <form action="/PIZZA4/public/mesas/edit/<?php echo $data['mesa']['id']; ?>" method="post">
+                    <form action="<?php echo TABLE_EDIT ?><?php echo $data['mesa']['id']; ?>" method="post">
                         <div class="mb-4">
                             <label for="numero" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Número:</label>
                             <input type="text" id="numero" name="numero" value="<?php echo $data['mesa']['numero']; ?>" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">

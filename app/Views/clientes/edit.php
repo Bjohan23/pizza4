@@ -6,7 +6,7 @@
                 <p class="text-red-500"><?php echo $error; ?></p>
             <?php endif; ?>
 
-            <form action="/PIZZA4/public/clientes/edit/<?php echo $data['cliente']['id']; ?>" method="post" class="space-y-8">
+            <form action="<?php echo CLIENT_EDIT ?><?php echo $data['cliente']['id']; ?>" method="post" class="space-y-8">
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">DNI</label>
                     <div class="flex">

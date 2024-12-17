@@ -17,7 +17,7 @@
                         <p class="text-xl font-bold"><?php echo $piso['nombre']; ?></p>
                         <p class="text-lg"><?php echo $piso['mesas_count']; ?> mesas</p>
                     </div>
-                    <a href="/PIZZA4/public/pisos/mesas/<?php echo $piso['id']; ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="<?php echo PISO_MESAS ?><?php echo $piso['id']; ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Ver mesas
                     </a>
                     <!-- link para editar piso -->

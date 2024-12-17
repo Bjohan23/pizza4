@@ -80,6 +80,7 @@ define('SEDE_DELETE', '/sede/delete/');
 // PISO
 define('PISOS', '/pisos');
 define('PISO_CREATE', '/pisos/create');
+define('PISO_MESAS', '/pisos/mesas/');
 define('PISO_EDIT', '/pisos/edit/');
 define('PISO_DELETE', '/pisos/delete/');
 
