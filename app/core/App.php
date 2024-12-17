@@ -10,9 +10,6 @@ class App
         try {
             $url = $this->parseUrl();
 
-            // Define la ruta base del proyecto
-            $base_path = dirname(dirname(__FILE__));
-
             // Si la URL está vacía y el usuario está autenticado, cargar dashboard
             if (empty($url) && Session::get('usuario_id')) {
                 $this->controller = 'HomeController';
@@ -26,7 +23,7 @@ class App
             // Si hay URL, procesar normalmente
             else if (isset($url[0])) {
                 $controllerName = ucfirst($url[0]) . 'Controller';
-                $controllerFile = $base_path . '/controllers/' . $controllerName . '.php';
+                $controllerFile = ROOT_PATH . '/app/controllers/' . $controllerName . '.php';
 
                 if (file_exists($controllerFile)) {
                     $this->controller = $controllerName;
@@ -34,7 +31,13 @@ class App
                 }
             }
 
-            require_once $base_path . '/controllers/' . $this->controller . '.php';
+            $controllerPath = ROOT_PATH . '/app/controllers/' . $this->controller . '.php';
+
+            if (!file_exists($controllerPath)) {
+                throw new Exception("Controlador no encontrado: " . $controllerPath);
+            }
+
+            require_once $controllerPath;
             $this->controller = new $this->controller;
 
             if (isset($url[1])) {
@@ -46,10 +49,14 @@ class App
 
             $this->params = $url ? array_values($url) : [];
 
+            if (!method_exists($this->controller, $this->method)) {
+                throw new Exception("Método no encontrado: {$this->method} en el controlador {$this->controller}");
+            }
+
             call_user_func_array([$this->controller, $this->method], $this->params);
         } catch (Exception $e) {
             error_log("Error in App.php: " . $e->getMessage());
-            require_once $base_path . '/Views/error/500.php';
+            echo "Error: " . $e->getMessage();
             exit();
         }
     }

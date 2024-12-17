@@ -3,7 +3,7 @@ class Controller
 {
     public function model($model)
     {
-        require_once BASE_PATH . '/app/models/' . $model . '.php';
+        require_once ROOT_PATH . '/app/models/' . $model . '.php';
         return new $model();
     }
 
@@ -17,7 +17,7 @@ class Controller
         Session::init();
 
         // Definir la ruta base de las vistas
-        $viewPath = BASE_PATH . '/app/Views/';
+        $viewPath = ROOT_PATH . '/app/Views/';
 
         // Verificar que los archivos existan antes de incluirlos
         if (file_exists($viewPath . 'inc/head.php')) {
