@@ -11,7 +11,7 @@
                 </video>
 
                 <video autoplay loop muted class="hidden object-cover w-full h-full dark:block">
-                    <source src="https://videocdn.cdnpk.net/videos/f89865ea-d0a0-4963-9f0a-ba14ed6c15b9/horizontal/previews/clear/large.mp4?token=exp=1734459504~hmac=d135b0a320957d089d9a7f762d5ce737405c752eafa075fd25758d790aaa582e" type="video/mp4" />
+                    <source src="https://videocdn.cdnpk.net/videos/65e07a6b-4c32-407a-aad0-097f05bd6023/horizontal/previews/clear/large.mp4?token=exp=1734501143~hmac=7c47cb2afc386725626ed0a1fa3f0c7e643e7066eef2c4d751ca5abc63a41d91" type="video/mp4" />
                 </video>
 
             </div>
