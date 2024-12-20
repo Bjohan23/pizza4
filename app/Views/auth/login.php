@@ -7,11 +7,11 @@
             <div class="h-32 md:h-auto md:w-1/2">
 
                 <video autoplay loop muted class="object-cover w-full h-full dark:hidden">
-                    <source src="https://videocdn.cdnpk.net/videos/8de89326-1051-4137-96f9-90cbea787fdf/horizontal/previews/clear/large.mp4?token=exp=1734459546~hmac=9dfbfe195b90e2d73d61aa0af31f710eb449ada0adb8d93562e6f3582e149d64" type="video/mp4" />
-                </video>
-
-                <video autoplay loop muted class="hidden object-cover w-full h-full dark:block">
                     <source src="https://videocdn.cdnpk.net/videos/65e07a6b-4c32-407a-aad0-097f05bd6023/horizontal/previews/clear/large.mp4?token=exp=1734501143~hmac=7c47cb2afc386725626ed0a1fa3f0c7e643e7066eef2c4d751ca5abc63a41d91" type="video/mp4" />
+                </video>
+                
+                <video autoplay loop muted class="hidden object-cover w-full h-full dark:block">
+                    <source src="https://videocdn.cdnpk.net/videos/8de89326-1051-4137-96f9-90cbea787fdf/horizontal/previews/clear/large.mp4?token=exp=1734459546~hmac=9dfbfe195b90e2d73d61aa0af31f710eb449ada0adb8d93562e6f3582e149d64" type="video/mp4" />
                 </video>
 
             </div>
